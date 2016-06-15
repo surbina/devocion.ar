@@ -1,5 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router';
+import activeComponent from 'react-router-active-component';
+
+const NavItem = activeComponent('li');
 
 export default React.createClass({
   render: function() {
@@ -21,7 +24,7 @@ export default React.createClass({
               <ul className="nav navbar-nav">
                 {/*<li><a href="#">Inicio <span className="sr-only">(current)</span></a></li>
                 <li><Link to="/">Calendario</Link></li>*/}
-                <li activeClassName="active"><Link to="/admin/devotional/add">Administrador</Link></li>
+                <NavItem to="/admin/devotional/add">Administrador</NavItem>
               </ul>
 
               <ul className="nav navbar-nav navbar-right">
