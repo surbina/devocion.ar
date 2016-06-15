@@ -1,10 +1,10 @@
 import React from 'react';
-import DevotionalForm from './DevotionalForm';
+import CommentForm from './CommentForm';
 
 export default React.createClass({
   render: function() {
     return(
-      <DevotionalForm />
+      <CommentForm />
     );
   }
 });

@@ -24,7 +24,8 @@ export default React.createClass({
               <ul className="nav navbar-nav">
                 {/*<li><a href="#">Inicio <span className="sr-only">(current)</span></a></li>
                 <li><Link to="/">Calendario</Link></li>*/}
-                <NavItem to="/admin/devotional/add">Administrador</NavItem>
+                <NavItem to="/" onlyActiveOnIndex>Inicio</NavItem>
+                <NavItem to="/admin">Administrador</NavItem>
               </ul>
 
               <ul className="nav navbar-nav navbar-right">
@@ -42,9 +43,7 @@ export default React.createClass({
           </div>
         </nav>
 
-        <div className="container">
-          {this.props.children}
-        </div>
+        {this.props.children}
       </div>
     );
   }
