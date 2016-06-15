@@ -1,10 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router';
 import activeComponent from 'react-router-active-component';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 const NavItem = activeComponent('li');
 
 export default React.createClass({
+  mixins: [PureRenderMixin],
   render: function() {
     return(
       <div className="container-fluid">

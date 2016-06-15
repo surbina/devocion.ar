@@ -41,6 +41,7 @@
     "jquery": "^3.0.0",
     "node-sass": "^3.7.0",
     "react": "^15.1.0",
+    "react-addons-pure-render-mixin": "^15.1.0",
     "react-dom": "^15.1.0",
     "react-router": "^2.4.1",
     "react-router-active-component": "^4.0.0-rc.0",
