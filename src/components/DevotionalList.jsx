@@ -19,10 +19,10 @@ export default React.createClass({
         </thead>
         <tbody>
           {this.getDevotionals().map(devotional =>
-            <tr key={devotional.id}>
-              <td>{devotional.title}</td>
-              <td>{devotional.author}</td>
-              <td>{devotional.publishDate}</td>
+            <tr key={devotional.get('id')}>
+              <td>{devotional.get('title')}</td>
+              <td>{devotional.get('author')}</td>
+              <td>{devotional.get('publishDate')}</td>
               <td></td>
             </tr>
           )}

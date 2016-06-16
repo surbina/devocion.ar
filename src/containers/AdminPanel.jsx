@@ -1,8 +1,9 @@
 import React from 'react';
 import DevotionalList from '../components/DevotionalList';
 import { Link } from 'react-router';
+import { fromJS } from 'immutable';
 
-const devotionals = [{
+const devotionals = fromJS([{
   id: 1,
   title: 'Titutlo primera entrada',
   author: 'Pepe Sanchez',
@@ -17,7 +18,7 @@ const devotionals = [{
   title: 'Titutlo tercera entrada',
   author: 'El Papanata',
   publishDate: '27 de mayo',
-}];
+}]);
 
 export default React.createClass({
   render: function() {

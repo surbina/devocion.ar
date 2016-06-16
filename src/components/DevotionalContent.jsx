@@ -8,17 +8,17 @@ export default React.createClass({
       <section>
         <div className="row">
           <div className="col-md-12">
-            <h3>{this.props.devotional.title}</h3>
+            <h3>{this.props.devotional.get('title')}</h3>
           </div>
         </div>
         <div className="row">
           <div className="col-md-12">
-            <h4>{this.props.devotional.pasagge}</h4>
+            <h4>{this.props.devotional.get('pasagge')}</h4>
           </div>
         </div>
         <div className="row">
           <div className="col-md-12">
-            <p>{this.props.devotional.body}</p>
+            <p>{this.props.devotional.get('body')}</p>
           </div>
         </div>
       </section>
