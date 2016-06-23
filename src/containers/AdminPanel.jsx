@@ -1,26 +1,12 @@
 import React from 'react';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
+import {connect} from 'react-redux';
 import DevotionalList from '../components/DevotionalList';
 import { Link } from 'react-router';
 import { fromJS } from 'immutable';
 
-const devotionals = fromJS([{
-  id: 1,
-  title: 'Titutlo primera entrada',
-  author: 'Pepe Sanchez',
-  publishDate: '25 de mayo',
-}, {
-  id: 2,
-  title: 'Titutlo segunda entrada',
-  author: 'Juan Pedro',
-  publishDate: '26 de mayo',
-}, {
-  id: 3,
-  title: 'Titutlo tercera entrada',
-  author: 'El Papanata',
-  publishDate: '27 de mayo',
-}]);
-
-export default React.createClass({
+export const AdminPanel = React.createClass({
+  mixins: [PureRenderMixin],
   render: function() {
     return(
       <div className="container">
@@ -31,10 +17,18 @@ export default React.createClass({
         </div>
         <div className="row">
           <div className="col-md-12">
-            <DevotionalList devotionals={devotionals} />
+            <DevotionalList devotionals={this.props.devotionals} />
           </div>
         </div>
       </div>
     );
   }
 });
+
+function mapStateToProps(state) {
+  return {
+    devotionals: state.get('devotional_list').toList()
+  };
+}
+
+export const AdminPanelContainer = connect(mapStateToProps)(AdminPanel);

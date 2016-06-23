@@ -1,8 +1,8 @@
 import React from 'react';
 import { Router, Route, IndexRoute, hashHistory } from 'react-router';
 import App from './components/App';
-import Devotional from './containers/Devotional';
-import AdminPanel from './containers/AdminPanel';
+import { DevotionalContainer } from './containers/Devotional';
+import { AdminPanelContainer } from './containers/AdminPanel';
 import DevotionalAdd from './containers/DevotionalAdd';
 
 export default React.createClass({
@@ -10,9 +10,11 @@ export default React.createClass({
     return(
       <Router history={hashHistory}>
         <Route path="/" component={App}>
-          <IndexRoute component={Devotional}/>
-          <Route path="/admin" component={AdminPanel}></Route>
-          <Route path="/admin/devotional/add" component={DevotionalAdd}></Route>
+          <IndexRoute component={DevotionalContainer}/>
+          <Route path="/admin">
+            <IndexRoute component={AdminPanelContainer}/>
+            <Route path="/admin/devotional/add" component={DevotionalAdd}></Route>
+          </Route>
         </Route>
       </Router>
     );
