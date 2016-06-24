@@ -5,8 +5,13 @@ import DevotionalContent from '../components/DevotionalContent';
 import DevotionalComment from '../components/DevotionalComment';
 import { fromJS } from 'immutable';
 
+import { fetchDevotionalAction } from '../actions/action_creators.js';
+
 export const Devotional = React.createClass({
   mixins: [PureRenderMixin],
+  componentDidMount: function() {
+    this.props.dispatch(fetchDevotionalAction(1));
+  },
   render: function() {
     return(
       <main className="container">
