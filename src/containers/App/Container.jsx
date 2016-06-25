@@ -12,6 +12,9 @@ export const App = React.createClass({
       devotional_list: {
       },
       home_section: {
+      },
+      admin_section: {
+        add_devotional: {}
       }
     }));
   },

@@ -7,30 +7,31 @@ export function fetchDevotionalAction(id) {
     dispatch(requestDevotionalAction(id));
 
     firebase.database().ref('devotional_list/' + id)
-      .on('value', success);
+      .once('value')
+      .then(success);
 
     function success(snapshot) {
       dispatch(requestDevotionalSuccessAction(snapshot.val()));
     }
-  }
+  };
 }
 
 export function requestDevotionalAction(id) {
   return {
-    type: 'REQUEST_DEVOTIONAL',
+    type: REQUEST_DEVOTIONAL,
     id
   };
 }
 
 export function requestDevotionalSuccessAction(devotional) {
   return {
-    type: 'REQUEST_DEVOTIONAL_SUCCESS',
+    type: REQUEST_DEVOTIONAL_SUCCESS,
     devotional
   };
 }
 
 export function requestDevotionalFailAction() {
   return {
-    type: 'REQUEST_DEVOTIONAL_FAIL'
+    type: REQUEST_DEVOTIONAL_FAIL
   };
 }

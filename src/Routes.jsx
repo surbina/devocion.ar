@@ -2,8 +2,8 @@ import React from 'react';
 import { Router, Route, IndexRoute, hashHistory } from 'react-router';
 import { AppContainer } from './containers/App/Container';
 import { DevotionalContainer } from './containers/Devotional/Container';
-import { AdminPanelContainer } from './containers/AdminPanel';
-import DevotionalAdd from './containers/DevotionalAdd';
+import { AdminPanelContainer } from './containers/AdminPanel/Container';
+import { DevotionalAddContainer } from './containers/DevotionalAdd/Container';
 
 export default React.createClass({
   render: function() {
@@ -13,7 +13,7 @@ export default React.createClass({
           <IndexRoute component={DevotionalContainer}/>
           <Route path="/admin">
             <IndexRoute component={AdminPanelContainer}/>
-            <Route path="/admin/devotional/add" component={DevotionalAdd}></Route>
+            <Route path="/admin/devotional/add" component={DevotionalAddContainer}></Route>
           </Route>
         </Route>
       </Router>
