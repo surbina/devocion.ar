@@ -1,11 +1,11 @@
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import {connect} from 'react-redux';
-import DevotionalContent from '../components/DevotionalContent';
-import DevotionalComment from '../components/DevotionalComment';
+import DevotionalContent from '../../components/DevotionalContent';
+import DevotionalComment from '../../components/DevotionalComment';
 import { fromJS } from 'immutable';
 
-import { fetchDevotionalAction } from '../actions/action_creators.js';
+import { fetchDevotionalAction } from './actions.js';
 
 export const Devotional = React.createClass({
   mixins: [PureRenderMixin],

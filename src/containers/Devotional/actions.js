@@ -1,11 +1,6 @@
-import {Map} from 'immutable';
-
-export function setStateAction(state) {
-  return {
-    type: 'SET_STATE',
-    state
-  };
-}
+export const REQUEST_DEVOTIONAL = 'REQUEST_DEVOTIONAL';
+export const REQUEST_DEVOTIONAL_SUCCESS = 'REQUEST_DEVOTIONAL_SUCCESS';
+export const REQUEST_DEVOTIONAL_FAIL = 'REQUEST_DEVOTIONAL_FAIL';
 
 export function fetchDevotionalAction(id) {
   return function (dispatch) {

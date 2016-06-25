@@ -7,16 +7,7 @@ import thunkMiddleware from 'redux-thunk';
 import createLogger from 'redux-logger';
 
 import Routes from './Routes';
-import reducer from './reducers/index.js';
-
-import { setStateAction } from './actions/action_creators.js';
-
-const state = {
-  devotional_list: {
-  },
-  home_section: {
-  }
-};
+import reducer from './mainReducer.js';
 
 const logger = createLogger();
 
@@ -25,8 +16,6 @@ const store = createStore(
   //applyMiddleware(thunkMiddleware, logger)
   applyMiddleware(thunkMiddleware)
 );
-
-store.dispatch(setStateAction(state));
 
 ReactDOM.render(
   <Provider store={store}>
