@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router';
 import activeComponent from 'react-router-active-component';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
+//import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 const NavItem = activeComponent('li');
 
 export default React.createClass({
-  mixins: [PureRenderMixin],
+  //mixins: [PureRenderMixin],
   render: function() {
     return(
       <nav className="navbar navbar-default">
@@ -26,7 +26,7 @@ export default React.createClass({
               {/*<li><a href="#">Inicio <span className="sr-only">(current)</span></a></li>
               <li><Link to="/">Calendario</Link></li>*/}
               <NavItem to="/" onlyActiveOnIndex>Inicio</NavItem>
-              <NavItem to="/admin">Administrador</NavItem>
+              <NavItem to="/admin" activeStyle={{ color: 'red' }}>Administrador</NavItem>
             </ul>
 
             <ul className="nav navbar-nav navbar-right">

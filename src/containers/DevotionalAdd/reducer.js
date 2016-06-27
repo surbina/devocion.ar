@@ -13,6 +13,18 @@ function submitDevotional(state, devotional) {
 function submitDevotionalSuccess(state, devotional) {
   console.log('Reduce devotionaladd.success: ', devotional);
   return state.merge({
+    devotional_list: {
+      [devotional.id]: {
+        fetching: false,
+        valid: true,
+        id: devotional.id,
+        title: devotional.title,
+        pasagge: devotional.passagge,
+        body: devotional.body,
+        author: 'devotional.author',
+        publishDate: 'devotional.publishDate',
+      }
+    }
     admin_section: {
       add_devotional: {
         submitting: false

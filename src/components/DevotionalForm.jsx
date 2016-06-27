@@ -1,27 +1,72 @@
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
+import { Map } from 'immutable';
 
 export default React.createClass({
   mixins: [PureRenderMixin],
+  getInitialState: function() {
+    return {title: '', passage: '', body: ''};
+  },
+  handleTitleChange: function(e) {
+    this.setState({title: e.target.value});
+  },
+  handlePassageChange: function(e) {
+    this.setState({passage: e.target.value});
+  },
+  handleBodyChange: function(e) {
+    this.setState({body: e.target.value});
+  },
+  handleSubmit: function(e) {
+    e.preventDefault();
+    const title = this.state.title.trim();
+    const passage = this.state.passage.trim();
+    const body = this.state.body.trim();
+    if (!title || !passage || !body) {
+      return;
+    }
+    this.props.onDevotionalSubmit(Map({title: title, passage: passage, body: body}));
+    this.setState({title: '', passage: '', body: ''});
+  },
   render: function() {
     return(
-      <form className="form-horizontal">
+      <form className="form-horizontal" onSubmit={this.handleSubmit}>
         <div className="form-group">
           <label for="inputTitle" className="col-sm-1 control-label">Título</label>
           <div className="col-sm-11">
-            <input type="email" className="form-control" id="inputTitle" placeholder="Título" />
+            <input
+              type="text"
+              placeholder="Título"
+              className="form-control"
+              id="inputTitle"
+              value={this.state.title}
+              onChange={this.handleTitleChange}
+            />
           </div>
         </div>
         <div className="form-group">
-          <label for="inputPasaje" className="col-sm-1 control-label">Pasaje</label>
+          <label for="inputPassage" className="col-sm-1 control-label">Pasaje</label>
           <div className="col-sm-11">
-            <input type="password" className="form-control" id="inputPasaje" placeholder="Pasaje" />
+            <input
+              type="text"
+              placeholder="Pasaje"
+              className="form-control"
+              id="inputPassage"
+              value={this.state.passage}
+              onChange={this.handlePassageChange}
+            />
           </div>
         </div>
         <div className="form-group">
-          <label for="textContenido" className="col-sm-1 control-label">Contenido</label>
+          <label for="textBody" className="col-sm-1 control-label">Contenido</label>
           <div className="col-sm-11">
-            <textarea className="form-control" id="textContenido" rows="10"></textarea>
+            <textarea
+              className="form-control"
+              id="textBody"
+              rows="10"
+              value={this.state.body}
+              onChange={this.handleBodyChange}
+            >
+            </textarea>
           </div>
         </div>
         <div className="form-group">

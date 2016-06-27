@@ -3,7 +3,6 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import {connect} from 'react-redux';
 import DevotionalContent from '../../components/DevotionalContent';
 import DevotionalComment from '../../components/DevotionalComment';
-import { fromJS } from 'immutable';
 
 import { fetchDevotionalAction } from './actions.js';
 

@@ -21,7 +21,7 @@ function requestDevotionalSuccess(state, devotional) {
   const devotional_list = state.get('devotional_list').merge({
     [devotional.id]: {
       fetching: false,
-      valid: false,
+      valid: true,
       id: devotional.id,
       title: devotional.title,
       pasagge: devotional.passagge,

@@ -11,8 +11,10 @@ export function postDevotionalAction(devotional) {
       .then(success);
 
     function success(data) {
-      console.log('Data: ', data);
-      //dispatch(submitDevotionalSuccessAction(data));
+      dispatch(submitDevotionalSuccessAction({
+        id: data.key,
+        devotional
+      }));
     }
   };
 }
@@ -24,10 +26,10 @@ export function submitDevotionalAction(devotional) {
   };
 }
 
-export function submitDevotionalSuccessAction(id) {
+export function submitDevotionalSuccessAction(devotional) {
   return {
     type: SUBMIT_DEVOTIONAL_SUCCESS,
-    id
+    devotional
   };
 }
 
