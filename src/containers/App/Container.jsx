@@ -14,6 +14,7 @@ export const App = React.createClass({
       home_section: {
       },
       admin_section: {
+        admin_panel: {},
         add_devotional: {}
       }
     }));

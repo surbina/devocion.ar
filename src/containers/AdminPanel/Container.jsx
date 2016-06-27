@@ -5,8 +5,13 @@ import DevotionalList from '../../components/DevotionalList';
 import { Link } from 'react-router';
 import { fromJS } from 'immutable';
 
+import { fetchDevotionalListAction } from './actions.js';
+
 export const AdminPanel = React.createClass({
   mixins: [PureRenderMixin],
+  componentDidMount: function() {
+    this.props.dispatch(fetchDevotionalListAction());
+  },
   render: function() {
     return(
       <div className="container">
