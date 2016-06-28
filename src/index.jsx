@@ -7,7 +7,7 @@ import thunkMiddleware from 'redux-thunk';
 import createLogger from 'redux-logger';
 
 import Routes from './Routes';
-import reducer from './mainReducer.js';
+import reducer from './reducers/root_reducer.js';
 
 const logger = createLogger();
 

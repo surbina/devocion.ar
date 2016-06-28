@@ -4,11 +4,13 @@ import {connect} from 'react-redux';
 import DevotionalContent from '../../components/DevotionalContent';
 import DevotionalComment from '../../components/DevotionalComment';
 
-import { fetchDevotionalAction } from './actions.js';
+import { fetchDevotionalAction } from '../../reducers/devotional_list/actions.js';
+import { loadDevotionalAction } from './actions.js';
 
 export const Devotional = React.createClass({
   mixins: [PureRenderMixin],
   componentDidMount: function() {
+    this.props.dispatch(loadDevotionalAction(1));
     this.props.dispatch(fetchDevotionalAction(1));
   },
   render: function() {
@@ -22,10 +24,9 @@ export const Devotional = React.createClass({
 });
 
 function mapStateToProps(state) {
-  const currentPublicationId = state.getIn(['home_section', 'current_devotional']);
-
+  const currentPublicationId = state.home_section.get('current_devotional_id');
   return {
-    devotional: state.getIn(['devotional_list', currentPublicationId])
+    devotional: state.devotional_list.get(currentPublicationId)
   };
 }    
 

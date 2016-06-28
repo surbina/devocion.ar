@@ -5,7 +5,7 @@ import DevotionalList from '../../components/DevotionalList';
 import { Link } from 'react-router';
 import { fromJS } from 'immutable';
 
-import { fetchDevotionalListAction } from './actions.js';
+import { fetchDevotionalListAction } from '../../reducers/devotional_list/actions.js';
 
 export const AdminPanel = React.createClass({
   mixins: [PureRenderMixin],
@@ -32,7 +32,7 @@ export const AdminPanel = React.createClass({
 
 function mapStateToProps(state) {
   return {
-    devotionals: state.get('devotional_list').toList()
+    devotionals: state.devotional_list.delete('fetching_list').toList()
   };
 }
 

@@ -6,7 +6,7 @@ export default React.createClass({
   getDevotionals: function() {
     return this.props.devotionals || [];
   },
-  render: function() {    
+  render: function() {
     return(
       <table className="table table-bordered table-hover">
         <thead>

@@ -3,7 +3,7 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import {connect} from 'react-redux';
 import DevotionalForm from '../../components/DevotionalForm';
 
-import { postDevotionalAction } from './actions.js';
+import { postDevotionalAction } from '../../reducers/devotional_list/actions.js';
 
 export const DevotionalAdd = React.createClass({
   mixins: [PureRenderMixin],
