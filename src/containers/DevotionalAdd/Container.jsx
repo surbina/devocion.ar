@@ -21,6 +21,6 @@ export const DevotionalAdd = React.createClass({
 
 function mapStateToProps(state) {
   return {};
-}    
+}
 
 export const DevotionalAddContainer = connect(mapStateToProps)(DevotionalAdd);

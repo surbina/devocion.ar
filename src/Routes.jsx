@@ -4,6 +4,7 @@ import { AppContainer } from './containers/App/Container';
 import { DevotionalContainer } from './containers/Devotional/Container';
 import { AdminPanelContainer } from './containers/AdminPanel/Container';
 import { DevotionalAddContainer } from './containers/DevotionalAdd/Container';
+import { SignUpContainer } from './containers/SignUp/Container';
 
 export default React.createClass({
   render: function() {
@@ -15,6 +16,7 @@ export default React.createClass({
             <IndexRoute component={AdminPanelContainer}/>
             <Route path="/admin/devotional/add" component={DevotionalAddContainer}></Route>
           </Route>
+          <Route path="/signup" component={SignUpContainer}/>
         </Route>
       </Router>
     );
