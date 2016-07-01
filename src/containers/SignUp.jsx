@@ -1,9 +1,9 @@
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import {connect} from 'react-redux';
-import SignUpForm from '../../components/SignUpForm';
+import SignUpForm from '../components/SignUpForm';
 
-import { createNewUserAction } from '../../reducers/user/actions.js';
+import { createNewUserAction } from '../reducers/user/actions.js';
 
 export const SignUp = React.createClass({
   mixins: [PureRenderMixin],

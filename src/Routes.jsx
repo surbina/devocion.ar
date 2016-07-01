@@ -1,10 +1,10 @@
 import React from 'react';
 import { Router, Route, IndexRoute, hashHistory } from 'react-router';
-import { AppContainer } from './containers/App/Container';
-import { DevotionalContainer } from './containers/Devotional/Container';
-import { AdminPanelContainer } from './containers/AdminPanel/Container';
-import { DevotionalAddContainer } from './containers/DevotionalAdd/Container';
-import { SignUpContainer } from './containers/SignUp/Container';
+import { AppContainer } from './containers/App';
+import { DevotionalContainer } from './containers/Devotional';
+import { AdminPanelContainer } from './containers/AdminPanel';
+import { DevotionalAddContainer } from './containers/DevotionalAdd';
+import { SignUpContainer } from './containers/SignUp';
 
 export default React.createClass({
   render: function() {

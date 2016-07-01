@@ -1,5 +1,5 @@
 import {Map} from 'immutable';
-import home_section from '../containers/Devotional/reducer.js';
+import home_section from './home_section/reducer.js';
 import devotional_list from './devotional_list/reducer.js';
 import user from './user/reducer.js';
 import { combineReducers } from 'redux'
