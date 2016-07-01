@@ -31,7 +31,7 @@ export default React.createClass({
     const password = this.state.password;
     const confirmPassword = this.state.confirmPassword;
 
-    if(!firstName || !lastName || !password || !confirmPassword || !(password === confirmPassword)) {
+    if(!firstName || !lastName || !email || !password || !confirmPassword || !(password === confirmPassword)) {
       return;
     }
 

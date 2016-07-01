@@ -7,6 +7,10 @@ const NavItem = activeComponent('li');
 
 export default React.createClass({
   //mixins: [PureRenderMixin],
+  handleSignOut: function(e) {
+    e.preventDefault();
+    this.props.onSignOut();
+  },
   render: function() {
     return(
       <nav className="navbar navbar-default">
@@ -36,7 +40,7 @@ export default React.createClass({
                 <ul className="dropdown-menu">
                   <li><a href="#">Editar perfil</a></li>
                   <li role="separator" className="divider"></li>
-                  <li><a href="#">Salir</a></li>
+                  <li><a href="#" onClick={this.handleSignOut}>Salir</a></li>
                 </ul>
               </li>
             </ul>
