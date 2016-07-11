@@ -1,14 +1,32 @@
+export const SET_CURRENT_USER = 'SET_CURRENT_USER';
+export const UNSET_CURRENT_USER = 'UNSET_CURRENT_USER';
+
 export const SUBMIT_NEW_USER = 'SUBMIT_NEW_USER';
-export const SUBMIT_NEW_USER_SUCCESS = 'SUBMIT_NEW_USER_SUCCESS';
 export const SUBMIT_NEW_USER_FAIL = 'SUBMIT_DEVOTIONAL_FAIL';
 
 export const SUBMIT_SIGN_IN = 'SUBMIT_SIGN_IN';
-export const SUBMIT_SIGN_IN_SUCCESS = 'SUBMIT_SIGN_IN_SUCCESS';
 export const SUBMIT_SIGN_IN_FAIL = 'SUBMIT_SIGN_IN_FAIL';
 
 export const SUBMIT_SIGN_OUT = 'SUBMIT_SIGN_OUT';
-export const SUBMIT_SIGN_OUT_SUCCESS = 'SUBMIT_SIGN_OUT_SUCCESS';
 export const SUBMIT_SIGN_OUT_FAIL = 'SUBMIT_SIGN_OUT_FAIL';
+
+export function retrieveCurrentUserAction() {
+  return function(dispatch) {
+    dispatch(submitSigInAction());
+
+    const unsubscribe = firebase.auth().onAuthStateChanged(observer);
+
+    function observer(user) {
+      if (user) {
+        dispatch(setCurrentUserAction(user));
+      } else {
+        dispatch(unsetCurrentUserAction());
+      }
+
+      unsubscribe();
+    }
+  }
+}
 
 export function createNewUserAction(user) {
   return function(dispatch) {
@@ -20,10 +38,7 @@ export function createNewUserAction(user) {
       .catch(error);
 
     function success(user) {
-      dispatch(submitNewUserSuccessAction({
-        id: user.uid,
-        email: user.email,        
-      }));
+      dispatch(setCurrentUserAction(user));
     }
 
     function error(error) {
@@ -37,7 +52,7 @@ export function createNewUserAction(user) {
 
 export function signInAction(user) {
   return function(dispatch) {
-    dispatch(submitSigInAction(user));
+    dispatch(submitSigInAction());
 
     firebase.auth()
       .signInWithEmailAndPassword(user.email, user.password)
@@ -45,7 +60,7 @@ export function signInAction(user) {
       .catch(error);
 
     function success(user) {
-      dispatch(submitSignInSucessAction(user));
+      dispatch(setCurrentUserAction(user));
     }
 
     function error(error) {
@@ -66,12 +81,25 @@ export function signOutAction() {
       .then(success, error);
 
     function success() {
-      dispatch(submitSignOutSuccessAction());
+      dispatch(unsetCurrentUserAction());
     }
 
     function error(error) {
       dispatch(submitSignOutFailAction());
     }
+  };
+}
+
+export function setCurrentUserAction(user) {
+  return {
+    type: SET_CURRENT_USER,
+    user
+  };
+}
+
+export function unsetCurrentUserAction() {
+  return {
+    type: UNSET_CURRENT_USER,
   };
 }
 
@@ -82,12 +110,6 @@ export function submitNewUserAction(user) {
   };
 }
 
-export function submitNewUserSuccessAction(user) {
-  return {
-    type: SUBMIT_NEW_USER_SUCCESS,
-    user
-  };
-}
 
 export function submitNewUserFailAction(error) {
   return {
@@ -96,17 +118,9 @@ export function submitNewUserFailAction(error) {
   };
 }
 
-export function submitSigInAction(user) {
+export function submitSigInAction() {
   return {
-    type: SUBMIT_SIGN_IN,
-    user
-  };
-}
-
-export function submitSignInSucessAction(user) {
-  return {
-    type: SUBMIT_SIGN_IN_SUCCESS,
-    user
+    type: SUBMIT_SIGN_IN
   };
 }
 
@@ -120,12 +134,6 @@ export function submitSignInFailAction(error) {
 export function submitSignOutAction() {
   return {
     type: SUBMIT_SIGN_OUT
-  };
-}
-
-export function submitSignOutSuccessAction() {
-  return {
-    type: SUBMIT_SIGN_OUT_SUCCESS
   };
 }
 

@@ -3,10 +3,13 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import {connect} from 'react-redux';
 import NavBar from '../components/NavBar';
 
-import { signOutAction } from '../reducers/user/actions.js';
+import { retrieveCurrentUserAction, signOutAction } from '../reducers/user/actions.js';
 
 export const App = React.createClass({
   mixins: [PureRenderMixin],
+  componentWillMount: function() {
+    this.props.dispatch(retrieveCurrentUserAction());
+  },
   handleSignOut: function() {
     this.props.dispatch(signOutAction());
   },

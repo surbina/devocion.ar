@@ -1,9 +1,10 @@
 import { Map } from 'immutable';
 
 import {
-  SUBMIT_NEW_USER, SUBMIT_NEW_USER_SUCCESS, SUBMIT_NEW_USER_FAIL,
-  SUBMIT_SIGN_IN, SUBMIT_SIGN_IN_SUCCESS, SUBMIT_SIGN_IN_FAIL,
-  SUBMIT_SIGN_OUT, SUBMIT_SIGN_OUT_SUCCESS, SUBMIT_SIGN_OUT_FAIL
+  SET_CURRENT_USER, UNSET_CURRENT_USER,
+  SUBMIT_NEW_USER, SUBMIT_NEW_USER_FAIL,
+  SUBMIT_SIGN_IN, SUBMIT_SIGN_IN_FAIL,
+  SUBMIT_SIGN_OUT, SUBMIT_SIGN_OUT_FAIL
 } from './actions.js';
 
 /**
@@ -26,22 +27,20 @@ export default function(state = Map({
   status: ANONYMOUS_USER_STATUS
 }), action) {
   switch(action.type) {
+    case SET_CURRENT_USER:
+      return setCurrentUser(state, action.user);
+    case UNSET_CURRENT_USER:
+      return unsetCurrentUser(state);
     case SUBMIT_NEW_USER:
       return submitNewUser(state, action.user);
-    case SUBMIT_NEW_USER_SUCCESS:
-      return submitNewUserSuccess(state, action.user);
     case SUBMIT_NEW_USER_FAIL:
       return submitNewUserFail(state, action.error);
     case SUBMIT_SIGN_IN:
-      return submitSignIn(state, action.user);
-    case SUBMIT_SIGN_IN_SUCCESS:
-      return submitSignInSuccess(state, action.user);
+      return submitSignIn(state);
     case SUBMIT_SIGN_IN_FAIL:
       return submitSignInFail(state, action.error);
     case SUBMIT_SIGN_OUT:
       return submitSignOut(state);
-    case SUBMIT_SIGN_OUT_SUCCESS:
-      return submitSignOutSuccess(state);
     case SUBMIT_SIGN_OUT_FAIL:
       return submitSignOutFail(state);
     default:
@@ -49,18 +48,27 @@ export default function(state = Map({
   }
 }
 
-function submitNewUser(state, user) {
-  return state.merge({
-    status: CREATING_USER_STATUS
-  });
-}
-
-function submitNewUserSuccess(state, user) {
+function setCurrentUser(state, user) {
   return state.merge({
     status: SIGNED_USER_STATUS,
     user_id: user.uid,
     user_name: 'Sebastian',
     user_email: user.email,
+  });
+}
+
+function unsetCurrentUser(state) {
+  return state.merge({
+    user_id: ANONYMOUS_USER_ID,
+    user_name: ANONYMOUS_USER_NAME,
+    user_email: ANONYMOUS_USER_EMAIL,
+    status: ANONYMOUS_USER_STATUS
+  });
+}
+
+function submitNewUser(state, user) {
+  return state.merge({
+    status: CREATING_USER_STATUS
   });
 }
 
@@ -70,18 +78,9 @@ function submitNewUserFail(state, error) {
   });
 }
 
-function submitSignIn(state, user) {
+function submitSignIn(state) {
   return state.merge({
     status: SIGNING_IN_STATUS
-  });
-}
-
-function submitSignInSuccess(state, user) {
-  return state.merge({
-    status: SIGNED_USER_STATUS,
-    user_id: user.uid,
-    user_name: 'Sebastian',
-    user_email: user.email,
   });
 }
 
@@ -94,15 +93,6 @@ function submitSignInFail(state, user) {
 function submitSignOut(state) {
   return state.merge({
     status: SIGNING_OUT_STATUS
-  });
-}
-
-function submitSignOutSuccess(state) {
-  return state.merge({
-    user_id: ANONYMOUS_USER_ID,
-    user_name: ANONYMOUS_USER_NAME,
-    user_email: ANONYMOUS_USER_EMAIL,
-    status: ANONYMOUS_USER_STATUS
   });
 }
 
