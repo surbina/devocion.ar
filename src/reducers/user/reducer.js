@@ -10,17 +10,17 @@ import {
 /**
  * Constants describing current status
  */
-const ANONYMOUS_USER_STATUS = 'ANONYMOUS_USER';
-const SIGNED_USER_STATUS = 'SIGNED_USER';
-const CREATING_USER_STATUS = 'CREATING_USER';
-const SIGNING_IN_STATUS = 'SIGNING_IN';
-const SIGNING_OUT_STATUS = 'SIGNING_OUT';
+export const ANONYMOUS_USER_STATUS = 'ANONYMOUS_USER';
+export const SIGNED_USER_STATUS = 'SIGNED_USER';
+export const CREATING_USER_STATUS = 'CREATING_USER';
+export const SIGNING_IN_STATUS = 'SIGNING_IN';
+export const SIGNING_OUT_STATUS = 'SIGNING_OUT';
 
 const ANONYMOUS_USER_ID = '-1';
 const ANONYMOUS_USER_NAME = 'anonymous';
 const ANONYMOUS_USER_EMAIL = '';
 
-export default function(state = Map({
+export function user (state = Map({
   user_id: ANONYMOUS_USER_ID,
   user_name: ANONYMOUS_USER_NAME,
   user_email: ANONYMOUS_USER_EMAIL,

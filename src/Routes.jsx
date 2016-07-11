@@ -12,16 +12,16 @@ import { DevotionalAddContainer } from './containers/DevotionalAdd';
 import { SignUpContainer } from './containers/SignUp';
 import { SignInContainer } from './containers/SignIn';
 
-// Create an enhanced history that syncs navigation events with the store
+import { SIGNED_USER_STATUS } from './reducers/user/reducer.js'
+
 const history = syncHistoryWithStore(baseHistory, store);
 
-// Redirects to /login by default
 const UserIsAuthenticated = UserAuthWrapper({
-  authSelector: state => state.user, // how to get the user state
-  redirectAction: routerActions.replace, // the redux action to dispatch for redirect
-  failureRedirectPath: '/signin',
-  wrapperDisplayName: 'UserIsAuthenticated', // a nice name for this auth check
-  predicate: user => user.get('status') === 'SIGNED_USER'
+  authSelector: state => state.user,
+  redirectAction: routerActions.replace,
+  failureRedirectPath: '/sign/in',
+  wrapperDisplayName: 'UserIsAuthenticated',
+  predicate: user => user.get('status') === SIGNED_USER_STATUS
 })
 
 export default React.createClass({
@@ -34,8 +34,10 @@ export default React.createClass({
             <IndexRoute component={UserIsAuthenticated(AdminPanelContainer)}/>
             <Route path="devotional/add" component={UserIsAuthenticated(DevotionalAddContainer)}></Route>
           </Route>
-          <Route path="signup" component={SignUpContainer}/>
-          <Route path="signin" component={SignInContainer}/>
+          <Route path="sign">
+            <Route path="up" component={SignUpContainer}/>
+            <Route path="in" component={SignInContainer}/>
+          </Route>
         </Route>
       </Router>
     );

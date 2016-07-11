@@ -4,8 +4,9 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 export default React.createClass({
   mixins: [PureRenderMixin],
   render: function() {
-    return(<section>
-      {this.props.devotional === undefined || this.props.devotional.get('fetching') ?        
+    return(
+      <section>
+        {this.props.devotional === undefined || this.props.devotional.get('fetching') ?
           <p>Loading data</p> :
           <div>
             <div className="row">
@@ -24,6 +25,7 @@ export default React.createClass({
               </div>
             </div>
           </div>}
-      </section>);
+      </section>
+    );
   }
 });

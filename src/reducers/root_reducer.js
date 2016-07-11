@@ -4,7 +4,7 @@ import { routerReducer } from 'react-router-redux';
 
 import home_section from './home_section/reducer.js';
 import devotional_list from './devotional_list/reducer.js';
-import user from './user/reducer.js';
+import { user } from './user/reducer.js';
 
 export default combineReducers({
   user: user,

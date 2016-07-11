@@ -1,12 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router';
 import activeComponent from 'react-router-active-component';
-//import PureRenderMixin from 'react-addons-pure-render-mixin';
+import { ANONYMOUS_USER_STATUS } from '../reducers/user/reducer.js';
 
 const NavItem = activeComponent('li');
 
 export default React.createClass({
-  //mixins: [PureRenderMixin],
   handleSignOut: function(e) {
     e.preventDefault();
     this.props.onSignOut();
@@ -27,23 +26,24 @@ export default React.createClass({
 
           <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul className="nav navbar-nav">
-              {/*<li><a href="#">Inicio <span className="sr-only">(current)</span></a></li>
-              <li><Link to="/">Calendario</Link></li>*/}
               <NavItem to="/" onlyActiveOnIndex>Inicio</NavItem>
-              <NavItem to="/admin" activeStyle={{ color: 'red' }}>Administrador</NavItem>
+              <NavItem to="/admin">Administrador</NavItem>
             </ul>
-
-            <ul className="nav navbar-nav navbar-right">
-              <li><a href="#">Link</a></li>
-              <li className="dropdown">
-                <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sebastian <span className="caret"></span></a>
-                <ul className="dropdown-menu">
-                  <li><a href="#">Editar perfil</a></li>
-                  <li role="separator" className="divider"></li>
-                  <li><a href="#" onClick={this.handleSignOut}>Salir</a></li>
-                </ul>
-              </li>
-            </ul>
+            {this.props.user.get('status') === ANONYMOUS_USER_STATUS ?
+              <ul className="nav navbar-nav navbar-right">
+                <NavItem to="/sign/in">Ingresar</NavItem>
+                <NavItem to="/sign/up">Registrarse</NavItem>
+              </ul> :
+              <ul className="nav navbar-nav navbar-right">
+                <li className="dropdown">
+                  <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sebastian <span className="caret"></span></a>
+                  <ul className="dropdown-menu">
+                    <li><a href="#">Editar perfil</a></li>
+                    <li role="separator" className="divider"></li>
+                    <li><a href="#" onClick={this.handleSignOut}>Salir</a></li>
+                  </ul>
+                </li>
+              </ul>}
           </div>
         </div>
       </nav>

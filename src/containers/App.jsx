@@ -16,7 +16,7 @@ export const App = React.createClass({
   render: function() {
     return(
       <div className="container-fluid">
-        <NavBar onSignOut={this.handleSignOut} />
+        <NavBar onSignOut={this.handleSignOut} user={this.props.user}/>
 
         {this.props.children}
       </div>
@@ -25,7 +25,9 @@ export const App = React.createClass({
 });
 
 function mapStateToProps(state) {
-  return {};
+  return {
+    user: state.user
+  };
 }    
 
 export const AppContainer = connect(mapStateToProps)(App);
