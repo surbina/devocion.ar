@@ -1,28 +1,47 @@
 {
-  "devotional_list": {
-    "1": {
-      "id": "1",
-      "title": "Titutlo primera entrada 1",
-      "pasagge": "Pasaje devocional",
-      "body": "Cuerpo devocional muy laargooaoaoas alsjdalj aldjalskdjl",
-      "author": "Pepe Sanchez",
-      "publishDate": "25 de mayo"
+  "devotional_list" : {
+    "1" : {
+      "author" : "Pepe Sanchez",
+      "body" : "Cuerpo devocional muy laargooaoaoas alsjdalj aldjalskdjl",
+      "id" : "1",
+      "pasagge" : "Pasaje devocional",
+      "publishDate" : "25 de mayo",
+      "title" : "Titutlo primera entrada 1"
     },
-    "2": {
-      "id": "2",
-      "title": "Titutlo segunda entrada 2",
-      "pasagge": "Pasaje devocional",
-      "body": "Cuerpo devocional muy laargooaoaoas alsjdalj aldjalskdjl",
-      "author": "Juan Pedro",
-      "publishDate": "26 de mayo"
+    "2" : {
+      "author" : "Juan Pedro",
+      "body" : "Cuerpo devocional muy laargooaoaoas alsjdalj aldjalskdjl",
+      "id" : "2",
+      "pasagge" : "Pasaje devocional",
+      "publishDate" : "26 de mayo",
+      "title" : "Titutlo segunda entrada 2"
     },
-    "3": {
-      "id": "3",
-      "title": "Titutlo tercera entrada 3",
-      "pasagge": "Pasaje devocional",
-      "body": "Cuerpo devocional muy laargooaoaoas alsjdalj aldjalskdjl",
-      "author": "El Papanata",
-      "publishDate": "27 de mayo"
+    "3" : {
+      "author" : "El Papanata",
+      "body" : "Cuerpo devocional muy laargooaoaoas alsjdalj aldjalskdjl",
+      "id" : "3",
+      "pasagge" : "Pasaje devocional",
+      "publishDate" : "27 de mayo",
+      "title" : "Titutlo tercera entrada 3"
+    },
+    "-KLNiQaXGbxDEAWFDjwo" : {
+      "body" : "final content",
+      "id" : "-KLNiQaXGbxDEAWFDjwo",
+      "passage" : "final passage",
+      "title" : "final test"
+    },
+    "-KM-dTBGz0HEanCR9Ned" : {
+      "body" : "sdfsdfsdfs",
+      "id" : "-KM-dTBGz0HEanCR9Ned",
+      "passage" : "sdfsdf",
+      "title" : "sdfsdf"
+    }
+  },
+  "users" : {
+    "19xWyEOMc3bm82t1raXWM4McG4P2" : {
+      "admin" : true,
+      "first_name" : "Sebastian",
+      "last_name" : "Urbina"
     }
   }
 }

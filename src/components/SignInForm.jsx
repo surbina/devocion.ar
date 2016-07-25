@@ -58,7 +58,7 @@ export default React.createClass({
         </div>
         <div className="form-group">
           <div className="col-sm-offset-5 col-sm-2">
-            <button type="submit" className="btn btn-default btn-block">Registrarse</button>
+            <button type="submit" className="btn btn-default btn-block">Ingresar</button>
           </div>
         </div>
       </form>

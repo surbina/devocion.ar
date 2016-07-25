@@ -1,6 +1,10 @@
 export const SET_CURRENT_USER = 'SET_CURRENT_USER';
 export const UNSET_CURRENT_USER = 'UNSET_CURRENT_USER';
 
+export const FETCH_ADDITIONAL_USER_DATA = 'FETCH_ADDITIONAL_USER_DATA';
+export const FETCH_ADDITIONAL_USER_DATA_SUCCESS = 'FETCH_ADDITIONAL_USER_DATA_SUCCESS';
+export const FETCH_ADDITIONAL_USER_DATA_FAIL = 'FETCH_ADDITIONAL_USER_DATA_FAIL';
+
 export const SUBMIT_NEW_USER = 'SUBMIT_NEW_USER';
 export const SUBMIT_NEW_USER_FAIL = 'SUBMIT_DEVOTIONAL_FAIL';
 
@@ -19,11 +23,32 @@ export function retrieveCurrentUserAction() {
     function observer(user) {
       if (user) {
         dispatch(setCurrentUserAction(user));
+        dispatch(retrieveAdditionalUserData(user.uid));
       } else {
         dispatch(unsetCurrentUserAction());
       }
 
       unsubscribe();
+    }
+  }
+}
+
+export function retrieveAdditionalUserData(userId) {
+  return function(dispatch) {
+    dispatch(fetchAdditionalUserDataAction(userId));
+
+    firebase.database().ref('users/' + userId)
+      .once('value', success, error);
+
+    function success(userData) {
+      dispatch(fetchAdditionalUserDataSuccessAction(userData.val()));
+    }
+
+    function error(error) {
+      dispatch(fetchAdditionalUserDataFailAction({
+        code: error.code,
+        message: error.message
+      }));
     }
   }
 }
@@ -61,6 +86,7 @@ export function signInAction(user) {
 
     function success(user) {
       dispatch(setCurrentUserAction(user));
+      dispatch(retrieveAdditionalUserData(user.uid));
     }
 
     function error(error) {
@@ -100,6 +126,27 @@ export function setCurrentUserAction(user) {
 export function unsetCurrentUserAction() {
   return {
     type: UNSET_CURRENT_USER,
+  };
+}
+
+export function fetchAdditionalUserDataAction(userId) {
+  return {
+    type: FETCH_ADDITIONAL_USER_DATA,
+    userId: userId
+  };
+}
+
+export function fetchAdditionalUserDataSuccessAction(userData) {
+  return {
+    type: FETCH_ADDITIONAL_USER_DATA_SUCCESS,
+    userData: userData
+  };
+}
+
+export function fetchAdditionalUserDataFailAction(error) {
+  return {
+    type: FETCH_ADDITIONAL_USER_DATA_FAIL,
+    error
   };
 }
 

@@ -2,6 +2,7 @@ import { Map } from 'immutable';
 
 import {
   SET_CURRENT_USER, UNSET_CURRENT_USER,
+  FETCH_ADDITIONAL_USER_DATA, FETCH_ADDITIONAL_USER_DATA_SUCCESS, FETCH_ADDITIONAL_USER_DATA_FAIL,
   SUBMIT_NEW_USER, SUBMIT_NEW_USER_FAIL,
   SUBMIT_SIGN_IN, SUBMIT_SIGN_IN_FAIL,
   SUBMIT_SIGN_OUT, SUBMIT_SIGN_OUT_FAIL
@@ -11,26 +12,40 @@ import {
  * Constants describing current status
  */
 export const ANONYMOUS_USER_STATUS = 'ANONYMOUS_USER';
+export const SIGNING_IN_STATUS = 'SIGNING_IN';
+export const VALID_USER_STATUS = 'VALID_USER';
+export const FETCHING_USER_DATA_STATUS = 'FETCHING_USER_DATA';
 export const SIGNED_USER_STATUS = 'SIGNED_USER';
 export const CREATING_USER_STATUS = 'CREATING_USER';
-export const SIGNING_IN_STATUS = 'SIGNING_IN';
 export const SIGNING_OUT_STATUS = 'SIGNING_OUT';
 
 const ANONYMOUS_USER_ID = '-1';
-const ANONYMOUS_USER_NAME = 'anonymous';
+const ANONYMOUS_USER_DISPLAY_NAME = 'anonymous';
+const ANONYMOUS_USER_FIRST_NAME = '';
+const ANONYMOUS_USER_LAST_NAME = '';
 const ANONYMOUS_USER_EMAIL = '';
+const ANONYMOUS_USER_ADMIN = false;
 
 export function user (state = Map({
   user_id: ANONYMOUS_USER_ID,
-  user_name: ANONYMOUS_USER_NAME,
+  user_display_name: ANONYMOUS_USER_DISPLAY_NAME,
+  user_first_name: ANONYMOUS_USER_FIRST_NAME,
+  user_last_name: ANONYMOUS_USER_LAST_NAME,
   user_email: ANONYMOUS_USER_EMAIL,
-  status: ANONYMOUS_USER_STATUS
+  status: ANONYMOUS_USER_STATUS,
+  is_admin: ANONYMOUS_USER_ADMIN
 }), action) {
   switch(action.type) {
     case SET_CURRENT_USER:
       return setCurrentUser(state, action.user);
     case UNSET_CURRENT_USER:
       return unsetCurrentUser(state);
+    case FETCH_ADDITIONAL_USER_DATA:
+      return fetchAdditionalUserData(state, action.userId);
+    case FETCH_ADDITIONAL_USER_DATA_SUCCESS:
+      return fetchAdditionalUserDataSuccess(state, action.userData);
+    case FETCH_ADDITIONAL_USER_DATA_FAIL:
+      return fetchAdditionalUserDataFail(state, action.error);
     case SUBMIT_NEW_USER:
       return submitNewUser(state, action.user);
     case SUBMIT_NEW_USER_FAIL:
@@ -50,19 +65,43 @@ export function user (state = Map({
 
 function setCurrentUser(state, user) {
   return state.merge({
-    status: SIGNED_USER_STATUS,
+    status: VALID_USER_STATUS,
     user_id: user.uid,
-    user_name: 'Sebastian',
-    user_email: user.email,
+    user_display_name: user.displayName,
+    user_email: user.email
   });
 }
 
 function unsetCurrentUser(state) {
   return state.merge({
     user_id: ANONYMOUS_USER_ID,
-    user_name: ANONYMOUS_USER_NAME,
+    user_display_name: ANONYMOUS_USER_DISPLAY_NAME,
+    user_first_name: ANONYMOUS_USER_FIRST_NAME,
+    user_last_name: ANONYMOUS_USER_LAST_NAME,
     user_email: ANONYMOUS_USER_EMAIL,
-    status: ANONYMOUS_USER_STATUS
+    status: ANONYMOUS_USER_STATUS,
+    is_admin: ANONYMOUS_USER_ADMIN
+  });
+}
+
+function fetchAdditionalUserData(state, userId) {
+  return state.merge({
+    status: FETCHING_USER_DATA_STATUS
+  });
+}
+
+function fetchAdditionalUserDataSuccess(state, userData) {
+  return state.merge({
+    status: SIGNED_USER_STATUS,
+    is_admin: userData.admin ? userData.admin : false,
+    user_first_name: userData.first_name,
+    user_last_name: userData.last_name
+  });
+}
+
+function fetchAdditionalUserDataFail(state, error) {
+  return state.merge({
+    status: VALID_USER_STATUS,
   });
 }
 
