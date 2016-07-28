@@ -1,6 +1,5 @@
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-import { Map } from 'immutable';
 
 export default React.createClass({
   mixins: [PureRenderMixin],
@@ -24,7 +23,7 @@ export default React.createClass({
     if (!title || !passage || !body) {
       return;
     }
-    this.props.onDevotionalSubmit(Map({title: title, passage: passage, body: body}));
+    this.props.onDevotionalSubmit({title: title, passage: passage, body: body});
     this.setState({title: '', passage: '', body: ''});
   },
   render: function() {

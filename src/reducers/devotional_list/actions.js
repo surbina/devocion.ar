@@ -81,16 +81,17 @@ export function requestDevotionalListFailAction() {
 export function postDevotionalAction(devotional) {
   return function (dispatch) {
     devotional.id = '-1';
-    dispatch(submitDevotionalAction(devotional.set('id', '-1').toJS()));
+    dispatch(submitDevotionalAction(devotional));
 
     const ref = firebase.database().ref('devotional_list/').push();
+    devotional.id = ref.key;
 
     ref
-      .set(devotional.set('id', ref.key).toJS())
+      .set(devotional)
       .then(success);
 
     function success() {
-      dispatch(submitDevotionalSuccessAction(devotional.set('id', ref.key).toJS()));
+      dispatch(submitDevotionalSuccessAction(devotional));
     }
   };
 }
