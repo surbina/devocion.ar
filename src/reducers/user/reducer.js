@@ -1,9 +1,10 @@
 import { Map } from 'immutable';
 
 import {
-  SET_CURRENT_USER, UNSET_CURRENT_USER,
-  FETCH_ADDITIONAL_USER_DATA, FETCH_ADDITIONAL_USER_DATA_SUCCESS, FETCH_ADDITIONAL_USER_DATA_FAIL,
+  SET_CURRENT_USER, UNSET_CURRENT_USER, SET_ADDITIONAL_USER_DATA,
+  FETCH_ADDITIONAL_USER_DATA, FETCH_ADDITIONAL_USER_DATA_FAIL,
   SUBMIT_NEW_USER, SUBMIT_NEW_USER_FAIL,
+  SUBMIT_ADDITIONAL_USER_DATA, SUBMIT_ADDITIONAL_USER_DATA_FAIL,
   SUBMIT_SIGN_IN, SUBMIT_SIGN_IN_FAIL,
   SUBMIT_SIGN_OUT, SUBMIT_SIGN_OUT_FAIL
 } from './actions.js';
@@ -17,6 +18,7 @@ export const VALID_USER_STATUS = 'VALID_USER';
 export const FETCHING_USER_DATA_STATUS = 'FETCHING_USER_DATA';
 export const SIGNED_USER_STATUS = 'SIGNED_USER';
 export const CREATING_USER_STATUS = 'CREATING_USER';
+export const UPDATING_USER_DATA_STATUS = 'UPDATING_USER_DATA';
 export const SIGNING_OUT_STATUS = 'SIGNING_OUT';
 
 const ANONYMOUS_USER_ID = '-1';
@@ -40,16 +42,20 @@ export function user (state = Map({
       return setCurrentUser(state, action.user);
     case UNSET_CURRENT_USER:
       return unsetCurrentUser(state);
+    case SET_ADDITIONAL_USER_DATA:
+      return setAdditionalUserData(state, action.userData);
     case FETCH_ADDITIONAL_USER_DATA:
       return fetchAdditionalUserData(state, action.userId);
-    case FETCH_ADDITIONAL_USER_DATA_SUCCESS:
-      return fetchAdditionalUserDataSuccess(state, action.userData);
     case FETCH_ADDITIONAL_USER_DATA_FAIL:
       return fetchAdditionalUserDataFail(state, action.error);
     case SUBMIT_NEW_USER:
       return submitNewUser(state, action.user);
     case SUBMIT_NEW_USER_FAIL:
       return submitNewUserFail(state, action.error);
+    case SUBMIT_ADDITIONAL_USER_DATA:
+      return submitAdditionalUserData(state);
+    case SUBMIT_ADDITIONAL_USER_DATA_FAIL:
+      return submitAdditionalUserDataFail(state);
     case SUBMIT_SIGN_IN:
       return submitSignIn(state);
     case SUBMIT_SIGN_IN_FAIL:
@@ -84,18 +90,18 @@ function unsetCurrentUser(state) {
   });
 }
 
-function fetchAdditionalUserData(state, userId) {
-  return state.merge({
-    status: FETCHING_USER_DATA_STATUS
-  });
-}
-
-function fetchAdditionalUserDataSuccess(state, userData) {
+function setAdditionalUserData(state, userData) {
   return state.merge({
     status: SIGNED_USER_STATUS,
     is_admin: userData.admin ? userData.admin : false,
     user_first_name: userData.first_name,
     user_last_name: userData.last_name
+  });
+}
+
+function fetchAdditionalUserData(state, userId) {
+  return state.merge({
+    status: FETCHING_USER_DATA_STATUS
   });
 }
 
@@ -116,6 +122,26 @@ function submitNewUserFail(state, error) {
     status: ANONYMOUS_USER_STATUS
   });
 }
+
+
+function submitAdditionalUserData(state) {
+  return state.merge({
+    status: UPDATING_USER_DATA_STATUS
+  });
+}
+
+function submitAdditionalUserDataSuccess() {
+  return state.merge({
+    status: VALID_USER_STATUS
+  });
+}
+
+function submitAdditionalUserDataFail() {
+  return state.merge({
+    status: VALID_USER_STATUS
+  });
+}
+
 
 function submitSignIn(state) {
   return state.merge({

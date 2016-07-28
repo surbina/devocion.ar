@@ -1,12 +1,15 @@
 export const SET_CURRENT_USER = 'SET_CURRENT_USER';
 export const UNSET_CURRENT_USER = 'UNSET_CURRENT_USER';
+export const SET_ADDITIONAL_USER_DATA = 'SET_ADDITIONAL_USER_DATA';
 
 export const FETCH_ADDITIONAL_USER_DATA = 'FETCH_ADDITIONAL_USER_DATA';
-export const FETCH_ADDITIONAL_USER_DATA_SUCCESS = 'FETCH_ADDITIONAL_USER_DATA_SUCCESS';
 export const FETCH_ADDITIONAL_USER_DATA_FAIL = 'FETCH_ADDITIONAL_USER_DATA_FAIL';
 
 export const SUBMIT_NEW_USER = 'SUBMIT_NEW_USER';
 export const SUBMIT_NEW_USER_FAIL = 'SUBMIT_DEVOTIONAL_FAIL';
+
+export const SUBMIT_ADDITIONAL_USER_DATA = 'SUBMIT_ADDITIONAL_USER_DATA';
+export const SUBMIT_ADDITIONAL_USER_DATA_FAIL = 'SUBMIT_ADDITIONAL_USER_DATA_FAIL';
 
 export const SUBMIT_SIGN_IN = 'SUBMIT_SIGN_IN';
 export const SUBMIT_SIGN_IN_FAIL = 'SUBMIT_SIGN_IN_FAIL';
@@ -41,7 +44,7 @@ export function retrieveAdditionalUserData(userId) {
       .once('value', success, error);
 
     function success(userData) {
-      dispatch(fetchAdditionalUserDataSuccessAction(userData.val()));
+      dispatch(setAdditionalUserDataAction(userData.val()));
     }
 
     function error(error) {
@@ -62,12 +65,42 @@ export function createNewUserAction(user) {
       .then(success)
       .catch(error);
 
-    function success(user) {
-      dispatch(setCurrentUserAction(user));
+    function success(userDB) {
+      user.id = userDB.uid;
+      dispatch(setCurrentUserAction(userDB));
+      dispatch(updateAdditionalUserDataAction(user));
     }
 
     function error(error) {
       dispatch(submitNewUserFailAction({
+        code: error.code,
+        message: error.message
+      }));
+    }
+  };
+}
+
+export function updateAdditionalUserDataAction(user) {
+  return function(dispatch) {
+    dispatch(submitAdditionalUserDataAction());
+
+    const userData = {
+      first_name: user.firstName,
+      last_name: user.lastName
+    };
+    const ref = firebase.database().ref('users/' + user.id);
+
+    ref
+      .set(userData)
+      .then(success)
+      .catch(error);
+
+    function success(user) {
+      dispatch(setAdditionalUserDataAction(userData));
+    }
+
+    function error(error) {
+      dispatch(submitAdditionalUserDataFailAction({
         code: error.code,
         message: error.message
       }));
@@ -129,6 +162,13 @@ export function unsetCurrentUserAction() {
   };
 }
 
+export function setAdditionalUserDataAction(userData) {
+  return {
+    type: SET_ADDITIONAL_USER_DATA,
+    userData: userData
+  };
+}
+
 export function fetchAdditionalUserDataAction(userId) {
   return {
     type: FETCH_ADDITIONAL_USER_DATA,
@@ -136,12 +176,6 @@ export function fetchAdditionalUserDataAction(userId) {
   };
 }
 
-export function fetchAdditionalUserDataSuccessAction(userData) {
-  return {
-    type: FETCH_ADDITIONAL_USER_DATA_SUCCESS,
-    userData: userData
-  };
-}
 
 export function fetchAdditionalUserDataFailAction(error) {
   return {
@@ -161,6 +195,19 @@ export function submitNewUserAction(user) {
 export function submitNewUserFailAction(error) {
   return {
     type: SUBMIT_NEW_USER_FAIL,
+    error
+  };
+}
+
+export function submitAdditionalUserDataAction() {
+  return {
+    type: SUBMIT_ADDITIONAL_USER_DATA
+  };
+}
+
+export function submitAdditionalUserDataFailAction(error) {
+  return {
+    type: SUBMIT_ADDITIONAL_USER_DATA_FAIL,
     error
   };
 }
