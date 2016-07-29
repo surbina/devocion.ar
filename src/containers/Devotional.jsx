@@ -10,8 +10,8 @@ import { loadDevotionalAction } from '../reducers/home_section/actions.js';
 export const Devotional = React.createClass({
   mixins: [PureRenderMixin],
   componentDidMount: function() {
-    this.props.dispatch(loadDevotionalAction(1));
-    this.props.dispatch(fetchDevotionalAction(1));
+    this.props.dispatch(loadDevotionalAction('-KNsRDIygJ8_c6YYPnmq'));
+    this.props.dispatch(fetchDevotionalAction('-KNsRDIygJ8_c6YYPnmq'));
   },
   render: function() {
     return(

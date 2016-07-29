@@ -46,8 +46,8 @@ function requestDevotionalSuccess(state, devotional) {
       title: devotional.title,
       pasagge: devotional.passagge,
       body: devotional.body,
-      author: devotional.author,
-      publishDate: devotional.publishDate,
+      author_name: devotional.author_name,
+      publish_date: devotional.publish_date,
     }
   });
 }
@@ -84,8 +84,9 @@ function submitDevotional(state, devotional) {
       title: devotional.title,
       pasagge: devotional.passagge,
       body: devotional.body,
-      //author: devotional.author,
-      //publishDate: devotional.publishDate,
+      author_name: devotional.author_name,
+      author_id: devotional.author_id,
+      publish_date: devotional.publish_date,
     }
   });
 }
@@ -95,13 +96,14 @@ function submitDevotionalSuccess(state, devotional) {
     [devotional.id]: {
       id: devotional.id,
       fetching: false,
-      submitting: true,
+      submitting: false,
       valid: true,
       title: devotional.title,
       pasagge: devotional.passagge,
       body: devotional.body,
-      //author: devotional.author,
-      //publishDate: devotional.publishDate,
+      author_name: devotional.author_name,
+      author_id: devotional.author_id,
+      publish_date: devotional.publish_date,
     }
   });
 }

@@ -1,10 +1,12 @@
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
+import DatePicker from 'react-bootstrap-date-picker';
+import moment from 'moment';
 
 export default React.createClass({
   mixins: [PureRenderMixin],
   getInitialState: function() {
-    return {title: '', passage: '', body: ''};
+    return {title: '', passage: '', body: '', publish_date: ''};
   },
   handleTitleChange: function(e) {
     this.setState({title: e.target.value});
@@ -15,23 +17,36 @@ export default React.createClass({
   handleBodyChange: function(e) {
     this.setState({body: e.target.value});
   },
+  handlePublishDateChange: function(e) {
+    this.setState({publish_date: e});
+  },
   handleSubmit: function(e) {
     e.preventDefault();
     const title = this.state.title.trim();
     const passage = this.state.passage.trim();
+    const publish_date = this.state.publish_date;
     const body = this.state.body.trim();
-    if (!title || !passage || !body) {
+    if (!title || !passage || !publish_date || !body) {
       return;
     }
-    this.props.onDevotionalSubmit({title: title, passage: passage, body: body});
-    this.setState({title: '', passage: '', body: ''});
+
+    this.props.onDevotionalSubmit({
+      title: title,
+      passage: passage,
+      publish_date: publish_date,
+      body: body,
+      author_name: this.props.user.get('user_first_name') + ' ' + this.props.user.get('user_last_name'),
+      author_id: this.props.user.get('user_id'),
+      creation_date: moment().toISOString()
+    });
+    this.setState({title: '', passage: '', body: '', publish_date: ''});
   },
   render: function() {
     return(
       <form className="form-horizontal" onSubmit={this.handleSubmit}>
         <div className="form-group">
           <label for="inputTitle" className="col-sm-1 control-label">Título</label>
-          <div className="col-sm-11">
+          <div className="col-sm-5">
             <input
               type="text"
               placeholder="Título"
@@ -42,9 +57,10 @@ export default React.createClass({
             />
           </div>
         </div>
+
         <div className="form-group">
           <label for="inputPassage" className="col-sm-1 control-label">Pasaje</label>
-          <div className="col-sm-11">
+          <div className="col-sm-5">
             <input
               type="text"
               placeholder="Pasaje"
@@ -54,7 +70,13 @@ export default React.createClass({
               onChange={this.handlePassageChange}
             />
           </div>
+
+          <label for="inputPassage" className="col-sm-2 control-label">Fecha de publicación</label>
+          <div className="col-sm-4">
+            <DatePicker value={this.state.publish_date} onChange={this.handlePublishDateChange}/>
+          </div>
         </div>
+
         <div className="form-group">
           <label for="textBody" className="col-sm-1 control-label">Contenido</label>
           <div className="col-sm-11">

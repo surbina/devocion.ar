@@ -39,6 +39,7 @@
     "file-loader": "^0.8.5",
     "immutable": "^3.8.1",
     "jquery": "^3.0.0",
+    "moment": "^2.14.1",
     "node-sass": "^3.7.0",
     "react": "^15.1.0",
     "react-addons-pure-render-mixin": "^15.1.0",

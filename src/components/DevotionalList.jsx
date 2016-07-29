@@ -1,5 +1,6 @@
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
+import moment from 'moment';
 
 export default React.createClass({
   mixins: [PureRenderMixin],
@@ -21,8 +22,8 @@ export default React.createClass({
           {this.getDevotionals().map(devotional =>
             <tr key={devotional.get('id')}>
               <td>{devotional.get('title')}</td>
-              <td>{devotional.get('author')}</td>
-              <td>{devotional.get('publishDate')}</td>
+              <td>{devotional.get('author_name')}</td>
+              <td>{moment(devotional.get('publish_date')).format('LL')}</td>
               <td></td>
             </tr>
           )}

@@ -13,14 +13,16 @@ export const DevotionalAdd = React.createClass({
   render: function() {
     return(
       <div className="container">
-        <DevotionalForm onDevotionalSubmit={this.handleDevotionalSubmit}/>
+        <DevotionalForm onDevotionalSubmit={this.handleDevotionalSubmit} user={this.props.user}/>
       </div>
     );
   }
 });
 
 function mapStateToProps(state) {
-  return {};
+  return {
+    user: state.user
+  };
 }
 
 export const DevotionalAddContainer = connect(mapStateToProps)(DevotionalAdd);
