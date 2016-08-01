@@ -8,21 +8,23 @@ export default React.createClass({
       <section>
         {this.props.devotional === undefined || this.props.devotional.get('fetching') ?
           <p>Loading data</p> :
-          <div>
-            <div className="row">
-              <div className="col-md-12">
-                <h3>{this.props.devotional.get('title')}</h3>
-              </div>
+          <div className="row">
+            <div className="col-md-12">
+              <h3>{this.props.devotional.get('title')}</h3>
             </div>
-            <div className="row">
-              <div className="col-md-12">
-                <h4>{this.props.devotional.get('pasagge')}</h4>
-              </div>
+          
+            <div className="col-md-12">
+              <h4>Pasaje: {this.props.devotional.get('passage')}</h4>
             </div>
-            <div className="row">
-              <div className="col-md-12">
-                <p>{this.props.devotional.get('body')}</p>
-              </div>
+          
+            <div className="col-md-12">
+              <p>{this.props.devotional.get('body')}</p>
+            </div>
+            <div className="col-md-6">
+              <button className="btn btn-default">Anterior</button>
+            </div>
+            <div className="col-md-6">
+              <button className="btn btn-default">Siguiente</button>
             </div>
           </div>}
       </section>
