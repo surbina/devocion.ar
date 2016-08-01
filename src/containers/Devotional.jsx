@@ -3,15 +3,12 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import {connect} from 'react-redux';
 import DevotionalContent from '../components/DevotionalContent';
 import DevotionalComment from '../components/DevotionalComment';
-
-import { fetchDevotionalAction } from '../reducers/devotional_list/actions.js';
-import { loadDevotionalAction } from '../reducers/home_section/actions.js';
+import { fethLastDevotionalAction } from '../reducers/home_section/actions.js';
 
 export const Devotional = React.createClass({
   mixins: [PureRenderMixin],
   componentDidMount: function() {
-    this.props.dispatch(loadDevotionalAction('-KNsRDIygJ8_c6YYPnmq'));
-    this.props.dispatch(fetchDevotionalAction('-KNsRDIygJ8_c6YYPnmq'));
+    this.props.dispatch(fethLastDevotionalAction());
   },
   render: function() {
     return(
@@ -24,9 +21,9 @@ export const Devotional = React.createClass({
 });
 
 function mapStateToProps(state) {
-  const currentPublicationId = state.home_section.get('current_devotional_id');
+  const currentPublicationPublishDate = state.home_section.get('current_devotional_publish_date');
   return {
-    devotional: state.devotional_list.get(currentPublicationId)
+    devotional: state.devotional_list.get(currentPublicationPublishDate)
   };
 }    
 

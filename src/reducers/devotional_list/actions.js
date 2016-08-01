@@ -10,13 +10,18 @@ export const SUBMIT_DEVOTIONAL = 'SUBMIT_DEVOTIONAL';
 export const SUBMIT_DEVOTIONAL_SUCCESS = 'SUBMIT_DEVOTIONAL_SUCCESS';
 export const SUBMIT_DEVOTIONAL_FAIL = 'SUBMIT_DEVOTIONAL_FAIL';
 
-export function fetchDevotionalAction(id) {
+export function fetchDevotionalAction(publish_date) {
   return function (dispatch) {
-    dispatch(requestDevotionalAction(id));
+    dispatch(requestDevotionalAction(publish_date));
 
-    firebase.database().ref('devotional_list/' + id)
+    firebase.database()
+      .ref('devotional_list/')
+      .orderByChild('publish_date')
+      .equalTo(publish_date)
+      .limitToLast(1)
       .once('value')
-      .then(success);
+      .then(success)
+      .catch(error);
 
     function success(snapshot) {
       dispatch(requestDevotionalSuccessAction(snapshot.val()));
@@ -24,10 +29,10 @@ export function fetchDevotionalAction(id) {
   };
 }
 
-export function requestDevotionalAction(id) {
+export function requestDevotionalAction(publish_date) {
   return {
     type: REQUEST_DEVOTIONAL,
-    id
+    publish_date
   };
 }
 
@@ -38,10 +43,10 @@ export function requestDevotionalSuccessAction(devotional) {
   };
 }
 
-export function requestDevotionalFailAction(id) {
+export function requestDevotionalFailAction(publish_date) {
   return {
     type: REQUEST_DEVOTIONAL_FAIL,
-    id
+    publish_date
   };
 }
 

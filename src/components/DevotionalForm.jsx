@@ -18,7 +18,7 @@ export default React.createClass({
     this.setState({body: e.target.value});
   },
   handlePublishDateChange: function(e) {
-    this.setState({publish_date: e});
+    this.setState({publish_date: moment(e).format('YYYY-MM-DD')});
   },
   handleSubmit: function(e) {
     e.preventDefault();

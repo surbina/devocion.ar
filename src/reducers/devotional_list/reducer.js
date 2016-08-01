@@ -13,11 +13,11 @@ export const UNLOADED_STATUS = 'UNLOADED';
 export default function(state = Map({fetching_list: false}), action) {
   switch (action.type) {
     case REQUEST_DEVOTIONAL:
-      return requestDevotional(state, action.id);
+      return requestDevotional(state, action.publish_date);
     case REQUEST_DEVOTIONAL_SUCCESS:
       return requestDevotionalSuccess(state, action.devotional);
     case REQUEST_DEVOTIONAL_FAIL:
-      return requestDevotionalFail(state, action.id);
+      return requestDevotionalFail(state, action.publish_date);
     case REQUEST_DEVOTIONAL_LIST:
       return requestDevotionalList(state);
     case REQUEST_DEVOTIONAL_LIST_SUCCESS:
@@ -31,9 +31,9 @@ export default function(state = Map({fetching_list: false}), action) {
   }
 }
 
-function requestDevotional(state, id) {
+function requestDevotional(state, publish_date) {
   return state.merge({
-    [id]: {
+    [publish_date]: {
       status: FETCHING_STATUS,
       valid: false
     }
@@ -42,7 +42,7 @@ function requestDevotional(state, id) {
 
 function requestDevotionalSuccess(state, devotional) {
   return state.merge({
-    [devotional.id]: {
+    [devotional.publish_date]: {
       id: devotional.id,
       status: LOADED_STATUS,
       valid: true,
@@ -55,9 +55,9 @@ function requestDevotionalSuccess(state, devotional) {
   });
 }
 
-function requestDevotionalFail(state, id) {
+function requestDevotionalFail(state, publish_date) {
   return state.merge({
-    [id]: {
+    [publish_date]: {
       status: UNLOADED_STATUS,
       valid: false
     }
@@ -71,19 +71,21 @@ function requestDevotionalList(state) {
 }
 
 function requestDevotionalListSuccess(state, devotionalList) {
+  let devsList = {};
   for (let prop in devotionalList) {
     devotionalList[prop].status = LOADED_STATUS;
     devotionalList[prop].valid = true;
+    devsList[devotionalList[prop].publish_date] = devotionalList[prop];
   }
 
   return state
     .merge({fetching_list: false})
-    .merge(devotionalList);
+    .merge(devsList);
 }
 
 function submitDevotional(state, devotional) {
   return state.merge({
-    [devotional.id]: {
+    [devotional.publish_date]: {
       id: devotional.id,
       status: SUBMITTING_STATUS,
       valid: true,
@@ -100,7 +102,7 @@ function submitDevotional(state, devotional) {
 
 function submitDevotionalSuccess(state, devotional) {
   return state.delete('-1').merge({
-    [devotional.id]: {
+    [devotional.publish_date]: {
       id: devotional.id,
       status: LOADED_STATUS,
       valid: true,

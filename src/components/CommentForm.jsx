@@ -8,7 +8,7 @@ export default React.createClass({
       <form className="form-horizontal">
         <div className="form-group">
           <div className="col-sm-12">
-            <input type="email" className="form-control" id="content" placeholder="Comentario"/>
+            <input type="text" className="form-control" id="content" placeholder="Comentario"/>
           </div>
         </div>
         <div className="form-group">
