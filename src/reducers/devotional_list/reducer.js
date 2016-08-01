@@ -5,6 +5,11 @@ import {
   REQUEST_DEVOTIONAL_LIST, REQUEST_DEVOTIONAL_LIST_SUCCESS, REQUEST_DEVOTIONAL_LIST_FAIL
 } from './actions.js';
 
+export const FETCHING_STATUS = 'FETCHING';
+export const SUBMITTING_STATUS = 'SUBMITTING';
+export const LOADED_STATUS = 'LOADED';
+export const UNLOADED_STATUS = 'UNLOADED';
+
 export default function(state = Map({fetching_list: false}), action) {
   switch (action.type) {
     case REQUEST_DEVOTIONAL:
@@ -29,9 +34,8 @@ export default function(state = Map({fetching_list: false}), action) {
 function requestDevotional(state, id) {
   return state.merge({
     [id]: {
-      fetching: true,
-      valid: false,
-      submitting: false,
+      status: FETCHING_STATUS,
+      valid: false
     }
   });
 }
@@ -40,9 +44,8 @@ function requestDevotionalSuccess(state, devotional) {
   return state.merge({
     [devotional.id]: {
       id: devotional.id,
-      fetching: false,
+      status: LOADED_STATUS,
       valid: true,
-      submitting: false,
       title: devotional.title,
       pasagge: devotional.passagge,
       body: devotional.body,
@@ -55,9 +58,8 @@ function requestDevotionalSuccess(state, devotional) {
 function requestDevotionalFail(state, id) {
   return state.merge({
     [id]: {
-      fetching: false,
-      valid: false,
-      submitting: false,
+      status: UNLOADED_STATUS,
+      valid: false
     }
   });
 }
@@ -69,6 +71,11 @@ function requestDevotionalList(state) {
 }
 
 function requestDevotionalListSuccess(state, devotionalList) {
+  for (let prop in devotionalList) {
+    devotionalList[prop].status = LOADED_STATUS;
+    devotionalList[prop].valid = true;
+  }
+
   return state
     .merge({fetching_list: false})
     .merge(devotionalList);
@@ -78,8 +85,7 @@ function submitDevotional(state, devotional) {
   return state.merge({
     [devotional.id]: {
       id: devotional.id,
-      fetching: false,
-      submitting: true,
+      status: SUBMITTING_STATUS,
       valid: true,
       title: devotional.title,
       pasagge: devotional.passagge,
@@ -87,6 +93,7 @@ function submitDevotional(state, devotional) {
       author_name: devotional.author_name,
       author_id: devotional.author_id,
       publish_date: devotional.publish_date,
+      creation_date: devotional.creation_date
     }
   });
 }
@@ -95,15 +102,15 @@ function submitDevotionalSuccess(state, devotional) {
   return state.delete('-1').merge({
     [devotional.id]: {
       id: devotional.id,
-      fetching: false,
-      submitting: false,
+      status: LOADED_STATUS,
       valid: true,
       title: devotional.title,
-      pasagge: devotional.passagge,
+      passage: devotional.passage,
       body: devotional.body,
       author_name: devotional.author_name,
       author_id: devotional.author_id,
       publish_date: devotional.publish_date,
+      creation_date: devotional.creation_date
     }
-  });
+  })
 }
