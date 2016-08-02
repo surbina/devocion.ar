@@ -24,22 +24,20 @@ const UserIsAuthenticated = UserAuthWrapper({
   predicate: user => user.get('status') === SIGNED_USER_STATUS
 })
 
+const routes = <Route path="/" component={AppContainer}>
+  <IndexRoute component={DevotionalContainer}/>
+  <Route path="admin">
+    <IndexRoute component={UserIsAuthenticated(AdminPanelContainer)}/>
+    <Route path="devotional/add" component={UserIsAuthenticated(DevotionalAddContainer)}></Route>
+  </Route>
+  <Route path="sign">
+    <Route path="up" component={SignUpContainer}/>
+    <Route path="in" component={SignInContainer}/>
+  </Route>
+</Route>;
+
 export default React.createClass({
   render: function() {
-    return(
-      <Router history={history}>
-        <Route path="/" component={AppContainer}>
-          <IndexRoute component={DevotionalContainer}/>
-          <Route path="admin">
-            <IndexRoute component={UserIsAuthenticated(AdminPanelContainer)}/>
-            <Route path="devotional/add" component={UserIsAuthenticated(DevotionalAddContainer)}></Route>
-          </Route>
-          <Route path="sign">
-            <Route path="up" component={SignUpContainer}/>
-            <Route path="in" component={SignInContainer}/>
-          </Route>
-        </Route>
-      </Router>
-    );
+    return <Router history={history} routes={routes} />;
   }
 });
