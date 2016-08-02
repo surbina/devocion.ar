@@ -3,17 +3,30 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import {connect} from 'react-redux';
 import DevotionalContent from '../components/DevotionalContent';
 import DevotionalComment from '../components/DevotionalComment';
-import { fethLastDevotionalAction } from '../reducers/home_section/actions.js';
+import {
+  fetchLastDevotionalAction,
+  fetchNextDevotionalAction,
+  fetchPreviousDevotionalAction
+} from '../reducers/home_section/actions.js';
 
 export const Devotional = React.createClass({
   mixins: [PureRenderMixin],
   componentDidMount: function() {
-    this.props.dispatch(fethLastDevotionalAction());
+    this.props.dispatch(fetchLastDevotionalAction());
+  },
+  handleNextDevotional: function () {
+    this.props.dispatch(fetchNextDevotionalAction(this.props.devotional.get('publish_date')));
+  },
+  handlePreviousDevotional: function () {
+    this.props.dispatch(fetchPreviousDevotionalAction(this.props.devotional.get('publish_date')));
   },
   render: function() {
     return(
       <main className="container">
-        <DevotionalContent devotional={this.props.devotional} />
+        <DevotionalContent
+          devotional={this.props.devotional}
+          onHandleNextDevotional={this.handleNextDevotional}
+          onHandlePreviousDevotional={this.handlePreviousDevotional}/>
         <DevotionalComment />
       </main>
     );
