@@ -1,8 +1,8 @@
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import {connect} from 'react-redux';
-import DevotionalContent from '../components/DevotionalContent';
-import DevotionalComment from '../components/DevotionalComment';
+import DevotionalContent from '../components/DevotionalContent.jsx';
+import { DevotionalCommentContainer } from '../containers/DevotionalComment.jsx';
 import {
   fetchLastDevotionalAction,
   fetchNextDevotionalAction,
@@ -11,7 +11,7 @@ import {
 
 export const Devotional = React.createClass({
   mixins: [PureRenderMixin],
-  componentDidMount: function() {
+  componentDidMount: function () {
     this.props.dispatch(fetchLastDevotionalAction());
   },
   handleNextDevotional: function () {
@@ -27,7 +27,7 @@ export const Devotional = React.createClass({
           devotional={this.props.devotional}
           onHandleNextDevotional={this.handleNextDevotional}
           onHandlePreviousDevotional={this.handlePreviousDevotional}/>
-        <DevotionalComment />
+        <DevotionalCommentContainer devotional={this.props.devotional}/>
       </main>
     );
   }
@@ -38,6 +38,6 @@ function mapStateToProps(state) {
   return {
     devotional: state.devotional_list.get(currentPublicationPublishDate)
   };
-}    
+}
 
 export const DevotionalContainer = connect(mapStateToProps)(Devotional);

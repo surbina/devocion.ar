@@ -29,6 +29,46 @@ export function fetchDevotionalAction(publish_date) {
   };
 }
 
+export function fetchDevotionalListAction() {
+  return function (dispatch) {
+    dispatch(requestDevotionalListAction());
+
+    firebase.database().ref('devotional_list/')
+      .once('value')
+      .then(success);
+
+    function success(snapshot) {
+      dispatch(requestDevotionalListSuccessAction(snapshot.val()));
+    }
+  }
+}
+
+export function postDevotionalAction(devotional) {
+  return function (dispatch) {
+    devotional.id = '-1';
+    dispatch(submitDevotionalAction(devotional));
+
+    const ref = firebase.database().ref('devotional_list/').push();
+    devotional.id = ref.key;
+
+    ref
+      .set(devotional)
+      .then(success)
+      .catch(error);
+
+    function success() {
+      dispatch(submitDevotionalSuccessAction(devotional));
+    }
+
+    function error(error) {
+      dispatch(submitDevotionalFailAction({
+        code: error.code,
+        message: error.message
+      }));
+    }
+  };
+}
+
 export function requestDevotionalAction(publish_date) {
   return {
     type: REQUEST_DEVOTIONAL,
@@ -50,20 +90,6 @@ export function requestDevotionalFailAction(publish_date) {
   };
 }
 
-export function fetchDevotionalListAction() {
-  return function (dispatch) {
-    dispatch(requestDevotionalListAction());
-
-    firebase.database().ref('devotional_list/')
-      .once('value')
-      .then(success);
-
-    function success(snapshot) {
-      dispatch(requestDevotionalListSuccessAction(snapshot.val()));
-    }
-  }
-}
-
 export function requestDevotionalListAction() {
   return {
     type: REQUEST_DEVOTIONAL_LIST
@@ -83,24 +109,6 @@ export function requestDevotionalListFailAction() {
   };
 }
 
-export function postDevotionalAction(devotional) {
-  return function (dispatch) {
-    devotional.id = '-1';
-    dispatch(submitDevotionalAction(devotional));
-
-    const ref = firebase.database().ref('devotional_list/').push();
-    devotional.id = ref.key;
-
-    ref
-      .set(devotional)
-      .then(success);
-
-    function success() {
-      dispatch(submitDevotionalSuccessAction(devotional));
-    }
-  };
-}
-
 export function submitDevotionalAction(devotional) {
   return {
     type: SUBMIT_DEVOTIONAL,
@@ -115,8 +123,9 @@ export function submitDevotionalSuccessAction(devotional) {
   };
 }
 
-export function submitDevotionalFailAction() {
+export function submitDevotionalFailAction(error) {
   return {
-    type: SUBMIT_DEVOTIONAL_FAIL
+    type: SUBMIT_DEVOTIONAL_FAIL,
+    error
   };
 }

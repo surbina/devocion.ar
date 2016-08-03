@@ -7,7 +7,7 @@ export default React.createClass({
     return(
       <section>
         {this.props.devotional === undefined || this.props.devotional.get('fetching') ?
-          <p>Loading data</p> :
+          <p>Loading devotional</p> :
           <div className="row">
             <div className="col-md-12">
               <h3>{this.props.devotional.get('title')}</h3>
