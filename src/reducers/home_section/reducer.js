@@ -13,11 +13,13 @@ export const LOADED_STATUS = 'LOADED';
 export default function(state = Map({
   status: INIT_STATUS,
   last_devotional_publish_date: null,
-  current_devotional_publish_date: null
+  last_devotional_id: null,
+  current_devotional_publish_date: null,
+  current_devotional_id: null,
 }), action) {
   switch (action.type) {
     case LOAD_DEVOTIONAL:
-      return loadDevotional(state, action.publish_date);
+      return loadDevotional(state, action.id, action.publish_date);
     case LOAD_LAST_DEVOTIONAL:
       return loadLastDevotional(state);
     case LOAD_LAST_DEVOTIONAL_SUCCESS:
@@ -37,10 +39,11 @@ export default function(state = Map({
   }
 }
 
-function loadDevotional(state, publish_date) {
+function loadDevotional(state, id, publish_date) {
   return state.merge({
     status: LOADED_STATUS,
-    current_devotional_publish_date: publish_date
+    current_devotional_publish_date: publish_date,
+    current_devotional_id: id
   });
 }
 
@@ -54,7 +57,9 @@ function loadLastDevotionalSuccess(state, devotional) {
   return state.merge({
     status: LOADED_STATUS,
     last_devotional_publish_date: devotional.publish_date,
-    current_devotional_publish_date: devotional.publish_date
+    last_devotional_id: devotional.id,
+    current_devotional_publish_date: devotional.publish_date,
+    current_devotional_id: devotional.id
   });
 }
 

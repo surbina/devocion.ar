@@ -7,10 +7,10 @@ export default React.createClass({
     return(
       <div className="panel panel-default">
         <div className="panel-heading">
-          {this.props.comment.user_first_name} dijo el {this.props.comment.creation_date}:
+          {this.props.comment.get('user_first_name')} dijo el {this.props.comment.get('creation_date')}:
         </div>
         <div className="panel-body">
-          {this.props.comment.comment_body}
+          {this.props.comment.get('comment_body')}
         </div>
       </div>
     );

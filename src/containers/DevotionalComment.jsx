@@ -1,15 +1,14 @@
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 import { postCommentAction } from '../reducers/comments/actions.js';
 
 import CommentForm from '../components/CommentForm.jsx';
-import CommentList from '../components/CommentList.jsx';
+import { CommentListContainer } from './CommentList.jsx';
 
 export const DevotionalComment = React.createClass({
   mixins: [PureRenderMixin],
-
   handleCommentSubmit: function (comment) {
     this.props.dispatch(postCommentAction(this.props.devotional.get('id'), comment));    
   },
@@ -24,7 +23,7 @@ export const DevotionalComment = React.createClass({
               user={this.props.user}
               onCommentSubmit={this.handleCommentSubmit}
             />
-            <CommentList />
+            <CommentListContainer />
           </div>}
       </div>
     );

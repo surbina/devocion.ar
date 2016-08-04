@@ -19,7 +19,7 @@ export default React.createClass({
           </tr>
         </thead>
         <tbody>
-          {this.getDevotionals().map(devotional =>
+          {this.getDevotionals().valueSeq().map(devotional =>
             <tr key={devotional.get('id')}>
               <td>{devotional.get('title')}</td>
               <td>{devotional.get('author_name')}</td>

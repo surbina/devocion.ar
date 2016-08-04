@@ -57,7 +57,7 @@ export function fetchNextDevotionalAction(publish_date) {
 
     function success(snapshot) {
       const key = Object.keys(snapshot.val())[0];
-      dispatch(loadDevotionalAction(snapshot.val()[key].publish_date));
+      dispatch(loadDevotionalAction(snapshot.val()[key].id, snapshot.val()[key].publish_date));
       dispatch(requestDevotionalSuccessAction(snapshot.val()[key]));
     }
 
@@ -85,7 +85,7 @@ export function fetchPreviousDevotionalAction(publish_date) {
 
     function success(snapshot) {
       const key = Object.keys(snapshot.val())[0];
-      dispatch(loadDevotionalAction(snapshot.val()[key].publish_date));
+      dispatch(loadDevotionalAction(snapshot.val()[key].id, snapshot.val()[key].publish_date));
       dispatch(requestDevotionalSuccessAction(snapshot.val()[key]));
     }
 
@@ -98,9 +98,10 @@ export function fetchPreviousDevotionalAction(publish_date) {
   };
 }
 
-export function loadDevotionalAction (publish_date) {
+export function loadDevotionalAction (id, publish_date) {
   return {
     type: LOAD_DEVOTIONAL,
+    id,
     publish_date
   };
 }
