@@ -14,7 +14,7 @@ export const DevotionalComment = React.createClass({
   },
   render: function() {
     return(
-      <div>
+      <section>
         {this.props.devotional === undefined ?
           <p>Loading comment</p> :
           <div>
@@ -25,7 +25,7 @@ export const DevotionalComment = React.createClass({
             />
             <CommentListContainer />
           </div>}
-      </div>
+      </section>
     );
   }
 });

@@ -22,13 +22,13 @@ export const Devotional = React.createClass({
   },
   render: function() {
     return(
-      <main className="container">
+      <div>
         <DevotionalContent
           devotional={this.props.devotional}
           onHandleNextDevotional={this.handleNextDevotional}
           onHandlePreviousDevotional={this.handlePreviousDevotional}/>
         <DevotionalCommentContainer devotional={this.props.devotional}/>
-      </main>
+      </div>
     );
   }
 });

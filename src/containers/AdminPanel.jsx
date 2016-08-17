@@ -14,17 +14,17 @@ export const AdminPanel = React.createClass({
   },
   render: function() {
     return(
-      <div className="container">
-        <div className="row">
+      <div>
+        <section className="row">
           <div className="col-md-12">
             <Link to="/admin/devotional/add" className="btn btn-default">Nuevo devocional</Link>
           </div>
-        </div>
-        <div className="row">
+        </section>
+        <section className="row">
           <div className="col-md-12">
             <DevotionalList devotionals={this.props.devotionals} />
           </div>
-        </div>
+        </section>
       </div>
     );
   }

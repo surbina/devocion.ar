@@ -1,6 +1,7 @@
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import { connect } from 'react-redux';
+import { Map } from 'immutable';
 
 import { fetchCommentListAction } from '../reducers/comments/actions.js';
 
@@ -12,7 +13,7 @@ export const CommentList = React.createClass({
     this.props.dispatch(fetchCommentListAction(this.props.devotionalId));
   },
   getComments: function() {
-    return this.props.comments || []
+    return this.props.comments || Map();
   },
   render: function() {
     return(

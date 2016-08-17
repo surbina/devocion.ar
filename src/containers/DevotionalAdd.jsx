@@ -12,9 +12,7 @@ export const DevotionalAdd = React.createClass({
   },
   render: function() {
     return(
-      <div className="container">
-        <DevotionalForm onDevotionalSubmit={this.handleDevotionalSubmit} user={this.props.user}/>
-      </div>
+      <DevotionalForm onDevotionalSubmit={this.handleDevotionalSubmit} user={this.props.user}/>
     );
   }
 });

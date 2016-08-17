@@ -1,11 +1,12 @@
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import moment from 'moment';
+import { Map } from 'immutable';
 
 export default React.createClass({
   mixins: [PureRenderMixin],
   getDevotionals: function() {
-    return this.props.devotionals || [];
+    return this.props.devotionals || Map();
   },
   render: function() {
     return(

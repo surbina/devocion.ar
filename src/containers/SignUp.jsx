@@ -12,9 +12,7 @@ export const SignUp = React.createClass({
   },
   render: function() {
     return(
-      <main className="container">
-        <SignUpForm onSignUpSubmit={this.handleSignUpSubmit} />
-      </main>
+      <SignUpForm onSignUpSubmit={this.handleSignUpSubmit} />
     );
   }
 });

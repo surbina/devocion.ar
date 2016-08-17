@@ -12,9 +12,7 @@ export const SignIn = React.createClass({
   },
   render: function() {
     return(
-      <main className="container">
-        <SignInForm onSignInSubmit={this.handleSignInSubmit} />
-      </main>
+      <SignInForm onSignInSubmit={this.handleSignInSubmit} />
     );
   }
 });

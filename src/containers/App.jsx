@@ -15,10 +15,11 @@ export const App = React.createClass({
   },
   render: function() {
     return(
-      <div className="container-fluid">
+      <div>
         <NavBar onSignOut={this.handleSignOut} user={this.props.user}/>
-
-        {this.props.children}
+        <main className="container-fluid">
+          {this.props.children}
+        </main>
       </div>
     );
   }
