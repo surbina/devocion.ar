@@ -1,9 +1,10 @@
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import {connect} from 'react-redux';
-import NavBar from '../components/NavBar';
 
-import { retrieveCurrentUserAction, signOutAction } from '../reducers/user/actions.js';
+import NavBar from '../components/NavBar.jsx';
+
+import { retrieveCurrentUserAction, signOutAction } from './../../../reducers/user/actions.js';
 
 export const App = React.createClass({
   mixins: [PureRenderMixin],

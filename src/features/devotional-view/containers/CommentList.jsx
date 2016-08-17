@@ -3,7 +3,7 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import { connect } from 'react-redux';
 import { Map } from 'immutable';
 
-import { fetchCommentListAction } from '../reducers/comments/actions.js';
+import { fetchCommentListAction } from '../../../reducers/comments/actions.js';
 
 import Comment from '../components/Comment.jsx';
 

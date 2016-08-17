@@ -2,12 +2,12 @@ import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import {connect} from 'react-redux';
 import DevotionalContent from '../components/DevotionalContent.jsx';
-import { DevotionalCommentContainer } from '../containers/DevotionalComment.jsx';
+import { DevotionalCommentContainer } from './DevotionalComment.jsx';
 import {
   fetchLastDevotionalAction,
   fetchNextDevotionalAction,
   fetchPreviousDevotionalAction
-} from '../reducers/home_section/actions.js';
+} from '../../../reducers/home_section/actions.js';
 
 export const Devotional = React.createClass({
   mixins: [PureRenderMixin],

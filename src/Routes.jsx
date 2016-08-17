@@ -5,12 +5,12 @@ import { UserAuthWrapper } from 'redux-auth-wrapper'
 import { baseHistory } from './history.js';
 import store from './store.js';
 
-import { AppContainer } from './containers/App';
-import { DevotionalContainer } from './containers/Devotional';
-import { AdminPanelContainer } from './containers/AdminPanel';
-import { DevotionalAddContainer } from './containers/DevotionalAdd';
-import { SignUpContainer } from './containers/SignUp';
-import { SignInContainer } from './containers/SignIn';
+import { AppContainer } from './features/app/containers/App';
+import { DevotionalContainer } from './features/devotional-view/containers/Devotional';
+import { AdminPanelContainer } from './features/admin/containers/AdminPanel.jsx';
+import { DevotionalAddContainer } from './features/admin/containers/DevotionalAdd';
+import { SignUpContainer } from './features/auth/containers/SignUp';
+import { SignInContainer } from './features/auth/containers/SignIn';
 
 import { SIGNED_USER_STATUS } from './reducers/user/reducer.js'
 

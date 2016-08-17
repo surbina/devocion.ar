@@ -2,7 +2,7 @@ import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import { connect } from 'react-redux';
 
-import { postCommentAction } from '../reducers/comments/actions.js';
+import { postCommentAction } from '../../../reducers/comments/actions.js';
 
 import CommentForm from '../components/CommentForm.jsx';
 import { CommentListContainer } from './CommentList.jsx';
