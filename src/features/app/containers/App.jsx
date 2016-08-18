@@ -1,3 +1,5 @@
+require('./App.scss');
+
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import {connect} from 'react-redux';
@@ -16,9 +18,9 @@ export const App = React.createClass({
   },
   render: function() {
     return(
-      <div>
+      <div className="app">
         <NavBar onSignOut={this.handleSignOut} user={this.props.user}/>
-        <main className="container-fluid">
+        <main className="container">
           {this.props.children}
         </main>
       </div>

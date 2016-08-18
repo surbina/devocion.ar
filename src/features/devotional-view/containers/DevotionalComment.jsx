@@ -14,18 +14,16 @@ export const DevotionalComment = React.createClass({
   },
   render: function() {
     return(
-      <section>
-        {this.props.devotional === undefined ?
-          <p>Loading comment</p> :
-          <div>
-            <CommentForm
-              devotionalId={this.props.devotional.get('id')}
-              user={this.props.user}
-              onCommentSubmit={this.handleCommentSubmit}
-            />
-            <CommentListContainer />
-          </div>}
-      </section>
+      this.props.devotional === undefined ?
+        false :
+        <section>
+          <CommentForm
+            devotionalId={this.props.devotional.get('id')}
+            user={this.props.user}
+            onCommentSubmit={this.handleCommentSubmit}
+          />
+          <CommentListContainer />
+        </section>
     );
   }
 });

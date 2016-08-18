@@ -17,15 +17,13 @@ export const CommentList = React.createClass({
   },
   render: function() {
     return(
-      <div>
-        {this.props.comments === undefined ?
-          <p>Cargando comentarios</p> :
-          <div>
-            {this.getComments().valueSeq().map(comment => 
-              <Comment key={comment.get('id')} comment={comment} />
-            )}
-          </div>}
-      </div>
+      this.props.comments === undefined ?
+        <p>Cargando comentarios</p> :
+        <div>
+          {this.getComments().valueSeq().map(comment => 
+            <Comment key={comment.get('id')} comment={comment} />
+          )}
+        </div>
     );
   }
 });

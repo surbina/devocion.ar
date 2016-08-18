@@ -14,8 +14,8 @@ module.exports = {
         exclude: /node_modules/,
         loader: 'react-hot!babel'
       },
-      { test: /\.css$/, loaders: [ 'style', 'css', 'postcss' ] },
-      { test: /\.scss$/, loaders: [ 'style', 'css', 'postcss', 'sass' ] },
+      { test: /\.css$/, loaders: [ 'style', 'css' ] },
+      { test: /\.scss$/, loaders: [ 'style', 'css', 'sass' ] },
       {
         test: /\.woff2?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
         loader: "url?limit=10000"
