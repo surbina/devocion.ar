@@ -46,10 +46,13 @@ export function fetchNextDevotionalAction(publish_date) {
   return function (dispatch) {
     dispatch(loadNextDevotionalAction());
 
+    let date = moment(publish_date).add(1, 'days');
+    date = date.isSameOrBefore(moment(), 'day') ? date : moment();
+
     firebase.database()
       .ref('devotional_list/')
       .orderByChild('publish_date')
-      .endAt(moment(publish_date).add(1, 'days').format('YYYY-MM-DD'))
+      .startAt(date.format('YYYY-MM-DD'))
       .limitToLast(1)
       .once('value')
       .then(success)
