@@ -2,10 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import moment from 'moment';
+import * as firebase from 'firebase';
 
+import firebaseConfig from './firebase_config.js';
 import store from './store.js';
 import Routes from './Routes.jsx';
 
+
+firebase.initializeApp(firebaseConfig);
 moment.locale('es');
 
 ReactDOM.render(

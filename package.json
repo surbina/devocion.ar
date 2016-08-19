@@ -37,6 +37,7 @@
     "bootstrap-sass": "^3.3.6",
     "css-loader": "^0.23.1",
     "file-loader": "^0.8.5",
+    "firebase": "^3.3.0",
     "immutable": "^3.8.1",
     "jquery": "^3.0.0",
     "moment": "^2.14.1",
