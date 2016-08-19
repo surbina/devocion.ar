@@ -1,6 +1,7 @@
 import moment from 'moment';
 
 import { requestDevotionalSuccessAction } from '../devotional_list/actions.js';
+import { fetchCommentListAction } from '../comments/actions.js';
 
 export const LOAD_LAST_DEVOTIONAL = 'LOAD_LAST_DEVOTIONAL';
 export const LOAD_LAST_DEVOTIONAL_SUCCESS = 'LOAD_LAST_DEVOTIONAL_SUCCESS';
@@ -29,6 +30,7 @@ export function fetchLastDevotionalAction() {
 
     function success(snapshot) {
       const key = Object.keys(snapshot.val())[0];
+      dispatch(fetchCommentListAction(key));
       dispatch(loadLastDevotionalSuccessAction(snapshot.val()[key]));
       dispatch(requestDevotionalSuccessAction(snapshot.val()[key]));
     }
@@ -60,6 +62,7 @@ export function fetchNextDevotionalAction(publish_date) {
 
     function success(snapshot) {
       const key = Object.keys(snapshot.val())[0];
+      dispatch(fetchCommentListAction(key));
       dispatch(loadDevotionalAction(snapshot.val()[key].id, snapshot.val()[key].publish_date));
       dispatch(requestDevotionalSuccessAction(snapshot.val()[key]));
     }
@@ -88,6 +91,7 @@ export function fetchPreviousDevotionalAction(publish_date) {
 
     function success(snapshot) {
       const key = Object.keys(snapshot.val())[0];
+      dispatch(fetchCommentListAction(key));
       dispatch(loadDevotionalAction(snapshot.val()[key].id, snapshot.val()[key].publish_date));
       dispatch(requestDevotionalSuccessAction(snapshot.val()[key]));
     }
