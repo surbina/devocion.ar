@@ -1,12 +1,15 @@
+require('./DevotionalItem.scss');
+
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import moment from 'moment';
+import { Link } from 'react-router';
 
 export default React.createClass({
   mixins: [PureRenderMixin],
   render: function() {
     return(
-      <div className="panel panel-default">
+      <div className="panel panel-default devotional-item">
         <div className="panel-body">
           <div className="row">
             <div className="col-md-10">
@@ -20,7 +23,22 @@ export default React.createClass({
               </div>
             </div>
             <div className="col-md-2 text-right">
-              Actions!
+              <div className="dropdown action-menu">
+                <button
+                  className="btn btn-default dropdown-toggle"
+                  type="button"
+                  id={'actionMenu' + this.props.devotional.get('id')}
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="true">
+                  Acciones
+                  <span className="caret"></span>
+                </button>
+                <ul className="dropdown-menu" aria-labelledby={'actionMenu' + this.props.devotional.get('id')}>
+                  <li><Link to="/admin">Editar</Link></li>
+                  <li><Link to="/admin">Eliminar</Link></li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
