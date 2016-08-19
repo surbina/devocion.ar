@@ -11,13 +11,15 @@ import { AdminPanelContainer } from './features/admin/containers/AdminPanel.jsx'
 import { DevotionalAddContainer } from './features/admin/containers/DevotionalAdd';
 import { SignUpContainer } from './features/auth/containers/SignUp';
 import { SignInContainer } from './features/auth/containers/SignIn';
+import { ResetPasswordContainer } from './features/auth/containers/ResetPassword';
 
 import {
   SIGNING_IN_STATUS,
   VALID_USER_STATUS,
   FETCHING_USER_DATA_STATUS,
   SIGNED_USER_STATUS,
-  ANONYMOUS_USER_STATUS
+  ANONYMOUS_USER_STATUS,
+  SENDING_RESET_PASSWORD_MAIL_STATUS
 } from './reducers/user/reducer.js'
 
 const history = syncHistoryWithStore(baseHistory, store);
@@ -37,7 +39,7 @@ const UserIsNotAuthenticated = UserAuthWrapper({
   redirectAction: routerActions.replace,
   failureRedirectPath: '/',
   wrapperDisplayName: 'UserIsNotAuthenticated',
-  predicate: user => user.get('status') === ANONYMOUS_USER_STATUS || user.get('status') === SIGNING_IN_STATUS,
+  predicate: user => user.get('status') === ANONYMOUS_USER_STATUS || user.get('status') === SIGNING_IN_STATUS || user.get('status') === SENDING_RESET_PASSWORD_MAIL_STATUS,
   allowRedirectBack: false
 })
 
@@ -51,6 +53,7 @@ const routes = <Route path="/" component={AppContainer}>
     <Route path="up" component={UserIsNotAuthenticated(SignUpContainer)}/>
     <Route path="in" component={UserIsNotAuthenticated(SignInContainer)}/>
   </Route>
+  <Route path="reset-password"  component={UserIsNotAuthenticated(ResetPasswordContainer)}/>
 </Route>;
 
 export default React.createClass({

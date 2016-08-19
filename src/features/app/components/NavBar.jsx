@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router';
 import activeComponent from 'react-router-active-component';
 
 import { ANONYMOUS_USER_STATUS, SIGNED_USER_STATUS } from '../../../reducers/user/reducer.js';

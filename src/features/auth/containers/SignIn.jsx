@@ -12,7 +12,14 @@ export const SignIn = React.createClass({
   },
   render: function() {
     return(
-      <SignInForm onSignInSubmit={this.handleSignInSubmit} />
+      <section>
+        <div className="row">
+          <div className="col-md-12 text-center">
+            <h3>Ingresar</h3>
+          </div>
+        </div>
+        <SignInForm onSignInSubmit={this.handleSignInSubmit} />
+      </section>
     );
   }
 });

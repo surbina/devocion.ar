@@ -6,7 +6,8 @@ import {
   SUBMIT_NEW_USER, SUBMIT_NEW_USER_FAIL,
   SUBMIT_ADDITIONAL_USER_DATA, SUBMIT_ADDITIONAL_USER_DATA_FAIL,
   SUBMIT_SIGN_IN, SUBMIT_SIGN_IN_FAIL,
-  SUBMIT_SIGN_OUT, SUBMIT_SIGN_OUT_FAIL
+  SUBMIT_SIGN_OUT, SUBMIT_SIGN_OUT_FAIL,
+  SUBMIT_RESET_PASSWORD_MAIL, SUBMIT_RESET_PASSWORD_MAIL_SUCCESS, SUBMIT_RESET_PASSWORD_MAIL_FAIL
 } from './actions.js';
 
 /**
@@ -20,6 +21,7 @@ export const SIGNED_USER_STATUS = 'SIGNED_USER';
 export const CREATING_USER_STATUS = 'CREATING_USER';
 export const UPDATING_USER_DATA_STATUS = 'UPDATING_USER_DATA';
 export const SIGNING_OUT_STATUS = 'SIGNING_OUT';
+export const SENDING_RESET_PASSWORD_MAIL_STATUS = 'SENDING_RESET_PASSWORD_MAIL';
 
 const ANONYMOUS_USER_ID = '-1';
 const ANONYMOUS_USER_DISPLAY_NAME = 'anonymous';
@@ -64,6 +66,12 @@ export function user (state = Map({
       return submitSignOut(state);
     case SUBMIT_SIGN_OUT_FAIL:
       return submitSignOutFail(state);
+    case SUBMIT_RESET_PASSWORD_MAIL:
+      return submitResetPasswordMail(state);
+    case SUBMIT_RESET_PASSWORD_MAIL_SUCCESS:
+      return submitResetPasswordMailSuccess(state);
+    case SUBMIT_RESET_PASSWORD_MAIL_FAIL:
+      return submitResetPasswordMailFail(state);
     default:
       return state;
   }
@@ -164,5 +172,23 @@ function submitSignOut(state) {
 function submitSignOutFail(state) {
   return state.merge({
     status: SIGNED_USER_STATUS
+  });
+}
+
+function submitResetPasswordMail(state) {
+  return state.merge({
+    status: SENDING_RESET_PASSWORD_MAIL_STATUS
+  });
+}
+
+function submitResetPasswordMailSuccess(state) {
+  return state.merge({
+    status: ANONYMOUS_USER_STATUS
+  });
+}
+
+function submitResetPasswordMailFail(state) {
+  return state.merge({
+    status: ANONYMOUS_USER_STATUS
   });
 }

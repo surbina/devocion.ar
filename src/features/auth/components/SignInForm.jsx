@@ -1,6 +1,9 @@
+require('./SignInForm.scss');
+
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import { Map } from 'immutable';
+import { Link } from 'react-router';
 
 export default React.createClass({
   mixins: [PureRenderMixin],
@@ -31,7 +34,7 @@ export default React.createClass({
   },
   render: function() {
     return(
-      <form className="form-horizontal" onSubmit={this.handleSubmit}>
+      <form className="form-horizontal sign-in-form" onSubmit={this.handleSubmit}>
         <div className="form-group">
           <div className="col-sm-offset-4 col-sm-4">
             <input
@@ -58,7 +61,10 @@ export default React.createClass({
         </div>
         <div className="form-group">
           <div className="col-sm-offset-5 col-sm-2">
-            <button type="submit" className="btn btn-default btn-block">Ingresar</button>
+            <button type="submit" className="btn btn-default btn-block btn-submit">Ingresar</button>
+          </div>
+          <div className="col-sm-offset-4 col-sm-4 text-center">
+            <Link to="/reset-password">¿Olvidaste tu contraseña?</Link>
           </div>
         </div>
       </form>

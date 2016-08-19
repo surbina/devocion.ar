@@ -1,3 +1,5 @@
+import * as firebase from 'firebase';
+
 export const SET_CURRENT_USER = 'SET_CURRENT_USER';
 export const UNSET_CURRENT_USER = 'UNSET_CURRENT_USER';
 export const SET_ADDITIONAL_USER_DATA = 'SET_ADDITIONAL_USER_DATA';
@@ -16,6 +18,10 @@ export const SUBMIT_SIGN_IN_FAIL = 'SUBMIT_SIGN_IN_FAIL';
 
 export const SUBMIT_SIGN_OUT = 'SUBMIT_SIGN_OUT';
 export const SUBMIT_SIGN_OUT_FAIL = 'SUBMIT_SIGN_OUT_FAIL';
+
+export const SUBMIT_RESET_PASSWORD_MAIL = 'SUBMIT_RESET_PASSWORD_MAIL';
+export const SUBMIT_RESET_PASSWORD_MAIL_SUCCESS = 'SUBMIT_RESET_PASSWORD_MAIL_SUCCESS';
+export const SUBMIT_RESET_PASSWORD_MAIL_FAIL = 'SUBMIT_RESET_PASSWORD_MAIL_FAIL';
 
 export function retrieveCurrentUserAction() {
   return function(dispatch) {
@@ -149,6 +155,28 @@ export function signOutAction() {
   };
 }
 
+export function sendResetPasswordMailAction(email) {
+  return function(dispatch) {
+    dispatch(submitResetPasswordMailAction(email));
+
+    firebase.auth()
+      .sendPasswordResetEmail(email)
+      .then(success)
+      .catch(error);
+
+    function success() {
+      dispatch(submitResetPasswordMailActionSuccess());
+    }
+
+    function error(error) {
+      dispatch(submitResetPasswordMailActionFail({
+        code: error.code,
+        message: error.message
+      }));
+    }
+  };
+}
+
 export function setCurrentUserAction(user) {
   return {
     type: SET_CURRENT_USER,
@@ -234,5 +262,25 @@ export function submitSignOutAction() {
 export function submitSignOutFailAction() {
   return {
     type: SUBMIT_SIGN_OUT_FAIL
+  };
+}
+
+export function submitResetPasswordMailAction(email) {
+  return {
+    type: SUBMIT_RESET_PASSWORD_MAIL,
+    email
+  };
+}
+
+export function submitResetPasswordMailActionSuccess() {
+  return {
+    type: SUBMIT_RESET_PASSWORD_MAIL_SUCCESS
+  };
+}
+
+export function submitResetPasswordMailActionFail(error) {
+  return {
+    type: SUBMIT_RESET_PASSWORD_MAIL_FAIL,
+    error
   };
 }
