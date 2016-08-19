@@ -12,7 +12,14 @@ export const DevotionalAdd = React.createClass({
   },
   render: function() {
     return(
-      <DevotionalForm onDevotionalSubmit={this.handleDevotionalSubmit} user={this.props.user}/>
+      <section>
+        <div className="row">
+          <div className="col-md-12 text-center">
+            <h3>Nuevo devocional</h3>
+          </div>
+        </div>
+        <DevotionalForm onDevotionalSubmit={this.handleDevotionalSubmit} user={this.props.user}/>
+      </section>
     );
   }
 });

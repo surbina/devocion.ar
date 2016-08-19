@@ -1,3 +1,5 @@
+require('./DevotionalForm.scss');
+
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import DatePicker from 'react-bootstrap-date-picker';
@@ -43,10 +45,10 @@ export default React.createClass({
   },
   render: function() {
     return(
-      <form className="form-horizontal" onSubmit={this.handleSubmit}>
+      <form className="form-horizontal devotional-form" onSubmit={this.handleSubmit}>
         <div className="form-group">
-          <label for="inputTitle" className="col-sm-1 control-label">Título</label>
-          <div className="col-sm-5">
+          <label htmlFor="inputTitle" className="col-sm-1 control-label">Título</label>
+          <div className="col-sm-3">
             <input
               type="text"
               placeholder="Título"
@@ -56,11 +58,9 @@ export default React.createClass({
               onChange={this.handleTitleChange}
             />
           </div>
-        </div>
 
-        <div className="form-group">
-          <label for="inputPassage" className="col-sm-1 control-label">Pasaje</label>
-          <div className="col-sm-5">
+          <label htmlFor="inputPassage" className="col-sm-1 control-label">Pasaje</label>
+          <div className="col-sm-3">
             <input
               type="text"
               placeholder="Pasaje"
@@ -71,14 +71,14 @@ export default React.createClass({
             />
           </div>
 
-          <label for="inputPassage" className="col-sm-2 control-label">Fecha de publicación</label>
-          <div className="col-sm-4">
+          <label htmlFor="inputPassage" className="col-sm-2 control-label">Fecha de publicación</label>
+          <div className="col-sm-2">
             <DatePicker value={this.state.publish_date} onChange={this.handlePublishDateChange}/>
           </div>
         </div>
 
         <div className="form-group">
-          <label for="textBody" className="col-sm-1 control-label">Contenido</label>
+          <label htmlFor="textBody" className="col-sm-1 control-label">Contenido</label>
           <div className="col-sm-11">
             <textarea
               className="form-control"

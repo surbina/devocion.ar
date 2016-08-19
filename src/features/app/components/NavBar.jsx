@@ -42,8 +42,6 @@ export default React.createClass({
                 <li className="dropdown">
                   <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{this.props.user.get('user_first_name')} <span className="caret"></span></a>
                   <ul className="dropdown-menu">
-                    <li><a href="#">Editar perfil</a></li>
-                    <li role="separator" className="divider"></li>
                     <li><a href="#" onClick={this.handleSignOut}>Salir</a></li>
                   </ul>
                 </li>
