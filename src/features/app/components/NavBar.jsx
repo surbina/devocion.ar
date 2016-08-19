@@ -28,7 +28,9 @@ export default React.createClass({
           <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul className="nav navbar-nav">
               <NavItem to="/" onlyActiveOnIndex>Inicio</NavItem>
-              <NavItem to="/admin">Administrador</NavItem>
+              {this.props.user.get('is_admin') ?
+                <NavItem to="/admin">Administrador</NavItem> :
+                false}
             </ul>
             {this.props.user.get('status') === ANONYMOUS_USER_STATUS ?
               <ul className="nav navbar-nav navbar-right">

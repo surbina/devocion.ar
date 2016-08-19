@@ -1,10 +1,12 @@
+require('./AdminPanel.scss');
+
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import {connect} from 'react-redux';
 import { Link } from 'react-router';
-import { fromJS } from 'immutable';
+import { Map } from 'immutable';
 
-import DevotionalList from './../components/DevotionalList.jsx';
+import DevotionalItem from './../components/DevotionalItem.jsx';
 
 import { fetchDevotionalListAction } from './../../../reducers/devotional_list/actions.js';
 
@@ -13,20 +15,30 @@ export const AdminPanel = React.createClass({
   componentDidMount: function() {
     this.props.dispatch(fetchDevotionalListAction());
   },
+  getDevotionals: function() {
+    return this.props.devotionals || Map();
+  },
   render: function() {
     return(
-      <div>
-        <section className="row">
-          <div className="col-md-12">
-            <Link to="/admin/devotional/add" className="btn btn-default">Nuevo devocional</Link>
+      <section className="admin-panel">
+        <div className="row">
+          <div className="col-md-12 text-center">
+            <h3>Administrar devocionales</h3>
           </div>
-        </section>
-        <section className="row">
-          <div className="col-md-12">
-            <DevotionalList devotionals={this.props.devotionals} />
+        </div>
+        <div className="row">
+          <div className="col-md-12 text-right">
+            <Link to="/admin/devotional/add" className="btn btn-default action-button">Nuevo devocional</Link>
           </div>
-        </section>
-      </div>
+        </div>
+        <div className="row">
+          <div className="col-md-12">
+            {this.getDevotionals().valueSeq().map(devotional =>
+              <DevotionalItem key={devotional.get('id')} devotional={devotional}></DevotionalItem>
+            )}
+          </div>
+        </div>
+      </section>
     );
   }
 });
