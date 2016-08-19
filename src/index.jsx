@@ -8,7 +8,6 @@ import firebaseConfig from './firebase_config.js';
 import store from './store.js';
 import Routes from './Routes.jsx';
 
-
 firebase.initializeApp(firebaseConfig);
 moment.locale('es');
 

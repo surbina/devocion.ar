@@ -12,27 +12,44 @@ import { DevotionalAddContainer } from './features/admin/containers/DevotionalAd
 import { SignUpContainer } from './features/auth/containers/SignUp';
 import { SignInContainer } from './features/auth/containers/SignIn';
 
-import { SIGNED_USER_STATUS } from './reducers/user/reducer.js'
+import {
+  SIGNING_IN_STATUS,
+  VALID_USER_STATUS,
+  FETCHING_USER_DATA_STATUS,
+  SIGNED_USER_STATUS,
+  ANONYMOUS_USER_STATUS
+} from './reducers/user/reducer.js'
 
 const history = syncHistoryWithStore(baseHistory, store);
 
-const UserIsAuthenticated = UserAuthWrapper({
+const UserIsAdmin = UserAuthWrapper({
+  authSelector: state => state.user,
+  authenticatingSelector: state => state.user.get('status') === SIGNING_IN_STATUS || state.user.get('status') === VALID_USER_STATUS || state.user.get('status') === FETCHING_USER_DATA_STATUS,
+  redirectAction: routerActions.replace,
+  failureRedirectPath: '/',
+  wrapperDisplayName: 'UserIsAdmin',
+  predicate: user => user.get('status') === SIGNED_USER_STATUS && user.get('is_admin'),
+  allowRedirectBack: false
+})
+
+const UserIsNotAuthenticated = UserAuthWrapper({
   authSelector: state => state.user,
   redirectAction: routerActions.replace,
-  failureRedirectPath: '/sign/in',
-  wrapperDisplayName: 'UserIsAuthenticated',
-  predicate: user => user.get('status') === SIGNED_USER_STATUS
+  failureRedirectPath: '/',
+  wrapperDisplayName: 'UserIsNotAuthenticated',
+  predicate: user => user.get('status') === ANONYMOUS_USER_STATUS || user.get('status') === SIGNING_IN_STATUS,
+  allowRedirectBack: false
 })
 
 const routes = <Route path="/" component={AppContainer}>
   <IndexRoute component={DevotionalContainer}/>
   <Route path="admin">
-    <IndexRoute component={UserIsAuthenticated(AdminPanelContainer)}/>
-    <Route path="devotional/add" component={UserIsAuthenticated(DevotionalAddContainer)}></Route>
+    <IndexRoute component={UserIsAdmin(AdminPanelContainer)}/>
+    <Route path="devotional/add" component={UserIsAdmin(DevotionalAddContainer)}></Route>
   </Route>
   <Route path="sign">
-    <Route path="up" component={SignUpContainer}/>
-    <Route path="in" component={SignInContainer}/>
+    <Route path="up" component={UserIsNotAuthenticated(SignUpContainer)}/>
+    <Route path="in" component={UserIsNotAuthenticated(SignInContainer)}/>
   </Route>
 </Route>;
 

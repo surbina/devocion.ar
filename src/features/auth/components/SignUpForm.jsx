@@ -47,7 +47,7 @@ export default React.createClass({
     return(
       <form className="form-horizontal" onSubmit={this.handleSubmit}>
         <div className="form-group">
-          <label for="inputFirstName" className="col-sm-2 control-label">Nombre</label>
+          <label htmlFor="inputFirstName" className="col-sm-2 control-label">Nombre</label>
           <div className="col-sm-9">
             <input
               type="text"
@@ -60,7 +60,7 @@ export default React.createClass({
           </div>
         </div>
         <div className="form-group">
-          <label for="inputLastName" className="col-sm-2 control-label">Apellido</label>
+          <label htmlFor="inputLastName" className="col-sm-2 control-label">Apellido</label>
           <div className="col-sm-9">
             <input
               type="text"
@@ -73,7 +73,7 @@ export default React.createClass({
           </div>
         </div>
         <div className="form-group">
-          <label for="inputEmail" className="col-sm-2 control-label">Email</label>
+          <label htmlFor="inputEmail" className="col-sm-2 control-label">Email</label>
           <div className="col-sm-9">
             <input
               type="email"
@@ -86,7 +86,7 @@ export default React.createClass({
           </div>
         </div>
         <div className="form-group">
-          <label for="inputPassword" className="col-sm-2 control-label">Contraseña</label>
+          <label htmlFor="inputPassword" className="col-sm-2 control-label">Contraseña</label>
           <div className="col-sm-9">
             <input
               type="password"
@@ -99,7 +99,7 @@ export default React.createClass({
           </div>
         </div>
         <div className="form-group">
-          <label for="inputConfirmPassword" className="col-sm-2 control-label">Confirmar contraseña</label>
+          <label htmlFor="inputConfirmPassword" className="col-sm-2 control-label">Confirmar contraseña</label>
           <div className="col-sm-9">
             <input
               type="password"
