@@ -9,6 +9,7 @@ import { AppContainer } from './features/app/containers/App';
 import { DevotionalContainer } from './features/devotional-view/containers/Devotional';
 import { AdminPanelContainer } from './features/admin/containers/AdminPanel.jsx';
 import { DevotionalAddContainer } from './features/admin/containers/DevotionalAdd';
+import { DevotionalEditContainer } from './features/admin/containers/DevotionalEdit';
 import { SignUpContainer } from './features/auth/containers/SignUp';
 import { SignInContainer } from './features/auth/containers/SignIn';
 import { ResetPasswordContainer } from './features/auth/containers/ResetPassword';
@@ -47,7 +48,10 @@ const routes = <Route path="/" component={AppContainer}>
   <IndexRoute component={DevotionalContainer}/>
   <Route path="admin">
     <IndexRoute component={UserIsAdmin(AdminPanelContainer)}/>
-    <Route path="devotional/add" component={UserIsAdmin(DevotionalAddContainer)}></Route>
+    <Route path="devotional">
+      <Route path="add" component={UserIsAdmin(DevotionalAddContainer)}></Route>
+      <Route path="edit/:devotionalPublishDate" component={UserIsAdmin(DevotionalEditContainer)}></Route>
+    </Route>
   </Route>
   <Route path="sign">
     <Route path="up" component={UserIsNotAuthenticated(SignUpContainer)}/>

@@ -2,7 +2,8 @@ import { Map, fromJS } from 'immutable';
 import {
   REQUEST_DEVOTIONAL, REQUEST_DEVOTIONAL_SUCCESS, REQUEST_DEVOTIONAL_FAIL,
   SUBMIT_DEVOTIONAL_ADD, SUBMIT_DEVOTIONAL_ADD_SUCCESS, SUBMIT_DEVOTIONAL_ADD_FAIL,
-  REQUEST_DEVOTIONAL_LIST, REQUEST_DEVOTIONAL_LIST_SUCCESS, REQUEST_DEVOTIONAL_LIST_FAIL
+  REQUEST_DEVOTIONAL_LIST, REQUEST_DEVOTIONAL_LIST_SUCCESS, REQUEST_DEVOTIONAL_LIST_FAIL,
+  SUBMIT_DEVOTIONAL_EDIT, SUBMIT_DEVOTIONAL_EDIT_SUCCESS, SUBMIT_DEVOTIONAL_EDIT_FAIL
 } from './actions.js';
 
 export const FETCHING_STATUS = 'FETCHING';
@@ -26,6 +27,10 @@ export default function(state = Map({fetching_list: false}), action) {
       return submitDevotionalAdd(state, action.devotional);
     case SUBMIT_DEVOTIONAL_ADD_SUCCESS:
       return submitDevotionalAddSuccess(state, action.devotional, action.oldId);
+    case SUBMIT_DEVOTIONAL_EDIT:
+      return submitDevotionalEdit(state, action.devotional);
+    case SUBMIT_DEVOTIONAL_EDIT_SUCCESS:
+      return submitDevotionalEditSuccess(state, action.devotional);
     default:
       return state;
   }
@@ -113,6 +118,31 @@ function submitDevotionalAddSuccess(state, devotional, oldId) {
       author_id: devotional.author_id,
       publish_date: devotional.publish_date,
       creation_date: devotional.creation_date
+    }
+  })
+}
+
+function submitDevotionalEdit(state, devotional) {
+  return state.merge({
+    [devotional.publish_date]: {
+      id: devotional.id,
+      status: SUBMITTING_STATUS,
+      valid: true,
+      title: devotional.title,
+      passage: devotional.passage,
+      body: devotional.body,
+      author_name: devotional.author_name,
+      author_id: devotional.author_id,
+      publish_date: devotional.publish_date,
+      creation_date: devotional.creation_date
+    }
+  });
+}
+
+function submitDevotionalEditSuccess(state, devotional) {
+  return state.merge({
+    [devotional.publish_date]: {
+      status: LOADED_STATUS,
     }
   })
 }

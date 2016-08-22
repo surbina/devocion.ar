@@ -30,7 +30,7 @@ const ANONYMOUS_USER_LAST_NAME = '';
 const ANONYMOUS_USER_EMAIL = '';
 const ANONYMOUS_USER_ADMIN = false;
 
-export function user (state = Map({
+export default function user (state = Map({
   user_id: ANONYMOUS_USER_ID,
   user_display_name: ANONYMOUS_USER_DISPLAY_NAME,
   user_first_name: ANONYMOUS_USER_FIRST_NAME,

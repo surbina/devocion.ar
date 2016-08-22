@@ -10,6 +10,10 @@ export const SUBMIT_DEVOTIONAL_ADD = 'SUBMIT_DEVOTIONAL_ADD';
 export const SUBMIT_DEVOTIONAL_ADD_SUCCESS = 'SUBMIT_DEVOTIONAL_ADD_SUCCESS';
 export const SUBMIT_DEVOTIONAL_ADD_FAIL = 'SUBMIT_DEVOTIONAL_ADD_FAIL';
 
+export const SUBMIT_DEVOTIONAL_EDIT = 'SUBMIT_DEVOTIONAL_EDIT';
+export const SUBMIT_DEVOTIONAL_EDIT_SUCCESS = 'SUBMIT_DEVOTIONAL_EDIT_SUCCESS';
+export const SUBMIT_DEVOTIONAL_EDIT_FAIL = 'SUBMIT_DEVOTIONAL_EDIT_FAIL';
+
 export function fetchDevotionalAction(publish_date) {
   return function (dispatch) {
     dispatch(requestDevotionalAction(publish_date));
@@ -24,7 +28,15 @@ export function fetchDevotionalAction(publish_date) {
       .catch(error);
 
     function success(snapshot) {
-      dispatch(requestDevotionalSuccessAction(snapshot.val()));
+      const key = Object.keys(snapshot.val())[0];
+      dispatch(requestDevotionalSuccessAction(snapshot.val()[key]));
+    }
+
+    function error(error) {
+      dispatch(requestDevotionalFailAction({
+        code: error.code,
+        message: error.message
+      }));
     }
   };
 }
@@ -70,6 +82,29 @@ export function postDevotionalAction(devotional) {
   };
 }
 
+export function putDevotionalAction(devotional) {
+  return function (dispatch) {
+    dispatch(submitDevotionalEditAction(devotional));
+
+    firebase.database()
+      .ref('devotional_list/' + devotional.id)
+      .set(devotional)
+      .then(success)
+      .catch(error);
+
+    function success() {
+      dispatch(submitDevotionalEditSuccessAction(devotional));
+    }
+
+    function error(error) {
+      dispatch(submitDevotionalEditFailAction({
+        code: error.code,
+        message: error.message
+      }));
+    }
+  };
+}
+
 export function requestDevotionalAction(publish_date) {
   return {
     type: REQUEST_DEVOTIONAL,
@@ -84,10 +119,10 @@ export function requestDevotionalSuccessAction(devotional) {
   };
 }
 
-export function requestDevotionalFailAction(publish_date) {
+export function requestDevotionalFailAction(error) {
   return {
     type: REQUEST_DEVOTIONAL_FAIL,
-    publish_date
+    error
   };
 }
 
@@ -128,6 +163,28 @@ export function submitDevotionalAddSuccessAction(devotional, oldId) {
 export function submitDevotionalAddFailAction(error) {
   return {
     type: SUBMIT_DEVOTIONAL_ADD_FAIL,
+    error
+  };
+}
+
+export function submitDevotionalEditAction(devotional) {
+  return {
+    type: SUBMIT_DEVOTIONAL_EDIT,
+    devotional
+  };
+}
+
+export function submitDevotionalEditSuccessAction(devotional) {
+  return {
+    type: SUBMIT_DEVOTIONAL_EDIT_SUCCESS,
+    devotional,
+    oldId
+  };
+}
+
+export function submitDevotionalEditFailAction(error) {
+  return {
+    type: SUBMIT_DEVOTIONAL_EDIT_FAIL,
     error
   };
 }

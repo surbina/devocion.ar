@@ -35,7 +35,7 @@ export default React.createClass({
                   <span className="caret"></span>
                 </button>
                 <ul className="dropdown-menu" aria-labelledby={'actionMenu' + this.props.devotional.get('id')}>
-                  <li><Link to="/admin">Editar</Link></li>
+                  <li><Link to={"/admin/devotional/edit/" + this.props.devotional.get('publish_date')}>Editar</Link></li>
                   <li><Link to="/admin">Eliminar</Link></li>
                 </ul>
               </div>

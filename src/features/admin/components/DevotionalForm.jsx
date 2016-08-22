@@ -3,6 +3,7 @@ require('./DevotionalForm.scss');
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import DatePicker from 'react-bootstrap-date-picker';
+import Datetime  from 'react-datetime';
 import moment from 'moment';
 
 export default React.createClass({
@@ -12,7 +13,7 @@ export default React.createClass({
       title: this.props.model.title,
       passage: this.props.model.passage,
       body: this.props.model.body,
-      publish_date: this.props.model.publish_date
+      publish_date: this.props.model.publish_date ? moment(this.props.model.publish_date) : ''
     };
   },
   handleTitleChange: function(e) {
@@ -25,7 +26,7 @@ export default React.createClass({
     this.setState({body: e.target.value});
   },
   handlePublishDateChange: function(e) {
-    this.setState({publish_date: moment(e).format('YYYY-MM-DD')});
+    this.setState({publish_date: e});
   },
   handleSubmit: function(e) {
     e.preventDefault();
@@ -41,7 +42,7 @@ export default React.createClass({
       id: this.props.model.id,
       title: title,
       passage: passage,
-      publish_date: publish_date,
+      publish_date: publish_date.format('YYYY-MM-DD'),
       body: body,
       author_name: this.props.model.author_name ?
         this.props.model.author_name :
@@ -86,7 +87,13 @@ export default React.createClass({
 
           <label htmlFor="inputPassage" className="col-sm-2 control-label">Fecha de publicación</label>
           <div className="col-sm-2">
-            <DatePicker value={this.state.publish_date} onChange={this.handlePublishDateChange}/>
+            <Datetime
+              value={this.state.publish_date}
+              onChange={this.handlePublishDateChange}
+              dateFormat="DD/MM/YYYY"
+              timeFormat={false}
+              closeOnSelect={true}
+              inputProps={{placeholder: 'Fecha de publicación'}}/>
           </div>
         </div>
 
