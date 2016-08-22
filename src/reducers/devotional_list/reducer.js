@@ -25,7 +25,7 @@ export default function(state = Map({fetching_list: false}), action) {
     case SUBMIT_DEVOTIONAL:
       return submitDevotional(state, action.devotional);
     case SUBMIT_DEVOTIONAL_SUCCESS:
-      return submitDevotionalSuccess(state, action.devotional);
+      return submitDevotionalSuccess(state, action.devotional, action.oldId);
     default:
       return state;
   }
@@ -100,8 +100,8 @@ function submitDevotional(state, devotional) {
   });
 }
 
-function submitDevotionalSuccess(state, devotional) {
-  return state.delete('-1').merge({
+function submitDevotionalSuccess(state, devotional, oldId) {
+  return state.delete(oldId).merge({
     [devotional.publish_date]: {
       id: devotional.id,
       status: LOADED_STATUS,

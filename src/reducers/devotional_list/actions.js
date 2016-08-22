@@ -45,7 +45,7 @@ export function fetchDevotionalListAction() {
 
 export function postDevotionalAction(devotional) {
   return function (dispatch) {
-    devotional.id = '-1';
+    const oldId = devotional.id;
     dispatch(submitDevotionalAction(devotional));
 
     const ref = firebase.database().ref('devotional_list/').push();
@@ -57,7 +57,7 @@ export function postDevotionalAction(devotional) {
       .catch(error);
 
     function success() {
-      dispatch(submitDevotionalSuccessAction(devotional));
+      dispatch(submitDevotionalSuccessAction(devotional, oldId));
     }
 
     function error(error) {
@@ -116,10 +116,11 @@ export function submitDevotionalAction(devotional) {
   };
 }
 
-export function submitDevotionalSuccessAction(devotional) {
+export function submitDevotionalSuccessAction(devotional, oldId) {
   return {
     type: SUBMIT_DEVOTIONAL_SUCCESS,
-    devotional
+    devotional,
+    oldId
   };
 }
 

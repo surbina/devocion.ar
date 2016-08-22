@@ -3,7 +3,7 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import {connect} from 'react-redux';
 import DevotionalForm from './../components/DevotionalForm.jsx';
 
-import { fetchDevotionalListAction } from './../../../reducers/devotional_list/actions.js';
+import { postDevotionalAction } from './../../../reducers/devotional_list/actions.js';
 
 export const DevotionalAdd = React.createClass({
   mixins: [PureRenderMixin],
@@ -11,6 +11,17 @@ export const DevotionalAdd = React.createClass({
     this.props.dispatch(postDevotionalAction(devotional));
   },
   render: function() {
+    const devotionalModel = {
+      id: '-1',
+      title: '',
+      passage: '',
+      publish_date: '',
+      body: '',
+      author_name: '',
+      author_id: '',
+      creation_date: ''
+    };
+
     return(
       <section>
         <div className="row">
@@ -18,7 +29,10 @@ export const DevotionalAdd = React.createClass({
             <h3>Nuevo devocional</h3>
           </div>
         </div>
-        <DevotionalForm onDevotionalSubmit={this.handleDevotionalSubmit} user={this.props.user}/>
+        <DevotionalForm
+          model={devotionalModel}
+          user={this.props.user}
+          onDevotionalSubmit={this.handleDevotionalSubmit} />
       </section>
     );
   }

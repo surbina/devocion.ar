@@ -8,7 +8,12 @@ import moment from 'moment';
 export default React.createClass({
   mixins: [PureRenderMixin],
   getInitialState: function() {
-    return {title: '', passage: '', body: '', publish_date: ''};
+    return {
+      title: this.props.model.title,
+      passage: this.props.model.passage,
+      body: this.props.model.body,
+      publish_date: this.props.model.publish_date
+    };
   },
   handleTitleChange: function(e) {
     this.setState({title: e.target.value});
@@ -33,14 +38,22 @@ export default React.createClass({
     }
 
     this.props.onDevotionalSubmit({
+      id: this.props.model.id,
       title: title,
       passage: passage,
       publish_date: publish_date,
       body: body,
-      author_name: this.props.user.get('user_first_name') + ' ' + this.props.user.get('user_last_name'),
-      author_id: this.props.user.get('user_id'),
-      creation_date: moment().toISOString()
+      author_name: this.props.model.author_name ?
+        this.props.model.author_name :
+        this.props.user.get('user_first_name') + ' ' + this.props.user.get('user_last_name'),
+      author_id: this.props.model.author_id ?
+        this.props.model.author_id :
+        this.props.user.get('user_id'),
+      creation_date: this.props.creation_date ?
+        this.props.creation_date :
+        moment().toISOString()
     });
+
     this.setState({title: '', passage: '', body: '', publish_date: ''});
   },
   render: function() {
