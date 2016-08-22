@@ -1,7 +1,7 @@
 import { Map, fromJS } from 'immutable';
 import {
   REQUEST_DEVOTIONAL, REQUEST_DEVOTIONAL_SUCCESS, REQUEST_DEVOTIONAL_FAIL,
-  SUBMIT_DEVOTIONAL, SUBMIT_DEVOTIONAL_SUCCESS, SUBMIT_DEVOTIONAL_FAIL,
+  SUBMIT_DEVOTIONAL_ADD, SUBMIT_DEVOTIONAL_ADD_SUCCESS, SUBMIT_DEVOTIONAL_ADD_FAIL,
   REQUEST_DEVOTIONAL_LIST, REQUEST_DEVOTIONAL_LIST_SUCCESS, REQUEST_DEVOTIONAL_LIST_FAIL
 } from './actions.js';
 
@@ -22,10 +22,10 @@ export default function(state = Map({fetching_list: false}), action) {
       return requestDevotionalList(state);
     case REQUEST_DEVOTIONAL_LIST_SUCCESS:
       return requestDevotionalListSuccess(state, action.devotionalList);
-    case SUBMIT_DEVOTIONAL:
-      return submitDevotional(state, action.devotional);
-    case SUBMIT_DEVOTIONAL_SUCCESS:
-      return submitDevotionalSuccess(state, action.devotional, action.oldId);
+    case SUBMIT_DEVOTIONAL_ADD:
+      return submitDevotionalAdd(state, action.devotional);
+    case SUBMIT_DEVOTIONAL_ADD_SUCCESS:
+      return submitDevotionalAddSuccess(state, action.devotional, action.oldId);
     default:
       return state;
   }
@@ -83,7 +83,7 @@ function requestDevotionalListSuccess(state, devotionalList) {
     .merge(devsList);
 }
 
-function submitDevotional(state, devotional) {
+function submitDevotionalAdd(state, devotional) {
   return state.merge({
     [devotional.publish_date]: {
       id: devotional.id,
@@ -100,7 +100,7 @@ function submitDevotional(state, devotional) {
   });
 }
 
-function submitDevotionalSuccess(state, devotional, oldId) {
+function submitDevotionalAddSuccess(state, devotional, oldId) {
   return state.delete(oldId).merge({
     [devotional.publish_date]: {
       id: devotional.id,

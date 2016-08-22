@@ -6,9 +6,9 @@ export const REQUEST_DEVOTIONAL_LIST = 'REQUEST_DEVOTIONAL_LIST';
 export const REQUEST_DEVOTIONAL_LIST_SUCCESS = 'REQUEST_DEVOTIONAL_LIST_SUCCESS';
 export const REQUEST_DEVOTIONAL_LIST_FAIL = 'REQUEST_DEVOTIONAL_LIST_FAIL';
 
-export const SUBMIT_DEVOTIONAL = 'SUBMIT_DEVOTIONAL';
-export const SUBMIT_DEVOTIONAL_SUCCESS = 'SUBMIT_DEVOTIONAL_SUCCESS';
-export const SUBMIT_DEVOTIONAL_FAIL = 'SUBMIT_DEVOTIONAL_FAIL';
+export const SUBMIT_DEVOTIONAL_ADD = 'SUBMIT_DEVOTIONAL_ADD';
+export const SUBMIT_DEVOTIONAL_ADD_SUCCESS = 'SUBMIT_DEVOTIONAL_ADD_SUCCESS';
+export const SUBMIT_DEVOTIONAL_ADD_FAIL = 'SUBMIT_DEVOTIONAL_ADD_FAIL';
 
 export function fetchDevotionalAction(publish_date) {
   return function (dispatch) {
@@ -34,6 +34,7 @@ export function fetchDevotionalListAction() {
     dispatch(requestDevotionalListAction());
 
     firebase.database().ref('devotional_list/')
+      .orderByKey()
       .once('value')
       .then(success);
 
@@ -46,7 +47,7 @@ export function fetchDevotionalListAction() {
 export function postDevotionalAction(devotional) {
   return function (dispatch) {
     const oldId = devotional.id;
-    dispatch(submitDevotionalAction(devotional));
+    dispatch(submitDevotionalAddAction(devotional));
 
     const ref = firebase.database().ref('devotional_list/').push();
     devotional.id = ref.key;
@@ -57,11 +58,11 @@ export function postDevotionalAction(devotional) {
       .catch(error);
 
     function success() {
-      dispatch(submitDevotionalSuccessAction(devotional, oldId));
+      dispatch(submitDevotionalAddSuccessAction(devotional, oldId));
     }
 
     function error(error) {
-      dispatch(submitDevotionalFailAction({
+      dispatch(submitDevotionalAddFailAction({
         code: error.code,
         message: error.message
       }));
@@ -109,24 +110,24 @@ export function requestDevotionalListFailAction() {
   };
 }
 
-export function submitDevotionalAction(devotional) {
+export function submitDevotionalAddAction(devotional) {
   return {
-    type: SUBMIT_DEVOTIONAL,
+    type: SUBMIT_DEVOTIONAL_ADD,
     devotional
   };
 }
 
-export function submitDevotionalSuccessAction(devotional, oldId) {
+export function submitDevotionalAddSuccessAction(devotional, oldId) {
   return {
-    type: SUBMIT_DEVOTIONAL_SUCCESS,
+    type: SUBMIT_DEVOTIONAL_ADD_SUCCESS,
     devotional,
     oldId
   };
 }
 
-export function submitDevotionalFailAction(error) {
+export function submitDevotionalAddFailAction(error) {
   return {
-    type: SUBMIT_DEVOTIONAL_FAIL,
+    type: SUBMIT_DEVOTIONAL_ADD_FAIL,
     error
   };
 }
