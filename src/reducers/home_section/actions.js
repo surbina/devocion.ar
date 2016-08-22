@@ -55,7 +55,7 @@ export function fetchNextDevotionalAction(publish_date) {
       .ref('devotional_list/')
       .orderByChild('publish_date')
       .startAt(date.format('YYYY-MM-DD'))
-      .limitToLast(1)
+      .limitToFirst(1)
       .once('value')
       .then(success)
       .catch(error);
