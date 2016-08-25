@@ -1,3 +1,5 @@
+require('./CommentForm.scss');
+
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import moment from 'moment';
@@ -29,22 +31,23 @@ export default React.createClass({
   },
   render: function() {
     return(
-      <form className="form-horizontal" onSubmit={this.handleSubmit}>
+      <form className="form-horizontal comment-form" onSubmit={this.handleSubmit}>
         <div className="form-group">
           <div className="col-sm-12">
-            <input
-              type="text"
-              className="form-control"
+            <textarea
+              className="form-control vresize"
               id="content"
-              placeholder="Comentario"
+              rows="4"
+              placeholder="Comentario ..."
               value={this.state.comment_body}
               onChange={this.handleCommentBodyChange}
-            />
+            >
+            </textarea>
           </div>
         </div>
         <div className="form-group">
-          <div className="col-sm-offset-2 col-sm-10">
-            <button type="submit" className="btn btn-default pull-right">Comentar</button>
+          <div className="col-sm-offset-5 col-sm-2">
+            <button type="submit" className="btn btn-default btn-block">Comentar</button>
           </div>
         </div>
       </form>

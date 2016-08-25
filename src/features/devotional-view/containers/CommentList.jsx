@@ -15,11 +15,13 @@ export const CommentList = React.createClass({
   render: function() {
     return(
       this.props.comments === undefined ?
-        <p>Cargando comentarios</p> :
+        <p className="text-center">Cargando comentarios</p> :
         <div>
-          {this.getComments().valueSeq().map(comment => 
-            <Comment key={comment.get('id')} comment={comment} />
-          )}
+          {this.getComments().size > 0 ?
+            this.getComments().valueSeq().map(comment => 
+              <Comment key={comment.get('id')} comment={comment} />
+            ):
+            <p className="text-center">Todavía no han comentado este devocional.</p>}
         </div>
     );
   }

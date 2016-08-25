@@ -1,8 +1,10 @@
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 
 import { postCommentAction } from '../../../reducers/comments/actions.js';
+import { SIGNED_USER_STATUS } from '../../../reducers/user/reducer.js';
 
 import CommentForm from '../components/CommentForm.jsx';
 import { CommentListContainer } from './CommentList.jsx';
@@ -17,11 +19,15 @@ export const DevotionalComment = React.createClass({
       this.props.devotional === undefined ?
         false :
         <section>
-          <CommentForm
-            devotionalId={this.props.devotional.get('id')}
-            user={this.props.user}
-            onCommentSubmit={this.handleCommentSubmit}
-          />
+          {this.props.user.get('status') === SIGNED_USER_STATUS ?
+            <CommentForm
+              devotionalId={this.props.devotional.get('id')}
+              user={this.props.user}
+              onCommentSubmit={this.handleCommentSubmit}
+            /> :
+            <p className="text-center">
+              <Link to="/sign/up">Registrate</Link> o <Link to="/sign/in">ingresá</Link> para poder comentar.
+            </p>}
           <CommentListContainer />
         </section>
     );
