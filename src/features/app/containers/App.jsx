@@ -3,6 +3,7 @@ require('./App.scss');
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import {connect} from 'react-redux';
+import ReduxToastr from 'react-redux-toastr';
 
 import NavBar from '../components/NavBar.jsx';
 
@@ -19,6 +20,10 @@ export const App = React.createClass({
   render: function() {
     return(
       <div className="app">
+        <ReduxToastr
+          timeOut={3000}
+          newestOnTop={false}
+          position="bottom-right"/>
         <NavBar onSignOut={this.handleSignOut} user={this.props.user}/>
         <main className="container">
           {this.props.children}

@@ -2,6 +2,7 @@ import {Map} from 'immutable';
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
 
+import {reducer as toastrReducer} from 'react-redux-toastr';
 import home_section from './home_section/reducer.js';
 import devotional_list from './devotional_list/reducer.js';
 import comments from './comments/reducer.js';
@@ -14,5 +15,6 @@ export default combineReducers({
   home_section: home_section,
   comments: comments,
   routing: routerReducer,
-  admin: admin
+  admin: admin,
+  toastr: toastrReducer
 });
