@@ -54,8 +54,6 @@ export default React.createClass({
         this.props.creation_date :
         moment().toISOString()
     });
-
-    this.setState({title: '', passage: '', body: '', publish_date: ''});
   },
   render: function() {
     return(
@@ -109,7 +107,7 @@ export default React.createClass({
         </div>
         <div className="form-group">
           <div className="col-md-offset-5 col-md-2 col-xs-12">
-            <button type="submit" className="btn btn-default btn-block">Guardar</button>
+            <button type="submit" className="btn btn-default btn-block" disabled={this.props.isSaving}>Guardar</button>
           </div>
         </div>
       </form>

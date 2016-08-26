@@ -3,7 +3,10 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import {connect} from 'react-redux';
 import DevotionalForm from './../components/DevotionalForm.jsx';
 
-import { FETCHING_STATUS } from './../../../reducers/devotional_list/reducer.js';
+import {
+  SUBMITTING_STATUS,
+  FETCHING_STATUS
+} from './../../../reducers/devotional_list/reducer.js';
 import { editDevotional } from './../../../reducers/admin/actions.js';
 import {
   fetchDevotionalAction,
@@ -17,7 +20,7 @@ export const DevotionalEdit = React.createClass({
     this.props.dispatch(editDevotional(this.props.params.devotionalPublishDate));
   },
   handleDevotionalSubmit: function (devotional) {
-    this.props.dispatch(putDevotionalAction(devotional));
+    this.props.dispatch(putDevotionalAction(devotional, '/admin'));
   },
   render: function() {
     return(
@@ -36,7 +39,8 @@ export const DevotionalEdit = React.createClass({
           <DevotionalForm
             model={this.props.devotional}
             user={this.props.user}
-            onDevotionalSubmit={this.handleDevotionalSubmit} />}
+            onDevotionalSubmit={this.handleDevotionalSubmit}
+            isSaving={this.props.devotional.status === SUBMITTING_STATUS} />}
       </section>
     );
   }

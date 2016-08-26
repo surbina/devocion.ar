@@ -4,11 +4,12 @@ import {connect} from 'react-redux';
 import DevotionalForm from './../components/DevotionalForm.jsx';
 
 import { postDevotionalAction } from './../../../reducers/devotional_list/actions.js';
+import { SUBMITTING_STATUS } from './../../../reducers/devotional_list/reducer.js';
 
 export const DevotionalAdd = React.createClass({
   mixins: [PureRenderMixin],
   handleDevotionalSubmit: function (devotional) {
-    this.props.dispatch(postDevotionalAction(devotional));
+    this.props.dispatch(postDevotionalAction(devotional, '/admin'));
   },
   render: function() {
     const devotionalModel = {
@@ -32,7 +33,8 @@ export const DevotionalAdd = React.createClass({
         <DevotionalForm
           model={devotionalModel}
           user={this.props.user}
-          onDevotionalSubmit={this.handleDevotionalSubmit} />
+          onDevotionalSubmit={this.handleDevotionalSubmit}
+          isSaving={this.props.isSavingDevotional} />
       </section>
     );
   }
@@ -40,7 +42,8 @@ export const DevotionalAdd = React.createClass({
 
 function mapStateToProps(state) {
   return {
-    user: state.user
+    user: state.user,
+    isSavingDevotional: !!state.devotional_list.get('-1') && state.devotional_list.get('status') === SUBMITTING_STATUS
   };
 }
 

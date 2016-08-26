@@ -1,3 +1,4 @@
+import { hashHistory  } from 'react-router';
 import {
   toastrSuccess,
   toastrError
@@ -61,7 +62,7 @@ export function fetchDevotionalListAction() {
   }
 }
 
-export function postDevotionalAction(devotional) {
+export function postDevotionalAction(devotional, redirectRoute) {
   return function (dispatch) {
     const oldId = devotional.id;
     dispatch(submitDevotionalAddAction(devotional));
@@ -76,6 +77,9 @@ export function postDevotionalAction(devotional) {
 
     function success() {
       dispatch(submitDevotionalAddSuccessAction(devotional, oldId));
+      if(!!redirectRoute) {
+        hashHistory.push(redirectRoute);
+      }
       dispatch(toastrSuccess('Devocional creado', 'Se creo el devocional'));
     }
 
@@ -83,13 +87,13 @@ export function postDevotionalAction(devotional) {
       dispatch(submitDevotionalAddFailAction({
         code: error.code,
         message: error.message
-      }));
-      dispatch(toastr('Error al crear devocional', 'Ocurrió un error al crear el devocional, inténtalo de nuevo más tarde'));
+      }, oldId));
+      dispatch(toastrError('Error al crear devocional', 'Ocurrió un error al crear el devocional, inténtalo de nuevo más tarde'));
     }
   };
 }
 
-export function putDevotionalAction(devotional) {
+export function putDevotionalAction(devotional, redirectRoute) {
   return function (dispatch) {
     dispatch(submitDevotionalEditAction(devotional));
 
@@ -101,6 +105,9 @@ export function putDevotionalAction(devotional) {
 
     function success() {
       dispatch(submitDevotionalEditSuccessAction(devotional));
+      if(!!redirectRoute) {
+        hashHistory.push(redirectRoute);
+      }
       dispatch(toastrSuccess('Cambios guardados', 'Se guardaron los cambios del devocional'));
     }
 
@@ -109,7 +116,7 @@ export function putDevotionalAction(devotional) {
         code: error.code,
         message: error.message
       }));
-      dispatch(toastr('Error al guardar los cambios', 'Ocurrió un error al guardar los cambios del devocional, inténtalo de nuevo más tarde'));
+      dispatch(toastrError('Error al guardar los cambios', 'Ocurrió un error al guardar los cambios del devocional, inténtalo de nuevo más tarde'));
     }
   };
 }
@@ -169,10 +176,11 @@ export function submitDevotionalAddSuccessAction(devotional, oldId) {
   };
 }
 
-export function submitDevotionalAddFailAction(error) {
+export function submitDevotionalAddFailAction(error, oldId) {
   return {
     type: SUBMIT_DEVOTIONAL_ADD_FAIL,
-    error
+    error,
+    oldId
   };
 }
 
@@ -186,8 +194,7 @@ export function submitDevotionalEditAction(devotional) {
 export function submitDevotionalEditSuccessAction(devotional) {
   return {
     type: SUBMIT_DEVOTIONAL_EDIT_SUCCESS,
-    devotional,
-    oldId
+    devotional
   };
 }
 

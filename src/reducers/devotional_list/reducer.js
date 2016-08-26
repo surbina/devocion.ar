@@ -27,10 +27,14 @@ export default function(state = Map({fetching_list: false}), action) {
       return submitDevotionalAdd(state, action.devotional);
     case SUBMIT_DEVOTIONAL_ADD_SUCCESS:
       return submitDevotionalAddSuccess(state, action.devotional, action.oldId);
+    case SUBMIT_DEVOTIONAL_ADD_FAIL:
+      return submitDevotionalAddFail(state, action.error, action.oldId);
     case SUBMIT_DEVOTIONAL_EDIT:
       return submitDevotionalEdit(state, action.devotional);
     case SUBMIT_DEVOTIONAL_EDIT_SUCCESS:
       return submitDevotionalEditSuccess(state, action.devotional);
+    case SUBMIT_DEVOTIONAL_EDIT_FAIL:
+      return submitDevotionalEditFail(state, action.error);
     default:
       return state;
   }
@@ -119,7 +123,11 @@ function submitDevotionalAddSuccess(state, devotional, oldId) {
       publish_date: devotional.publish_date,
       creation_date: devotional.creation_date
     }
-  })
+  });
+}
+
+function submitDevotionalAddFail(state, error, oldId) {
+  return state.delete(oldId);
 }
 
 function submitDevotionalEdit(state, devotional) {
@@ -144,5 +152,13 @@ function submitDevotionalEditSuccess(state, devotional) {
     [devotional.publish_date]: {
       status: LOADED_STATUS,
     }
-  })
+  });
+}
+
+function submitDevotionalEditFail(state, error) {
+  return state.merge({
+    [devotional.publish_date]: {
+      status: LOADED_STATUS,
+    }
+  });
 }
