@@ -64,7 +64,7 @@ export default React.createClass({
             <button type="submit" className="btn btn-default btn-block btn-submit">Ingresar</button>
           </div>
           <div className="col-sm-offset-4 col-sm-4 text-center">
-            <Link to="/reset-password">¿Olvidaste tu contraseña?</Link>
+            <Link to="/reset-password">¿Olvidaste tu contraseña?</Link> - <Link to="/sign/up">¿No tienes una cuenta?</Link>
           </div>
         </div>
       </form>

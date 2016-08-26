@@ -61,8 +61,7 @@ export default React.createClass({
     return(
       <form className="form-horizontal devotional-form" onSubmit={this.handleSubmit}>
         <div className="form-group">
-          <label htmlFor="inputTitle" className="col-sm-1 control-label">Título</label>
-          <div className="col-sm-3">
+          <div className="col-md-5 col-xs-12 multiple-row">
             <input
               type="text"
               placeholder="Título"
@@ -73,8 +72,7 @@ export default React.createClass({
             />
           </div>
 
-          <label htmlFor="inputPassage" className="col-sm-1 control-label">Pasaje</label>
-          <div className="col-sm-3">
+          <div className="col-md-5 col-xs-12 multiple-row">
             <input
               type="text"
               placeholder="Pasaje"
@@ -85,8 +83,7 @@ export default React.createClass({
             />
           </div>
 
-          <label htmlFor="inputPassage" className="col-sm-2 control-label">Fecha de publicación</label>
-          <div className="col-sm-2">
+          <div className="col-md-2 col-xs-12 multiple-row">
             <Datetime
               value={this.state.publish_date}
               onChange={this.handlePublishDateChange}
@@ -98,11 +95,11 @@ export default React.createClass({
         </div>
 
         <div className="form-group">
-          <label htmlFor="textBody" className="col-sm-1 control-label">Contenido</label>
-          <div className="col-sm-11">
+          <div className="col-md-12 col-xs-12">
             <textarea
-              className="form-control"
               id="textBody"
+              placeholder="Contenido ..."
+              className="form-control"
               rows="10"
               value={this.state.body}
               onChange={this.handleBodyChange}
@@ -111,8 +108,8 @@ export default React.createClass({
           </div>
         </div>
         <div className="form-group">
-          <div className="col-sm-offset-2 col-sm-10">
-            <button type="submit" className="btn btn-default pull-right">Guardar</button>
+          <div className="col-md-offset-5 col-md-2 col-xs-12">
+            <button type="submit" className="btn btn-default btn-block">Guardar</button>
           </div>
         </div>
       </form>

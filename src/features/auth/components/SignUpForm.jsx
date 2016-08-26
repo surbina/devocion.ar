@@ -1,6 +1,9 @@
+require('./SignUpForm.scss');
+
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import { Map } from 'immutable';
+import { Link } from 'react-router';
 
 export default React.createClass({
   mixins: [PureRenderMixin],
@@ -45,10 +48,9 @@ export default React.createClass({
   },
   render: function() {
     return(
-      <form className="form-horizontal" onSubmit={this.handleSubmit}>
+      <form className="form-horizontal sign-up-form" onSubmit={this.handleSubmit}>
         <div className="form-group">
-          <label htmlFor="inputFirstName" className="col-sm-2 control-label">Nombre</label>
-          <div className="col-sm-9">
+          <div className="col-sm-offset-4 col-sm-4">
             <input
               type="text"
               placeholder="Nombre"
@@ -60,8 +62,7 @@ export default React.createClass({
           </div>
         </div>
         <div className="form-group">
-          <label htmlFor="inputLastName" className="col-sm-2 control-label">Apellido</label>
-          <div className="col-sm-9">
+          <div className="col-sm-offset-4 col-sm-4">
             <input
               type="text"
               placeholder="Apellido"
@@ -73,8 +74,7 @@ export default React.createClass({
           </div>
         </div>
         <div className="form-group">
-          <label htmlFor="inputEmail" className="col-sm-2 control-label">Email</label>
-          <div className="col-sm-9">
+          <div className="col-sm-offset-4 col-sm-4">
             <input
               type="email"
               placeholder="Email"
@@ -86,8 +86,7 @@ export default React.createClass({
           </div>
         </div>
         <div className="form-group">
-          <label htmlFor="inputPassword" className="col-sm-2 control-label">Contraseña</label>
-          <div className="col-sm-9">
+          <div className="col-sm-offset-4 col-sm-4">
             <input
               type="password"
               placeholder="Contraseña"
@@ -99,8 +98,7 @@ export default React.createClass({
           </div>
         </div>
         <div className="form-group">
-          <label htmlFor="inputConfirmPassword" className="col-sm-2 control-label">Confirmar contraseña</label>
-          <div className="col-sm-9">
+          <div className="col-sm-offset-4 col-sm-4">
             <input
               type="password"
               placeholder="Confirmar contraseña"
@@ -112,8 +110,11 @@ export default React.createClass({
           </div>
         </div>
         <div className="form-group">
-          <div className="col-sm-offset-2 col-sm-9">
-            <button type="submit" className="btn btn-default pull-right">Crear usuario</button>
+          <div className="col-sm-offset-5 col-sm-2">
+            <button type="submit" className="btn btn-default btn-block btn-submit">Crear usuario</button>
+          </div>
+          <div className="col-sm-offset-4 col-sm-4 text-center">
+            <Link to="/sign/in">¿Ya tienes una cuenta?</Link>
           </div>
         </div>
       </form>

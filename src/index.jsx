@@ -1,4 +1,4 @@
-require('./components/ReactDatetime.scss');
+require('./components/react-datetime/ReactDatetime.scss');
 
 import React from 'react';
 import ReactDOM from 'react-dom';

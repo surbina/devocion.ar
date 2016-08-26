@@ -2,4 +2,14 @@
   textarea {
     resize: vertical;
   }
+
+  @media (max-width: 767px) {
+    .multiple-row {
+      margin-bottom: 15px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
 }
