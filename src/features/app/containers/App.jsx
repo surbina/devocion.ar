@@ -21,7 +21,6 @@ export const App = React.createClass({
     return(
       <div className="app">
         <ReduxToastr
-          timeOut={3000}
           newestOnTop={false}
           position="bottom-right"/>
         <NavBar onSignOut={this.handleSignOut} user={this.props.user}/>

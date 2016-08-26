@@ -1,4 +1,8 @@
 import * as firebase from 'firebase';
+import {
+  toastrSuccess,
+  toastrError
+} from '../toastr/actions.js';
 
 export const SET_CURRENT_USER = 'SET_CURRENT_USER';
 export const UNSET_CURRENT_USER = 'UNSET_CURRENT_USER';
@@ -75,6 +79,7 @@ export function createNewUserAction(user) {
       user.id = userDB.uid;
       dispatch(setCurrentUserAction(userDB));
       dispatch(updateAdditionalUserDataAction(user));
+      dispatch(toastrSuccess('Cuenta creada', 'Te has registrado correctamente'));
     }
 
     function error(error) {
@@ -82,6 +87,7 @@ export function createNewUserAction(user) {
         code: error.code,
         message: error.message
       }));
+      dispatch(toastrError('Error al crear cuenta', 'Hubo un error al crear la cuenta, inténtalo nuevamente más tarde'));
     }
   };
 }
@@ -126,6 +132,7 @@ export function signInAction(user) {
     function success(user) {
       dispatch(setCurrentUserAction(user));
       dispatch(retrieveAdditionalUserData(user.uid));
+      dispatch(toastrSuccess('Ingreso exisoto', 'Bienvenido nuevamente'));
     }
 
     function error(error) {
@@ -133,6 +140,7 @@ export function signInAction(user) {
         code: error.code,
         message: error.message
       }));
+      dispatch(toastrError('Error al ingresar', 'Hubo un error al ingresar, inténtalo de nuevo más tarde'));
     }
   };
 }
@@ -147,10 +155,12 @@ export function signOutAction() {
 
     function success() {
       dispatch(unsetCurrentUserAction());
+      dispatch(toastrSuccess('Salida exitosa', 'Has salido de la aplciación, vuelve pronto'));
     }
 
     function error(error) {
       dispatch(submitSignOutFailAction());
+      dispatch(toastrError('Error al salir', 'Hubo un error al salir, inténtalo de nuevo más tarde'));
     }
   };
 }
@@ -166,6 +176,7 @@ export function sendResetPasswordMailAction(email) {
 
     function success() {
       dispatch(submitResetPasswordMailActionSuccess());
+      dispatch(toastrSuccess('Email enviado', 'Se envió el email a tu casilla, espera unos minutos y revisa tu carpeta de correo no deseado'));
     }
 
     function error(error) {
@@ -173,6 +184,7 @@ export function sendResetPasswordMailAction(email) {
         code: error.code,
         message: error.message
       }));
+      dispatch(toastrError('Error al enviar email', 'Hubo un error al enviar el email, inténtalo de nuevo más tarde'));
     }
   };
 }

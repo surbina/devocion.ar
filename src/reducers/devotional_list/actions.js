@@ -1,3 +1,8 @@
+import {
+  toastrSuccess,
+  toastrError
+} from '../toastr/actions.js';
+
 export const REQUEST_DEVOTIONAL = 'REQUEST_DEVOTIONAL';
 export const REQUEST_DEVOTIONAL_SUCCESS = 'REQUEST_DEVOTIONAL_SUCCESS';
 export const REQUEST_DEVOTIONAL_FAIL = 'REQUEST_DEVOTIONAL_FAIL';
@@ -71,6 +76,7 @@ export function postDevotionalAction(devotional) {
 
     function success() {
       dispatch(submitDevotionalAddSuccessAction(devotional, oldId));
+      dispatch(toastrSuccess('Devocional creado', 'Se creo el devocional'));
     }
 
     function error(error) {
@@ -78,6 +84,7 @@ export function postDevotionalAction(devotional) {
         code: error.code,
         message: error.message
       }));
+      dispatch(toastr('Error al crear devocional', 'Ocurrió un error al crear el devocional, inténtalo de nuevo más tarde'));
     }
   };
 }
@@ -94,6 +101,7 @@ export function putDevotionalAction(devotional) {
 
     function success() {
       dispatch(submitDevotionalEditSuccessAction(devotional));
+      dispatch(toastrSuccess('Cambios guardados', 'Se guardaron los cambios del devocional'));
     }
 
     function error(error) {
@@ -101,6 +109,7 @@ export function putDevotionalAction(devotional) {
         code: error.code,
         message: error.message
       }));
+      dispatch(toastr('Error al guardar los cambios', 'Ocurrió un error al guardar los cambios del devocional, inténtalo de nuevo más tarde'));
     }
   };
 }

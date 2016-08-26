@@ -1,3 +1,8 @@
+import {
+  toastrSuccess,
+  toastrError
+} from '../toastr/actions.js';
+
 export const REQUEST_COMMENT_LIST = 'REQUEST_COMMENT_LIST';
 export const REQUEST_COMMENT_LIST_SUCCESS = 'REQUEST_COMMENT_LIST_SUCCESS';
 export const REQUEST_COMMENT_LIST_FAIL = 'REQUEST_COMMENT_LIST_FAIL';
@@ -37,10 +42,20 @@ export function postCommentAction(devotionalId, comment) {
 
     ref
       .set(comment)
-      .then(success);
+      .then(success)
+      .catch(error);
 
     function success() {
       dispatch(submitCommentSuccessAction(devotionalId, comment));
+      dispatch(toastrSuccess('Comentario creado', 'Se agregó el comentario al devocional'));
+    }
+
+    function error(error) {
+      dispatch(submitCommentFailAction({
+        code: error.code,
+        message: error.message
+      }));
+      dispatch(toastrSuccess('Error al crear comentario', 'Se produjo un error creando el comentario, inténtalo de nuevo más tarde'));
     }
   };
 }
