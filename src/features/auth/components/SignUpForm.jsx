@@ -44,7 +44,6 @@ export default React.createClass({
       email: email,
       password: password
     });
-    this.setState({firstName: '', lastName: '', email: '', password: '', confirmPassword: ''});
   },
   render: function() {
     return(
@@ -111,7 +110,7 @@ export default React.createClass({
         </div>
         <div className="form-group">
           <div className="col-sm-offset-5 col-sm-2">
-            <button type="submit" className="btn btn-default btn-block btn-submit">Crear usuario</button>
+            <button type="submit" className="btn btn-default btn-block btn-submit" disabled={this.props.isSigningUp}>Crear usuario</button>
           </div>
           <div className="col-sm-offset-4 col-sm-4 text-center">
             <Link to="/sign/in">¿Ya tienes una cuenta?</Link>

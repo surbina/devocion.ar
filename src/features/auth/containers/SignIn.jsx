@@ -4,6 +4,11 @@ import {connect} from 'react-redux';
 import SignInForm from '../components/SignInForm';
 
 import { signInAction } from '../../../reducers/user/actions.js';
+import {
+  SIGNING_IN_STATUS,
+  VALID_USER_STATUS,
+  FETCHING_USER_DATA_STATUS
+} from '../../../reducers/user/reducer.js'
 
 export const SignIn = React.createClass({
   mixins: [PureRenderMixin],
@@ -18,14 +23,16 @@ export const SignIn = React.createClass({
             <h3>Ingresar</h3>
           </div>
         </div>
-        <SignInForm onSignInSubmit={this.handleSignInSubmit} />
+        <SignInForm onSignInSubmit={this.handleSignInSubmit} isSigningIn={this.props.isSigningIn}/>
       </section>
     );
   }
 });
 
 function mapStateToProps(state) {
-  return {};
+  return {
+    isSigningIn: state.user.get('status') === SIGNING_IN_STATUS || state.user.get('status') === VALID_USER_STATUS || state.user.get('status') === FETCHING_USER_DATA_STATUS
+  };
 }
 
 export const SignInContainer = connect(mapStateToProps)(SignIn);

@@ -5,6 +5,12 @@ import SignUpForm from '../components/SignUpForm';
 
 import { createNewUserAction } from '../../../reducers/user/actions.js';
 
+import {
+  CREATING_USER_STATUS,
+  VALID_USER_STATUS,
+  UPDATING_USER_DATA_STATUS
+} from '../../../reducers/user/reducer.js'
+
 export const SignUp = React.createClass({
   mixins: [PureRenderMixin],
   handleSignUpSubmit: function(user) {
@@ -18,14 +24,16 @@ export const SignUp = React.createClass({
             <h3>Registrarse</h3>
           </div>
         </div>
-        <SignUpForm onSignUpSubmit={this.handleSignUpSubmit} />
+        <SignUpForm onSignUpSubmit={this.handleSignUpSubmit} isSigningUp={this.props.isSigningUp} />
       </section>
     );
   }
 });
 
 function mapStateToProps(state) {
-  return {};
+  return {
+    isSigningIn: state.user.get('status') === CREATING_USER_STATUS || state.user.get('status') === VALID_USER_STATUS || state.user.get('status') === UPDATING_USER_DATA_STATUS
+  };
 }
 
 export const SignUpContainer = connect(mapStateToProps)(SignUp);
