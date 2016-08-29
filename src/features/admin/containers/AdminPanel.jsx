@@ -32,11 +32,15 @@ export const AdminPanel = React.createClass({
           </div>
         </div>
         <div className="row">
-          <div className="col-md-12">
-            {this.getDevotionals().valueSeq().map(devotional =>
-              <DevotionalItem key={devotional.get('id')} devotional={devotional}></DevotionalItem>
-            )}
-          </div>
+          {this.props.isLoadingDevotional ?
+            <div className="col-md-12 text-center">
+              <h4>Cargando devocionales ...</h4>
+            </div> :
+            <div className="col-md-12">
+              {this.getDevotionals().valueSeq().map(devotional =>
+                <DevotionalItem key={devotional.get('id')} devotional={devotional}></DevotionalItem>
+              )}
+            </div>}
         </div>
       </section>
     );
@@ -45,6 +49,7 @@ export const AdminPanel = React.createClass({
 
 function mapStateToProps(state) {
   return {
+    isLoadingDevotional: state.devotional_list.get('fetching_list'),
     devotionals: state.devotional_list.delete('fetching_list').toList()
   };
 }
