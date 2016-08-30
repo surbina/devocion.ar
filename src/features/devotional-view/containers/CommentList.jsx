@@ -2,6 +2,7 @@ import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import { connect } from 'react-redux';
 import { Map } from 'immutable';
+import { ThreeBounce } from 'better-react-spinkit';
 
 import { fetchCommentListAction } from '../../../reducers/comments/actions.js';
 
@@ -15,7 +16,7 @@ export const CommentList = React.createClass({
   render: function() {
     return(
       this.props.comments === undefined ?
-        <p className="text-center">Cargando comentarios</p> :
+        <h5 className="text-center">Cargando comentarios <ThreeBounce /></h5> :
         <div>
           {this.getComments().size > 0 ?
             this.getComments().valueSeq().map(comment => 

@@ -33,12 +33,14 @@
     ]
   },
   "dependencies": {
+    "better-react-spinkit": "^2.0.0-4",
     "bootstrap-loader": "^1.0.10",
     "bootstrap-sass": "^3.3.6",
     "css-loader": "^0.23.1",
     "file-loader": "^0.8.5",
     "firebase": "^3.3.0",
     "immutable": "^3.8.1",
+    "inline-style-prefixer": "^2.0.1",
     "jquery": "^3.0.0",
     "moment": "^2.14.1",
     "node-sass": "^3.7.0",

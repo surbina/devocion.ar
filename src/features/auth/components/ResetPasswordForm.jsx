@@ -1,6 +1,7 @@
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import { Map } from 'immutable';
+import { ThreeBounce } from 'better-react-spinkit';
 
 export default React.createClass({
   mixins: [PureRenderMixin],
@@ -39,8 +40,10 @@ export default React.createClass({
           </div>
         </div>
         <div className="form-group">
-          <div className="col-sm-offset-5 col-sm-2">
-            <button type="submit" className="btn btn-default btn-block">Enviar mail</button>
+          <div className="col-sm-offset-5 col-sm-2 text-center">
+            {this.props.isSendingResetPasswordMail ?
+              <ThreeBounce /> :
+              <button type="submit" className="btn btn-default btn-block">Enviar mail</button>}
           </div>
         </div>
       </form>

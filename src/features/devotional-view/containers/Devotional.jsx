@@ -1,6 +1,8 @@
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
+import { ThreeBounce } from 'better-react-spinkit';
+
 import DevotionalContent from '../components/DevotionalContent.jsx';
 import { DevotionalCommentContainer } from './DevotionalComment.jsx';
 import {
@@ -27,7 +29,7 @@ export const Devotional = React.createClass({
       this.props.loadingDevotional ?
         <div className="row">
           <div className="col-md-12 text-center">
-            <h4>Cargando devocional ...</h4>
+            <h4>Cargando devocional <ThreeBounce /></h4>
           </div>
         </div> :
         <div>

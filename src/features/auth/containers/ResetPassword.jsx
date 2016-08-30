@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import ResetPasswordForm from '../components/ResetPasswordForm';
 
 import { sendResetPasswordMailAction } from '../../../reducers/user/actions.js';
+import { SENDING_RESET_PASSWORD_MAIL_STATUS } from '../../../reducers/user/reducer.js';
 
 export const ResetPassword = React.createClass({
   mixins: [PureRenderMixin],
@@ -19,14 +20,18 @@ export const ResetPassword = React.createClass({
             <h3>Enviar mail para reiniciar password</h3>
           </div>
         </div>
-        <ResetPasswordForm onResetPasswordSubmit={this.handleResetPasswordSubmit} />
+        <ResetPasswordForm
+          onResetPasswordSubmit={this.handleResetPasswordSubmit}
+          isSendingResetPasswordMail={this.props.isSendingResetPasswordMail}/>
       </section>
     );
   }
 });
 
 function mapStateToProps(state) {
-  return {};
+  return {
+    isSendingResetPasswordMail: state.user.get('status') === SENDING_RESET_PASSWORD_MAIL_STATUS
+  };
 }
 
 export const ResetPasswordContainer = connect(mapStateToProps)(ResetPassword);

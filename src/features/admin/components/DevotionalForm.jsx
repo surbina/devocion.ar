@@ -5,6 +5,7 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import DatePicker from 'react-bootstrap-date-picker';
 import Datetime  from 'react-datetime';
 import moment from 'moment';
+import { ThreeBounce } from 'better-react-spinkit';
 
 export default React.createClass({
   mixins: [PureRenderMixin],
@@ -106,8 +107,10 @@ export default React.createClass({
           </div>
         </div>
         <div className="form-group">
-          <div className="col-md-offset-5 col-md-2 col-xs-12">
-            <button type="submit" className="btn btn-default btn-block" disabled={this.props.isSaving}>Guardar</button>
+          <div className="col-md-offset-5 col-md-2 col-xs-12 text-center">
+            {this.props.isSaving ?
+              <ThreeBounce /> :
+              <button type="submit" className="btn btn-default btn-block">Guardar</button>}
           </div>
         </div>
       </form>

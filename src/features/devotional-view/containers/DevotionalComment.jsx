@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
 import { postCommentAction } from '../../../reducers/comments/actions.js';
+import { SUBMITTING_STATUS } from '../../../reducers/comments/reducer.js';
 import { SIGNED_USER_STATUS } from '../../../reducers/user/reducer.js';
 
 import CommentForm from '../components/CommentForm.jsx';
@@ -24,6 +25,7 @@ export const DevotionalComment = React.createClass({
               devotionalId={this.props.devotional.get('id')}
               user={this.props.user}
               onCommentSubmit={this.handleCommentSubmit}
+              isSubmitting={this.props.isSubmitting}
             /> :
             <p className="text-center">
               <Link to="/sign/up">Registrate</Link> o <Link to="/sign/in">ingresá</Link> para poder comentar.
@@ -36,7 +38,8 @@ export const DevotionalComment = React.createClass({
 
 function mapStateToProps(state) {
   return {
-    user: state.user
+    user: state.user,
+    isSubmitting: state.comments.get('status') === SUBMITTING_STATUS
   };
 }
 

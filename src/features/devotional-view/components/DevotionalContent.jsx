@@ -3,6 +3,7 @@ require('./DevotionalContent.scss');
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import moment from 'moment';
+import { ThreeBounce } from 'better-react-spinkit';
 
 export default React.createClass({
   mixins: [PureRenderMixin],
@@ -12,7 +13,7 @@ export default React.createClass({
         <section className="devotional-view">
           <div className="row">
             <div className="col-md-12 text-center">
-              <h4>Cargando devocional ...</h4>
+              <h4>Cargando devocional <ThreeBounce /></h4>
             </div>
           </div>
         </section> :
