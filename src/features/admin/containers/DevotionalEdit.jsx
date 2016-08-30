@@ -1,8 +1,9 @@
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import {connect} from 'react-redux';
-import DevotionalForm from './../components/DevotionalForm.jsx';
+import { ThreeBounce } from 'better-react-spinkit';
 
+import DevotionalForm from './../components/DevotionalForm.jsx';
 import {
   SUBMITTING_STATUS,
   FETCHING_STATUS
@@ -33,7 +34,7 @@ export const DevotionalEdit = React.createClass({
         {this.props.devotional === undefined || this.props.devotional.status === FETCHING_STATUS ?
           <div className="row">
             <div className="col-md-12 text-center">
-              <h5>Cargando devocional ...</h5>
+              <h5>Cargando devocional <ThreeBounce /></h5>
             </div>
           </div> :
           <DevotionalForm

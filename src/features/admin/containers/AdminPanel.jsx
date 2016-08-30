@@ -5,6 +5,7 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import {connect} from 'react-redux';
 import { Link } from 'react-router';
 import { Map } from 'immutable';
+import { ThreeBounce } from 'better-react-spinkit';
 
 import DevotionalItem from './../components/DevotionalItem.jsx';
 
@@ -34,7 +35,7 @@ export const AdminPanel = React.createClass({
         <div className="row">
           {this.props.isLoadingDevotional ?
             <div className="col-md-12 text-center">
-              <h4>Cargando devocionales ...</h4>
+              <h4>Cargando devocionales <ThreeBounce /></h4>
             </div> :
             <div className="col-md-12">
               {this.getDevotionals().valueSeq().map(devotional =>

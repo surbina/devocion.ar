@@ -4,6 +4,7 @@ import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import { Map } from 'immutable';
 import { Link } from 'react-router';
+import { ThreeBounce } from 'better-react-spinkit';
 
 export default React.createClass({
   mixins: [PureRenderMixin],
@@ -109,8 +110,10 @@ export default React.createClass({
           </div>
         </div>
         <div className="form-group">
-          <div className="col-sm-offset-5 col-sm-2">
-            <button type="submit" className="btn btn-default btn-block btn-submit" disabled={this.props.isSigningUp}>Crear usuario</button>
+          <div className="col-sm-offset-5 col-sm-2 text-center">
+            {this.props.isSigningUp ?
+              <ThreeBounce /> :
+              <button type="submit" className="btn btn-default btn-block btn-submit">Crear usuario</button>}
           </div>
           <div className="col-sm-offset-4 col-sm-4 text-center">
             <Link to="/sign/in">¿Ya tienes una cuenta?</Link>

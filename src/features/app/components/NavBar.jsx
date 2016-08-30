@@ -1,5 +1,6 @@
 import React from 'react';
 import activeComponent from 'react-router-active-component';
+import { ThreeBounce } from 'better-react-spinkit';
 
 import { ANONYMOUS_USER_STATUS, SIGNED_USER_STATUS } from '../../../reducers/user/reducer.js';
 
@@ -46,7 +47,7 @@ export default React.createClass({
                 </li>
               </ul> :
               <ul className="nav navbar-nav navbar-right">
-                <li><p className="navbar-text">Cargando perfil del usuario</p></li>
+                <li><span className="navbar-text">Cargando perfil del usuario <ThreeBounce color="white" /></span></li>
               </ul>}
           </div>
         </div>
