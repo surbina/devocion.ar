@@ -4,9 +4,23 @@ import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import moment from 'moment';
 import { Link } from 'react-router';
+import { toastr } from 'react-redux-toastr'
 
 export default React.createClass({
   mixins: [PureRenderMixin],
+  handleDelete: function() {
+    const devotional = this.props.devotional.toJS();
+    this.props.onDevotionalDelete(devotional);
+  },
+  openDeleteModal: function() {
+    const toastrConfirmOptions = {
+      onOk: this.handleDelete,
+      okText: 'Eliminar',
+      cancelText: 'Cancelar'
+    };
+
+    toastr.confirm('¿Estás seguro que quieres eliminar el devocional "' + this.props.devotional.get('title') + '"?', toastrConfirmOptions)
+  },
   render: function() {
     return(
       <div className="panel panel-default devotional-item">
@@ -30,7 +44,7 @@ export default React.createClass({
                 </button>
                 <ul className="dropdown-menu dropdown-menu-right" aria-labelledby={'actionMenu' + this.props.devotional.get('id')}>
                   <li><Link to={"/admin/devotional/edit/" + this.props.devotional.get('publish_date')}>Editar</Link></li>
-                  <li><Link to="/admin">Eliminar</Link></li>
+                  <li><a href="javascript:void(0)" onClick={this.handleDelete}>Eliminar</a></li>
                 </ul>
               </div>
             </div>

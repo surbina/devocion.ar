@@ -3,6 +3,7 @@ import {
   toastrSuccess,
   toastrError
 } from '../toastr/actions.js';
+import { deleteDevotionalCommentAction } from '../comments/actions.js';
 
 export const REQUEST_DEVOTIONAL = 'REQUEST_DEVOTIONAL';
 export const REQUEST_DEVOTIONAL_SUCCESS = 'REQUEST_DEVOTIONAL_SUCCESS';
@@ -19,6 +20,10 @@ export const SUBMIT_DEVOTIONAL_ADD_FAIL = 'SUBMIT_DEVOTIONAL_ADD_FAIL';
 export const SUBMIT_DEVOTIONAL_EDIT = 'SUBMIT_DEVOTIONAL_EDIT';
 export const SUBMIT_DEVOTIONAL_EDIT_SUCCESS = 'SUBMIT_DEVOTIONAL_EDIT_SUCCESS';
 export const SUBMIT_DEVOTIONAL_EDIT_FAIL = 'SUBMIT_DEVOTIONAL_EDIT_FAIL';
+
+export const SUBMIT_DEVOTIONAL_DELETE = 'SUBMIT_DEVOTIONAL_DELETE';
+export const SUBMIT_DEVOTIONAL_DELETE_SUCCESS = 'SUBMIT_DEVOTIONAL_DELETE_SUCCESS';
+export const SUBMIT_DEVOTIONAL_DELETE_FAIL = 'SUBMIT_DEVOTIONAL_DELETE_FAIL';
 
 export function fetchDevotionalAction(publish_date) {
   return function (dispatch) {
@@ -121,6 +126,32 @@ export function putDevotionalAction(devotional, redirectRoute) {
   };
 }
 
+export function deleteDevotionalAction(devotional) {
+  return function (dispatch) {
+    dispatch(submitDevotionalDeleteAction(devotional.publish_date));
+
+    firebase.database()
+      .ref('devotional_list/' + devotional.id)
+      .remove()
+      .then(success)
+      .catch(error);
+
+    function success() {
+      dispatch(submitDevotionalDeleteSuccessAction(devotional.publish_date));
+      dispatch(deleteDevotionalCommentAction(devotional.id));
+      dispatch(toastrSuccess('Devocional eliminado', 'Se eliminó el devocional existosamente'));
+    }
+
+    function error(error) {
+      dispatch(submitDevotionalDeleteFailAction({
+        code: error.code,
+        message: error.message
+      }, devotional.publish_date));
+      dispatch(toastrError('Error al eliminar el devocional', 'Ocurrió un error al eliminar el devocional, inténtalo de nuevo más tarde'));
+    }
+  };
+}
+
 export function requestDevotionalAction(publish_date) {
   return {
     type: REQUEST_DEVOTIONAL,
@@ -201,6 +232,28 @@ export function submitDevotionalEditSuccessAction(devotional) {
 export function submitDevotionalEditFailAction(error) {
   return {
     type: SUBMIT_DEVOTIONAL_EDIT_FAIL,
+    error
+  };
+}
+
+export function submitDevotionalDeleteAction(devotionalPublishDate) {
+  return {
+    type: SUBMIT_DEVOTIONAL_DELETE,
+    devotionalPublishDate
+  };
+}
+
+export function submitDevotionalDeleteSuccessAction(devotionalPublishDate) {
+  return {
+    type: SUBMIT_DEVOTIONAL_DELETE_SUCCESS,
+    devotionalPublishDate
+  };
+}
+
+export function submitDevotionalDeleteFailAction(error, devotionalPublishDate) {
+  return {
+    type: SUBMIT_DEVOTIONAL_DELETE_FAIL,
+    devotionalPublishDate,
     error
   };
 }

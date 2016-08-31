@@ -3,13 +3,15 @@ import {
   REQUEST_DEVOTIONAL, REQUEST_DEVOTIONAL_SUCCESS, REQUEST_DEVOTIONAL_FAIL,
   SUBMIT_DEVOTIONAL_ADD, SUBMIT_DEVOTIONAL_ADD_SUCCESS, SUBMIT_DEVOTIONAL_ADD_FAIL,
   REQUEST_DEVOTIONAL_LIST, REQUEST_DEVOTIONAL_LIST_SUCCESS, REQUEST_DEVOTIONAL_LIST_FAIL,
-  SUBMIT_DEVOTIONAL_EDIT, SUBMIT_DEVOTIONAL_EDIT_SUCCESS, SUBMIT_DEVOTIONAL_EDIT_FAIL
+  SUBMIT_DEVOTIONAL_EDIT, SUBMIT_DEVOTIONAL_EDIT_SUCCESS, SUBMIT_DEVOTIONAL_EDIT_FAIL,
+  SUBMIT_DEVOTIONAL_DELETE, SUBMIT_DEVOTIONAL_DELETE_SUCCESS, SUBMIT_DEVOTIONAL_DELETE_FAIL
 } from './actions.js';
 
 export const FETCHING_STATUS = 'FETCHING';
 export const SUBMITTING_STATUS = 'SUBMITTING';
 export const LOADED_STATUS = 'LOADED';
 export const UNLOADED_STATUS = 'UNLOADED';
+export const DELETING_STATUS = 'DELETING';
 
 export default function(state = Map({fetching_list: false}), action) {
   switch (action.type) {
@@ -35,6 +37,12 @@ export default function(state = Map({fetching_list: false}), action) {
       return submitDevotionalEditSuccess(state, action.devotional);
     case SUBMIT_DEVOTIONAL_EDIT_FAIL:
       return submitDevotionalEditFail(state, action.error);
+    case SUBMIT_DEVOTIONAL_DELETE:
+      return submitDevotionalDelete(state, action.devotionalPublishDate);
+    case SUBMIT_DEVOTIONAL_DELETE_SUCCESS:
+      return submitDevotionalDeleteSuccess(state, action.devotionalPublishDate);
+    case SUBMIT_DEVOTIONAL_DELETE_FAIL:
+      return submitDevotionalDeleteFail(state, action.devotionalPublishDate);
     default:
       return state;
   }
@@ -158,6 +166,26 @@ function submitDevotionalEditSuccess(state, devotional) {
 function submitDevotionalEditFail(state, error) {
   return state.merge({
     [devotional.publish_date]: {
+      status: LOADED_STATUS,
+    }
+  });
+}
+
+function submitDevotionalDelete (state, devotionalPublishDate) {
+  return state.merge({
+    [devotionalPublishDate]: {
+      status: DELETING_STATUS,
+    }
+  });
+}
+
+function submitDevotionalDeleteSuccess (state, devotionalPublishDate) {
+  return state.delete(devotionalPublishDate);
+}
+
+function submitDevotionalDeleteFail (state, devotionalPublishDate) {
+  return state.merge({
+    [devotionalPublishDate]: {
       status: LOADED_STATUS,
     }
   });

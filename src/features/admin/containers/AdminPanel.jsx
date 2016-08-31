@@ -9,7 +9,10 @@ import { ThreeBounce } from 'better-react-spinkit';
 
 import DevotionalItem from './../components/DevotionalItem.jsx';
 
-import { fetchDevotionalListAction } from './../../../reducers/devotional_list/actions.js';
+import {
+  fetchDevotionalListAction,
+  deleteDevotionalAction
+} from './../../../reducers/devotional_list/actions.js';
 
 export const AdminPanel = React.createClass({
   mixins: [PureRenderMixin],
@@ -18,6 +21,9 @@ export const AdminPanel = React.createClass({
   },
   getDevotionals: function() {
     return this.props.devotionals || Map();
+  },
+  handleDevotionalDelete: function(devotional) {
+    this.props.dispatch(deleteDevotionalAction(devotional));
   },
   render: function() {
     return(
@@ -39,7 +45,10 @@ export const AdminPanel = React.createClass({
             </div> :
             <div className="col-md-12">
               {this.getDevotionals().valueSeq().map(devotional =>
-                <DevotionalItem key={devotional.get('id')} devotional={devotional}></DevotionalItem>
+                <DevotionalItem
+                  key={devotional.get('id')}
+                  devotional={devotional}
+                  onDevotionalDelete={this.handleDevotionalDelete} />
               )}
             </div>}
         </div>

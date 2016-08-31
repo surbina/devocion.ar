@@ -11,6 +11,10 @@ export const SUBMIT_COMMENT = 'SUBMIT_COMMENT';
 export const SUBMIT_COMMENT_SUCCESS = 'SUBMIT_COMMENT_SUCCESS';
 export const SUBMIT_COMMENT_FAIL = 'SUBMIT_COMMENT_FAIL';
 
+export const DELETE_DEVOTIONAL_COMMENT = 'DELETE_DEVOTIONAL_COMMENT';
+export const DELETE_DEVOTIONAL_COMMENT_SUCCESS = 'DELETE_DEVOTIONAL_COMMENT_SUCCESS';
+export const DELETE_DEVOTIONAL_COMMENT_FAIL = 'DELETE_DEVOTIONAL_COMMENT_FAIL';
+
 export function fetchCommentListAction(devotionalId) {
   return function (dispatch) {
     dispatch(requestCommentListAction());
@@ -60,6 +64,29 @@ export function postCommentAction(devotionalId, comment) {
   };
 }
 
+export function deleteDevotionalCommentAction(devotionalId) {
+  return function (dispatch) {
+    dispatch(submitDeleteDevotionalCommentAction(devotionalId));
+
+    firebase.database()
+      .ref('comment_list/' + devotionalId)
+      .remove()
+      .then(success)
+      .catch(error);
+
+    function success() {
+      dispatch(submitDeleteDevotionalCommentSuccessAction(devotionalId));
+    }
+
+    function error(error) {
+      dispatch(submitDeleteDevotionalCommentFailAction({
+        code: error.code,
+        message: error.message
+      }, devotionalId));
+    }
+  };
+}
+
 export function requestCommentListAction() {
   return {
     type: REQUEST_COMMENT_LIST
@@ -101,5 +128,27 @@ export function submitCommentFailAction(error) {
   return {
     type: SUBMIT_COMMENT_FAIL,
     error
+  };
+}
+
+export function submitDeleteDevotionalCommentAction(devotionalId) {
+  return {
+    type: DELETE_DEVOTIONAL_COMMENT,
+    devotionalId
+  };
+}
+
+export function submitDeleteDevotionalCommentSuccessAction(devotionalId) {
+  return {
+    type: DELETE_DEVOTIONAL_COMMENT_SUCCESS,
+    devotionalId
+  };
+}
+
+export function submitDeleteDevotionalCommentFailAction(error, devotionalId) {
+  return {
+    type: DELETE_DEVOTIONAL_COMMENT_FAIL,
+    error,
+    devotionalId
   };
 }
