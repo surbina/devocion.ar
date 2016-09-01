@@ -156,27 +156,24 @@ function submitDevotionalEdit(state, devotional) {
 }
 
 function submitDevotionalEditSuccess(state, devotional) {
-  return state.merge({
-    [devotional.publish_date]: {
-      status: LOADED_STATUS,
-    }
-  });
+  return state.setIn(
+    [devotional.publish_date, 'status'],
+    LOADED_STATUS
+  );
 }
 
 function submitDevotionalEditFail(state, error) {
-  return state.merge({
-    [devotional.publish_date]: {
-      status: LOADED_STATUS,
-    }
-  });
+  return state.setIn(
+    [devotional.publish_date, 'status'],
+    LOADED_STATUS
+  );
 }
 
 function submitDevotionalDelete (state, devotionalPublishDate) {
-  return state.merge({
-    [devotionalPublishDate]: {
-      status: DELETING_STATUS,
-    }
-  });
+  return state.setIn(
+    [devotionalPublishDate, 'status'],
+    DELETING_STATUS
+  );
 }
 
 function submitDevotionalDeleteSuccess (state, devotionalPublishDate) {
@@ -184,9 +181,8 @@ function submitDevotionalDeleteSuccess (state, devotionalPublishDate) {
 }
 
 function submitDevotionalDeleteFail (state, devotionalPublishDate) {
-  return state.merge({
-    [devotionalPublishDate]: {
-      status: LOADED_STATUS,
-    }
-  });
+  return state.setIn(
+    [devotionalPublishDate, 'status'],
+    LOADED_STATUS
+  );
 }
