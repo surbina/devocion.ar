@@ -1,160 +1,43 @@
-import moment from 'moment';
+import { push } from 'react-router-redux';
 
-import { requestDevotionalSuccessAction } from '../devotional_list/actions.js';
-import { fetchCommentListAction } from '../comments/actions.js';
+import {
+  fetchDevotionalAction,
+  fetchPreviousDevotionalAction
+} from '../devotional_list/actions.js'
 
-export const LOAD_LAST_DEVOTIONAL = 'LOAD_LAST_DEVOTIONAL';
-export const LOAD_LAST_DEVOTIONAL_SUCCESS = 'LOAD_LAST_DEVOTIONAL_SUCCESS';
-export const LOAD_LAST_DEVOTIONAL_FAIL = 'LOAD_LAST_DEVOTIONAL_FAIL';
+export const LOAD_DEVOTIONAL_VIEW = 'LOAD_DEVOTIONAL_VIEW';
+export const SET_CURRENT_DEVOTIONAL = 'SET_CURRENT_DEVOTIONAL';
 
-export const LOAD_NEXT_DEVOTIONAL = 'LOAD_NEXT_DEVOTIONAL';
-export const LOAD_NEXT_DEVOTIONAL_FAIL = 'LOAD_NEXT_DEVOTIONAL_FAIL';
-
-export const LOAD_PREVIOUS_DEVOTIONAL = 'LOAD_PREVIOUS_DEVOTIONAL';
-export const LOAD_PREVIOUS_DEVOTIONAL_FAIL = 'LOAD_PREVIOUS_DEVOTIONAL_FAIL';
-
-export const LOAD_DEVOTIONAL = 'LOAD_DEVOTIONAL';
-
-export function fetchLastDevotionalAction() {
-  return function (dispatch) {
-    dispatch(loadLastDevotionalAction());
-
-    firebase.database()
-      .ref('devotional_list/')
-      .orderByChild('publish_date')
-      .endAt(moment().format('YYYY-MM-DD'))
-      .limitToLast(1)
-      .once('value')
-      .then(success)
-      .catch(error);
-
-    function success(snapshot) {
-      const key = Object.keys(snapshot.val())[0];
-      dispatch(fetchCommentListAction(key));
-      dispatch(loadLastDevotionalSuccessAction(snapshot.val()[key]));
-      dispatch(requestDevotionalSuccessAction(snapshot.val()[key]));
-    }
-
-    function error(error) {
-      dispatch(loadLastDevotionalFailAction({
-        code: error.code,
-        message: error.message
-      }));
-    }
+export function loadCurrentDevotionalAction(devotionalPublishDate) {
+  return function(dispatch) {
+    dispatch(loadDevotionalAction());
+    dispatch(fetchDevotionalAction(devotionalPublishDate, setCurrentDevotionalAction));
   };
 }
 
-export function fetchNextDevotionalAction(publish_date) {
-  return function (dispatch) {
-    dispatch(loadNextDevotionalAction());
-
-    let date = moment(publish_date).add(1, 'days');
-    date = date.isSameOrBefore(moment(), 'day') ? date : moment();
-
-    firebase.database()
-      .ref('devotional_list/')
-      .orderByChild('publish_date')
-      .startAt(date.format('YYYY-MM-DD'))
-      .limitToFirst(1)
-      .once('value')
-      .then(success)
-      .catch(error);
-
-    function success(snapshot) {
-      const key = Object.keys(snapshot.val())[0];
-      dispatch(fetchCommentListAction(key));
-      dispatch(loadDevotionalAction(snapshot.val()[key].id, snapshot.val()[key].publish_date));
-      dispatch(requestDevotionalSuccessAction(snapshot.val()[key]));
-    }
-
-    function error(error) {
-      dispatch(loadNextDevotionalFailAction({
-        code: error.code,
-        message: error.message
-      }));
-    }
+export function loadPrevDevotionalAction(devotionalPublishDate) {
+  return function(dispatch) {
+    dispatch(loadDevotionalAction());
+    dispatch(fetchPreviousDevotionalAction(devotionalPublishDate, setPrevDevotionalAction));
   };
 }
 
-export function fetchPreviousDevotionalAction(publish_date) {
-  return function (dispatch) {
-    dispatch(loadPreviousDevotionalAction());
-
-    firebase.database()
-      .ref('devotional_list/')
-      .orderByChild('publish_date')
-      .endAt(moment(publish_date).subtract(1, 'days').format('YYYY-MM-DD'))
-      .limitToLast(1)
-      .once('value')
-      .then(success)
-      .catch(error);
-
-    function success(snapshot) {
-      const key = Object.keys(snapshot.val())[0];
-      dispatch(fetchCommentListAction(key));
-      dispatch(loadDevotionalAction(snapshot.val()[key].id, snapshot.val()[key].publish_date));
-      dispatch(requestDevotionalSuccessAction(snapshot.val()[key]));
-    }
-
-    function error(error) {
-      dispatch(loadPreviousDevotionalFailAction({
-        code: error.code,
-        message: error.message
-      }));
-    }
-  };
-}
-
-export function loadDevotionalAction (id, publish_date) {
+export function loadDevotionalAction() {
   return {
-    type: LOAD_DEVOTIONAL,
-    id,
-    publish_date
+    type: LOAD_DEVOTIONAL_VIEW
   };
 }
 
-export function loadLastDevotionalAction() {
-	return {
-		type: LOAD_LAST_DEVOTIONAL
-	};
-}
-
-export function loadLastDevotionalSuccessAction(devotional) {
+export function setCurrentDevotionalAction(devotional) {
   return {
-    type: LOAD_LAST_DEVOTIONAL_SUCCESS,
+    type: SET_CURRENT_DEVOTIONAL,
     devotional
   };
 }
 
-export function loadLastDevotionalFailAction(error) {
-  return {
-    type: LOAD_LAST_DEVOTIONAL_FAIL,
-    error
-  };
-}
-
-export function loadNextDevotionalAction() {
-  return {
-    type: LOAD_NEXT_DEVOTIONAL
-  };
-}
-
-export function loadNextDevotionalFailAction(error) {
-  return {
-    type: LOAD_NEXT_DEVOTIONAL_FAIL,
-    error
-  };
-}
-
-export function loadPreviousDevotionalAction() {
-  return {
-    type: LOAD_PREVIOUS_DEVOTIONAL
-  };
-}
-
-export function loadPreviousDevotionalFailAction(error) {
-  return {
-    type: LOAD_PREVIOUS_DEVOTIONAL_FAIL,
-    error
+export function setPrevDevotionalAction(devotional) {
+  return function(dispatch) {
+    dispatch(setCurrentDevotionalAction(devotional));
+    dispatch(push('/devotional/' + devotional.publish_date));
   };
 }

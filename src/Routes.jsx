@@ -1,6 +1,14 @@
 import React from 'react';
-import { Router, Route, IndexRoute } from 'react-router';
-import { syncHistoryWithStore, routerActions } from 'react-router-redux';
+import {
+  Router,
+  Route,
+  IndexRoute,
+  IndexRedirect
+} from 'react-router';
+import {
+  syncHistoryWithStore,
+  routerActions
+} from 'react-router-redux';
 import { UserAuthWrapper } from 'redux-auth-wrapper'
 import { baseHistory } from './history.js';
 import store from './store.js';
@@ -45,7 +53,8 @@ const UserIsNotAuthenticated = UserAuthWrapper({
 })
 
 const routes = <Route path="/" component={AppContainer}>
-  <IndexRoute component={DevotionalContainer}/>
+  <IndexRedirect to="/devotional" />
+  <Route path="devotional(/:devotionalPublishDate)" component={DevotionalContainer} />
   <Route path="admin">
     <IndexRoute component={UserIsAdmin(AdminPanelContainer)}/>
     <Route path="devotional">

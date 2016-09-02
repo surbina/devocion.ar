@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { hashHistory  } from 'react-router';
 import {
   toastrSuccess,
@@ -8,6 +9,14 @@ import { deleteDevotionalCommentAction } from '../comments/actions.js';
 export const REQUEST_DEVOTIONAL = 'REQUEST_DEVOTIONAL';
 export const REQUEST_DEVOTIONAL_SUCCESS = 'REQUEST_DEVOTIONAL_SUCCESS';
 export const REQUEST_DEVOTIONAL_FAIL = 'REQUEST_DEVOTIONAL_FAIL';
+
+export const REQUEST_PREV_DEVOTIONAL = 'REQUEST_PREV_DEVOTIONAL';
+export const REQUEST_PREV_DEVOTIONAL_SUCCESS = 'REQUEST_PREV_DEVOTIONAL_SUCCESS';
+export const REQUEST_PREV_DEVOTIONAL_FAIL = 'REQUEST_PREV_DEVOTIONAL_FAIL';
+
+export const REQUEST_NEXT_DEVOTIONAL = 'REQUEST_NEXT_DEVOTIONAL';
+export const REQUEST_NEXT_DEVOTIONAL_SUCCESS = 'REQUEST_NEXT_DEVOTIONAL_SUCCESS';
+export const REQUEST_NEXT_DEVOTIONAL_FAIL = 'REQUEST_NEXT_DEVOTIONAL_FAIL';
 
 export const REQUEST_DEVOTIONAL_LIST = 'REQUEST_DEVOTIONAL_LIST';
 export const REQUEST_DEVOTIONAL_LIST_SUCCESS = 'REQUEST_DEVOTIONAL_LIST_SUCCESS';
@@ -25,7 +34,7 @@ export const SUBMIT_DEVOTIONAL_DELETE = 'SUBMIT_DEVOTIONAL_DELETE';
 export const SUBMIT_DEVOTIONAL_DELETE_SUCCESS = 'SUBMIT_DEVOTIONAL_DELETE_SUCCESS';
 export const SUBMIT_DEVOTIONAL_DELETE_FAIL = 'SUBMIT_DEVOTIONAL_DELETE_FAIL';
 
-export function fetchDevotionalAction(publish_date) {
+export function fetchDevotionalAction(publish_date, callbackAction) {
   return function (dispatch) {
     dispatch(requestDevotionalAction(publish_date));
 
@@ -40,11 +49,48 @@ export function fetchDevotionalAction(publish_date) {
 
     function success(snapshot) {
       const key = Object.keys(snapshot.val())[0];
-      dispatch(requestDevotionalSuccessAction(snapshot.val()[key]));
+      const devotional = snapshot.val()[key];
+      dispatch(requestDevotionalSuccessAction(devotional));
+
+      if(!!callbackAction) {
+        dispatch(callbackAction.call(null, devotional));
+      }
     }
 
     function error(error) {
       dispatch(requestDevotionalFailAction({
+        code: error.code,
+        message: error.message
+      }));
+    }
+  };
+}
+
+export function fetchPreviousDevotionalAction(publish_date, callbackAction) {
+  return function(dispatch) {
+    dispatch(requestPrevDevotionalAction());
+
+    firebase.database()
+      .ref('devotional_list/')
+      .orderByChild('publish_date')
+      .endAt(moment(publish_date).subtract(1, 'days').format('YYYY-MM-DD'))
+      .limitToLast(1)
+      .once('value')
+      .then(success)
+      .catch(error);
+
+    function success(snapshot) {
+      const key = Object.keys(snapshot.val())[0];
+      const devotional = snapshot.val()[key];
+      dispatch(requestPrevDevotionalSuccessAction(devotional));
+
+      if(!!callbackAction) {
+        dispatch(callbackAction.call(null, devotional));
+      }
+    }
+
+    function error(error) {
+      dispatch(requestPrevDevotionalSuccessAction({
         code: error.code,
         message: error.message
       }));
@@ -169,6 +215,26 @@ export function requestDevotionalSuccessAction(devotional) {
 export function requestDevotionalFailAction(error) {
   return {
     type: REQUEST_DEVOTIONAL_FAIL,
+    error
+  };
+}
+
+export function requestPrevDevotionalAction() {
+  return {
+    type: REQUEST_PREV_DEVOTIONAL
+  };
+}
+
+export function requestPrevDevotionalSuccessAction(devotional) {
+  return {
+    type: REQUEST_PREV_DEVOTIONAL_SUCCESS,
+    devotional
+  };
+}
+
+export function requestPrevDevotionalFailAction(error) {
+  return {
+    type: REQUEST_PREV_DEVOTIONAL_FAIL,
     error
   };
 }

@@ -10,6 +10,14 @@ import Comment from '../components/Comment.jsx';
 
 export const CommentList = React.createClass({
   mixins: [PureRenderMixin],
+  componentDidMount: function() {
+    this.props.dispatch(fetchCommentListAction(this.props.devotionalId));
+  },
+  componentWillReceiveProps: function(nextProps) {
+    if(nextProps.devotionalId !== this.props.devotionalId) {
+      this.props.dispatch(fetchCommentListAction(nextProps.devotionalId));
+    }
+  },
   getComments: function() {
     return this.props.comments || Map();
   },

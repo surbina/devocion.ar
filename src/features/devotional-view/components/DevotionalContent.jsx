@@ -20,13 +20,13 @@ export default React.createClass({
         <section className="devotional-view">
           <div className="row">
             <div className="col-md-2 col-xs-6 nav-button">
-              <a href="#" onClick={this.props.onHandlePreviousDevotional}>
+              <a href="javascript:void(0)" onClick={this.props.onHandlePreviousDevotional}>
                 <span className="glyphicon glyphicon-menu-left" aria-hidden="true"></span>
                 Anterior
               </a>
             </div>
             <div className="col-md-2 col-md-push-8 col-xs-6 text-right nav-button">
-              <a href="#" onClick={this.props.onHandleNextDevotional}>
+              <a href="javascript:void(0)" onClick={this.props.onHandleNextDevotional}>
                 Siguiente
                 <span className="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
               </a>

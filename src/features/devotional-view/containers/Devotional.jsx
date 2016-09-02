@@ -1,28 +1,37 @@
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import { connect } from 'react-redux';
+import moment from 'moment';
 import { ThreeBounce } from 'better-react-spinkit';
 
 import DevotionalContent from '../components/DevotionalContent.jsx';
 import { DevotionalCommentContainer } from './DevotionalComment.jsx';
 import {
-  fetchLastDevotionalAction,
-  fetchNextDevotionalAction,
-  fetchPreviousDevotionalAction
+  loadCurrentDevotionalAction,
+  loadPrevDevotionalAction
 } from '../../../reducers/home_section/actions.js';
+import { fetchDevotionalAction } from '../../../reducers/devotional_list/actions.js';
 
-import { LOADING_DEVOTIONAL_STATUS } from '../../../reducers/home_section/actions.js';
+import {
+  LOADING_DEVOTIONAL_STATUS
+} from '../../../reducers/home_section/reducer.js';
 
 export const Devotional = React.createClass({
   mixins: [PureRenderMixin],
   componentDidMount: function () {
-    this.props.dispatch(fetchLastDevotionalAction());
+    const devotionalDate = this.props.params.devotionalPublishDate ?
+      this.props.params.devotionalPublishDate :
+      moment().format('YYYY-MM-DD');
+    this.props.dispatch(loadCurrentDevotionalAction(devotionalDate));
+  },
+  componentWillReceiveProps: function(nextProps) {
+    //console.log('Next props: ', nextProps);
   },
   handleNextDevotional: function () {
-    this.props.dispatch(fetchNextDevotionalAction(this.props.devotional.get('publish_date')));
+    //this.props.dispatch(fetchNextDevotionalAction(this.props.devotional.get('publish_date')));
   },
   handlePreviousDevotional: function () {
-    this.props.dispatch(fetchPreviousDevotionalAction(this.props.devotional.get('publish_date')));
+    this.props.dispatch(loadPrevDevotionalAction(this.props.devotional.get('publish_date')));
   },
   render: function() {
     return(

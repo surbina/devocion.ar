@@ -1,11 +1,20 @@
 import { Map, fromJS } from 'immutable';
 import {
   REQUEST_DEVOTIONAL, REQUEST_DEVOTIONAL_SUCCESS, REQUEST_DEVOTIONAL_FAIL,
+  REQUEST_PREV_DEVOTIONAL, REQUEST_PREV_DEVOTIONAL_SUCCESS, REQUEST_PREV_DEVOTIONAL_FAIL,
   SUBMIT_DEVOTIONAL_ADD, SUBMIT_DEVOTIONAL_ADD_SUCCESS, SUBMIT_DEVOTIONAL_ADD_FAIL,
   REQUEST_DEVOTIONAL_LIST, REQUEST_DEVOTIONAL_LIST_SUCCESS, REQUEST_DEVOTIONAL_LIST_FAIL,
   SUBMIT_DEVOTIONAL_EDIT, SUBMIT_DEVOTIONAL_EDIT_SUCCESS, SUBMIT_DEVOTIONAL_EDIT_FAIL,
   SUBMIT_DEVOTIONAL_DELETE, SUBMIT_DEVOTIONAL_DELETE_SUCCESS, SUBMIT_DEVOTIONAL_DELETE_FAIL
 } from './actions.js';
+
+export const REDUCER_LOADED_STATUS = 'REDUCER_LOADED';
+export const REDUCER_FETCHING_LIST_STATUS = 'REDUCER_FETCHING_LIST';
+export const REDUCER_FETCHING_PREV_DEVOTIONAL_STATUS = 'REDUCER_FETCHING_PREV_DEVOTIONAL';
+export const REDUCER_FETCHING_DEVOTIONAL_STATUS = 'REDUCER_FETCHING_DEVOTIONAL';
+export const REDUCER_FETCHING_NEXT_DEVOTIONAL_STATUS = 'REDUCER_FETCHING_NEXT_DEVOTIONAL';
+export const REDUCER_SUBMITTING_DEVOTIONAL_STATUS = 'REDUCER_SUBMITTING_DEVOTIONAL';
+export const REDUCER_DELETING_DEVOTIONAL_STATUS = 'REDUCER_DELETING_DEVOTIONAL';
 
 export const FETCHING_STATUS = 'FETCHING';
 export const SUBMITTING_STATUS = 'SUBMITTING';
@@ -13,7 +22,10 @@ export const LOADED_STATUS = 'LOADED';
 export const UNLOADED_STATUS = 'UNLOADED';
 export const DELETING_STATUS = 'DELETING';
 
-export default function(state = Map({fetching_list: false}), action) {
+export default function(state = Map({
+  fetching_list: false,
+  status: REDUCER_LOADED_STATUS
+}), action) {
   switch (action.type) {
     case REQUEST_DEVOTIONAL:
       return requestDevotional(state, action.publish_date);
@@ -21,6 +33,14 @@ export default function(state = Map({fetching_list: false}), action) {
       return requestDevotionalSuccess(state, action.devotional);
     case REQUEST_DEVOTIONAL_FAIL:
       return requestDevotionalFail(state, action.publish_date);
+
+    case REQUEST_PREV_DEVOTIONAL:
+      return requestPrevDevotional(state);
+    case REQUEST_PREV_DEVOTIONAL_SUCCESS:
+      return requestPrevDevotionalSuccess(state, action.devotional);
+    case REQUEST_PREV_DEVOTIONAL_FAIL:
+      return requestPrevDevotionalFail(state);
+
     case REQUEST_DEVOTIONAL_LIST:
       return requestDevotionalList(state);
     case REQUEST_DEVOTIONAL_LIST_SUCCESS:
@@ -50,6 +70,7 @@ export default function(state = Map({fetching_list: false}), action) {
 
 function requestDevotional(state, publish_date) {
   return state.merge({
+    status: REDUCER_FETCHING_DEVOTIONAL_STATUS,
     [publish_date]: {
       status: FETCHING_STATUS,
       valid: false
@@ -59,6 +80,7 @@ function requestDevotional(state, publish_date) {
 
 function requestDevotionalSuccess(state, devotional) {
   return state.merge({
+    status: REDUCER_LOADED_STATUS,
     [devotional.publish_date]: {
       id: devotional.id,
       status: LOADED_STATUS,
@@ -74,6 +96,7 @@ function requestDevotionalSuccess(state, devotional) {
 
 function requestDevotionalFail(state, publish_date) {
   return state.merge({
+    status: REDUCER_LOADED_STATUS,
     [publish_date]: {
       status: UNLOADED_STATUS,
       valid: false
@@ -81,8 +104,33 @@ function requestDevotionalFail(state, publish_date) {
   });
 }
 
+function requestPrevDevotional(state) {
+  return state.set('status', REDUCER_FETCHING_PREV_DEVOTIONAL_STATUS);
+}
+
+function requestPrevDevotionalSuccess(state, devotional) {
+  return state.merge({
+    status: REDUCER_LOADED_STATUS,
+    [devotional.publish_date]: {
+      id: devotional.id,
+      status: LOADED_STATUS,
+      valid: true,
+      title: devotional.title,
+      passage: devotional.passage,
+      body: devotional.body,
+      author_name: devotional.author_name,
+      publish_date: devotional.publish_date,
+    }
+  });
+}
+
+function requestPrevDevotionalFail(state) {
+  return state.set('status', REDUCER_LOADED_STATUS);
+}
+
 function requestDevotionalList(state) {
   return state.merge({
+    status: REDUCER_FETCHING_LIST_STATUS,
     fetching_list: true
   });
 }
@@ -96,12 +144,16 @@ function requestDevotionalListSuccess(state, devotionalList) {
   }
 
   return state
-    .merge({fetching_list: false})
+    .merge({
+      status: REDUCER_LOADED_STATUS,
+      fetching_list: false
+    })
     .merge(devsList);
 }
 
 function submitDevotionalAdd(state, devotional) {
   return state.merge({
+    status: REDUCER_SUBMITTING_DEVOTIONAL_STATUS,
     [devotional.publish_date]: {
       id: devotional.id,
       status: SUBMITTING_STATUS,
@@ -119,6 +171,7 @@ function submitDevotionalAdd(state, devotional) {
 
 function submitDevotionalAddSuccess(state, devotional, oldId) {
   return state.delete(oldId).merge({
+    status: REDUCER_LOADED_STATUS,
     [devotional.publish_date]: {
       id: devotional.id,
       status: LOADED_STATUS,
@@ -135,11 +188,14 @@ function submitDevotionalAddSuccess(state, devotional, oldId) {
 }
 
 function submitDevotionalAddFail(state, error, oldId) {
-  return state.delete(oldId);
+  return state
+    .delete(oldId)
+    .set('status', REDUCER_LOADED_STATUS);
 }
 
 function submitDevotionalEdit(state, devotional) {
   return state.merge({
+    status: REDUCER_SUBMITTING_DEVOTIONAL_STATUS,
     [devotional.publish_date]: {
       id: devotional.id,
       status: SUBMITTING_STATUS,
@@ -156,33 +212,43 @@ function submitDevotionalEdit(state, devotional) {
 }
 
 function submitDevotionalEditSuccess(state, devotional) {
-  return state.setIn(
-    [devotional.publish_date, 'status'],
-    LOADED_STATUS
-  );
+  return state
+    .set('status', REDUCER_LOADED_STATUS)
+    .setIn(
+      [devotional.publish_date, 'status'],
+      LOADED_STATUS
+    );
 }
 
 function submitDevotionalEditFail(state, error) {
-  return state.setIn(
-    [devotional.publish_date, 'status'],
-    LOADED_STATUS
-  );
+  return state
+    .set('status', REDUCER_LOADED_STATUS)
+    .setIn(
+      [devotional.publish_date, 'status'],
+      LOADED_STATUS
+    );
 }
 
 function submitDevotionalDelete (state, devotionalPublishDate) {
-  return state.setIn(
-    [devotionalPublishDate, 'status'],
-    DELETING_STATUS
-  );
+  return state
+    .set('status', REDUCER_DELETING_DEVOTIONAL_STATUS)
+    .setIn(
+      [devotionalPublishDate, 'status'],
+      DELETING_STATUS
+    );
 }
 
 function submitDevotionalDeleteSuccess (state, devotionalPublishDate) {
-  return state.delete(devotionalPublishDate);
+  return state
+    .delete(devotionalPublishDate)
+    .set('status', REDUCER_LOADED_STATUS);
 }
 
 function submitDevotionalDeleteFail (state, devotionalPublishDate) {
-  return state.setIn(
-    [devotionalPublishDate, 'status'],
-    LOADED_STATUS
-  );
+  return state
+    .set('status', REDUCER_LOADED_STATUS)
+    .setIn(
+      [devotionalPublishDate, 'status'],
+      LOADED_STATUS
+    );
 }

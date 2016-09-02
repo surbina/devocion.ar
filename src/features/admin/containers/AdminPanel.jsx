@@ -60,7 +60,7 @@ export const AdminPanel = React.createClass({
 function mapStateToProps(state) {
   return {
     isLoadingDevotional: state.devotional_list.get('fetching_list'),
-    devotionals: state.devotional_list.delete('fetching_list').toList()
+    devotionals: state.devotional_list.delete('fetching_list').delete('status').toList()
   };
 }
 
