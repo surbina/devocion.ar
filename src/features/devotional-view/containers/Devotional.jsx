@@ -6,7 +6,10 @@ import { ThreeBounce } from 'better-react-spinkit';
 
 import DevotionalContent from '../components/DevotionalContent.jsx';
 import { DevotionalCommentContainer } from './DevotionalComment.jsx';
-import { loadCurrentDevotionalAction } from '../../../reducers/home_section/actions.js';
+import {
+  loadCurrentOrPreviousDevotionalAction,
+  loadCurrentOrNextDevotionalAction
+} from '../../../reducers/home_section/actions.js';
 import { fetchDevotionalAction } from '../../../reducers/devotional_list/actions.js';
 
 import {
@@ -19,14 +22,21 @@ export const Devotional = React.createClass({
     const devotionalDate = this.props.params.devotionalPublishDate ?
       this.props.params.devotionalPublishDate :
       moment().format('YYYY-MM-DD');
-    this.props.dispatch(loadCurrentDevotionalAction(devotionalDate));
+    this.props.dispatch(loadCurrentOrPreviousDevotionalAction(devotionalDate));
   },
   componentWillReceiveProps: function(nextProps) {
     if(nextProps.params.devotionalPublishDate !== this.props.params.devotionalPublishDate) {
-      const devotionalDate = nextProps.params.devotionalPublishDate ?
-        nextProps.params.devotionalPublishDate :
-        moment().format('YYYY-MM-DD');
-      this.props.dispatch(loadCurrentDevotionalAction(devotionalDate));
+      const oldDate = moment(this.props.devotional.get('publish_date'));
+      const newDate = nextProps.params.devotionalPublishDate ?
+        moment(nextProps.params.devotionalPublishDate) :
+        moment();
+
+      if(newDate.isSameOrBefore(oldDate, 'day')) {
+        this.props.dispatch(loadCurrentOrPreviousDevotionalAction(newDate.format('YYYY-MM-DD')));
+      }
+      else {
+        this.props.dispatch(loadCurrentOrNextDevotionalAction(newDate.format('YYYY-MM-DD')));
+      }
     }
   },
   render: function() {

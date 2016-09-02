@@ -1,15 +1,22 @@
 import {
-  fetchDevotionalAction,
-  fetchPreviousDevotionalAction
+  fetchPrevDevotionalAction,
+  fetchNextDevotionalAction
 } from '../devotional_list/actions.js'
 
 export const LOAD_DEVOTIONAL_VIEW = 'LOAD_DEVOTIONAL_VIEW';
 export const SET_CURRENT_DEVOTIONAL = 'SET_CURRENT_DEVOTIONAL';
 
-export function loadCurrentDevotionalAction(devotionalPublishDate) {
+export function loadCurrentOrPreviousDevotionalAction(devotionalPublishDate) {
   return function(dispatch) {
     dispatch(loadDevotionalAction());
-    dispatch(fetchDevotionalAction(devotionalPublishDate, setCurrentDevotionalAction));
+    dispatch(fetchPrevDevotionalAction(devotionalPublishDate, setCurrentDevotionalAction));
+  };
+}
+
+export function loadCurrentOrNextDevotionalAction(devotionalPublishDate) {
+  return function(dispatch) {
+    dispatch(loadDevotionalAction());
+    dispatch(fetchNextDevotionalAction(devotionalPublishDate, setCurrentDevotionalAction));
   };
 }
 
