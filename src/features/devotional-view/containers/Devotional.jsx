@@ -6,10 +6,7 @@ import { ThreeBounce } from 'better-react-spinkit';
 
 import DevotionalContent from '../components/DevotionalContent.jsx';
 import { DevotionalCommentContainer } from './DevotionalComment.jsx';
-import {
-  loadCurrentDevotionalAction,
-  loadPrevDevotionalAction
-} from '../../../reducers/home_section/actions.js';
+import { loadCurrentDevotionalAction } from '../../../reducers/home_section/actions.js';
 import { fetchDevotionalAction } from '../../../reducers/devotional_list/actions.js';
 
 import {
@@ -25,13 +22,12 @@ export const Devotional = React.createClass({
     this.props.dispatch(loadCurrentDevotionalAction(devotionalDate));
   },
   componentWillReceiveProps: function(nextProps) {
-    //console.log('Next props: ', nextProps);
-  },
-  handleNextDevotional: function () {
-    //this.props.dispatch(fetchNextDevotionalAction(this.props.devotional.get('publish_date')));
-  },
-  handlePreviousDevotional: function () {
-    this.props.dispatch(loadPrevDevotionalAction(this.props.devotional.get('publish_date')));
+    if(nextProps.params.devotionalPublishDate !== this.props.params.devotionalPublishDate) {
+      const devotionalDate = nextProps.params.devotionalPublishDate ?
+        nextProps.params.devotionalPublishDate :
+        moment().format('YYYY-MM-DD');
+      this.props.dispatch(loadCurrentDevotionalAction(devotionalDate));
+    }
   },
   render: function() {
     return(
@@ -42,10 +38,7 @@ export const Devotional = React.createClass({
           </div>
         </div> :
         <div>
-            <DevotionalContent
-              devotional={this.props.devotional}
-              onHandleNextDevotional={this.handleNextDevotional}
-              onHandlePreviousDevotional={this.handlePreviousDevotional}/>
+            <DevotionalContent devotional={this.props.devotional} />
             <DevotionalCommentContainer devotional={this.props.devotional}/>
         </div>
     );

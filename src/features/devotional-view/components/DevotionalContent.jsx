@@ -2,12 +2,19 @@ require('./DevotionalContent.scss');
 
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
+import { Link } from 'react-router';
 import moment from 'moment';
 import { ThreeBounce } from 'better-react-spinkit';
 
 export default React.createClass({
   mixins: [PureRenderMixin],
   render: function() {
+    let prevDate, nextDate;
+    if(!!this.props.devotional) {
+      prevDate = moment(this.props.devotional.get('publish_date')).subtract(1, 'days').format('YYYY-MM-DD');
+      nextDate = moment(this.props.devotional.get('publish_date')).add(1, 'days').format('YYYY-MM-DD');
+    }
+
     return(
       this.props.devotional === undefined || this.props.devotional.get('fetching') ?
         <section className="devotional-view">
@@ -20,16 +27,16 @@ export default React.createClass({
         <section className="devotional-view">
           <div className="row">
             <div className="col-md-2 col-xs-6 nav-button">
-              <a href="javascript:void(0)" onClick={this.props.onHandlePreviousDevotional}>
+              <Link to={"/devotional/" + prevDate} >
                 <span className="glyphicon glyphicon-menu-left" aria-hidden="true"></span>
                 Anterior
-              </a>
+              </Link>
             </div>
             <div className="col-md-2 col-md-push-8 col-xs-6 text-right nav-button">
-              <a href="javascript:void(0)" onClick={this.props.onHandleNextDevotional}>
+              <Link to={"/devotional/" + nextDate}>
                 Siguiente
                 <span className="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
-              </a>
+              </Link>
             </div>
             <div className="col-md-8 col-md-pull-2 col-xs-12 text-center">
               <h3>{this.props.devotional.get('title')}</h3>

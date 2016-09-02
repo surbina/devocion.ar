@@ -1,7 +1,6 @@
 import { Map, fromJS } from 'immutable';
 import {
   REQUEST_DEVOTIONAL, REQUEST_DEVOTIONAL_SUCCESS, REQUEST_DEVOTIONAL_FAIL,
-  REQUEST_PREV_DEVOTIONAL, REQUEST_PREV_DEVOTIONAL_SUCCESS, REQUEST_PREV_DEVOTIONAL_FAIL,
   SUBMIT_DEVOTIONAL_ADD, SUBMIT_DEVOTIONAL_ADD_SUCCESS, SUBMIT_DEVOTIONAL_ADD_FAIL,
   REQUEST_DEVOTIONAL_LIST, REQUEST_DEVOTIONAL_LIST_SUCCESS, REQUEST_DEVOTIONAL_LIST_FAIL,
   SUBMIT_DEVOTIONAL_EDIT, SUBMIT_DEVOTIONAL_EDIT_SUCCESS, SUBMIT_DEVOTIONAL_EDIT_FAIL,
@@ -33,14 +32,6 @@ export default function(state = Map({
       return requestDevotionalSuccess(state, action.devotional);
     case REQUEST_DEVOTIONAL_FAIL:
       return requestDevotionalFail(state, action.publish_date);
-
-    case REQUEST_PREV_DEVOTIONAL:
-      return requestPrevDevotional(state);
-    case REQUEST_PREV_DEVOTIONAL_SUCCESS:
-      return requestPrevDevotionalSuccess(state, action.devotional);
-    case REQUEST_PREV_DEVOTIONAL_FAIL:
-      return requestPrevDevotionalFail(state);
-
     case REQUEST_DEVOTIONAL_LIST:
       return requestDevotionalList(state);
     case REQUEST_DEVOTIONAL_LIST_SUCCESS:
@@ -102,30 +93,6 @@ function requestDevotionalFail(state, publish_date) {
       valid: false
     }
   });
-}
-
-function requestPrevDevotional(state) {
-  return state.set('status', REDUCER_FETCHING_PREV_DEVOTIONAL_STATUS);
-}
-
-function requestPrevDevotionalSuccess(state, devotional) {
-  return state.merge({
-    status: REDUCER_LOADED_STATUS,
-    [devotional.publish_date]: {
-      id: devotional.id,
-      status: LOADED_STATUS,
-      valid: true,
-      title: devotional.title,
-      passage: devotional.passage,
-      body: devotional.body,
-      author_name: devotional.author_name,
-      publish_date: devotional.publish_date,
-    }
-  });
-}
-
-function requestPrevDevotionalFail(state) {
-  return state.set('status', REDUCER_LOADED_STATUS);
 }
 
 function requestDevotionalList(state) {

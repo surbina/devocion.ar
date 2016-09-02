@@ -5,18 +5,11 @@ import {
   toastrError
 } from '../toastr/actions.js';
 import { deleteDevotionalCommentAction } from '../comments/actions.js';
+import { LOADED_STATUS } from './actions.js';
 
 export const REQUEST_DEVOTIONAL = 'REQUEST_DEVOTIONAL';
 export const REQUEST_DEVOTIONAL_SUCCESS = 'REQUEST_DEVOTIONAL_SUCCESS';
 export const REQUEST_DEVOTIONAL_FAIL = 'REQUEST_DEVOTIONAL_FAIL';
-
-export const REQUEST_PREV_DEVOTIONAL = 'REQUEST_PREV_DEVOTIONAL';
-export const REQUEST_PREV_DEVOTIONAL_SUCCESS = 'REQUEST_PREV_DEVOTIONAL_SUCCESS';
-export const REQUEST_PREV_DEVOTIONAL_FAIL = 'REQUEST_PREV_DEVOTIONAL_FAIL';
-
-export const REQUEST_NEXT_DEVOTIONAL = 'REQUEST_NEXT_DEVOTIONAL';
-export const REQUEST_NEXT_DEVOTIONAL_SUCCESS = 'REQUEST_NEXT_DEVOTIONAL_SUCCESS';
-export const REQUEST_NEXT_DEVOTIONAL_FAIL = 'REQUEST_NEXT_DEVOTIONAL_FAIL';
 
 export const REQUEST_DEVOTIONAL_LIST = 'REQUEST_DEVOTIONAL_LIST';
 export const REQUEST_DEVOTIONAL_LIST_SUCCESS = 'REQUEST_DEVOTIONAL_LIST_SUCCESS';
@@ -35,23 +28,32 @@ export const SUBMIT_DEVOTIONAL_DELETE_SUCCESS = 'SUBMIT_DEVOTIONAL_DELETE_SUCCES
 export const SUBMIT_DEVOTIONAL_DELETE_FAIL = 'SUBMIT_DEVOTIONAL_DELETE_FAIL';
 
 export function fetchDevotionalAction(publish_date, callbackAction) {
-  return function (dispatch) {
-    dispatch(requestDevotionalAction(publish_date));
+  return function (dispatch, getState) {
+    const state = getState();
+    if(shouldFetchDevotional(state, publish_date)) {
+      dispatch(requestDevotionalAction(publish_date));
 
-    firebase.database()
-      .ref('devotional_list/')
-      .orderByChild('publish_date')
-      .equalTo(publish_date)
-      .limitToLast(1)
-      .once('value')
-      .then(success)
-      .catch(error);
+      firebase.database()
+        .ref('devotional_list/')
+        .orderByChild('publish_date')
+        .equalTo(publish_date)
+        .limitToLast(1)
+        .once('value')
+        .then(success)
+        .catch(error);
+    }
+    else {
+      executeCallback(state.devotional_list.get(publish_date).toJS());
+    }
 
     function success(snapshot) {
       const key = Object.keys(snapshot.val())[0];
       const devotional = snapshot.val()[key];
       dispatch(requestDevotionalSuccessAction(devotional));
+      executeCallback(devotional);
+    }
 
+    function executeCallback(devotional) {
       if(!!callbackAction) {
         dispatch(callbackAction.call(null, devotional));
       }
@@ -66,36 +68,10 @@ export function fetchDevotionalAction(publish_date, callbackAction) {
   };
 }
 
-export function fetchPreviousDevotionalAction(publish_date, callbackAction) {
-  return function(dispatch) {
-    dispatch(requestPrevDevotionalAction());
-
-    firebase.database()
-      .ref('devotional_list/')
-      .orderByChild('publish_date')
-      .endAt(moment(publish_date).subtract(1, 'days').format('YYYY-MM-DD'))
-      .limitToLast(1)
-      .once('value')
-      .then(success)
-      .catch(error);
-
-    function success(snapshot) {
-      const key = Object.keys(snapshot.val())[0];
-      const devotional = snapshot.val()[key];
-      dispatch(requestPrevDevotionalSuccessAction(devotional));
-
-      if(!!callbackAction) {
-        dispatch(callbackAction.call(null, devotional));
-      }
-    }
-
-    function error(error) {
-      dispatch(requestPrevDevotionalSuccessAction({
-        code: error.code,
-        message: error.message
-      }));
-    }
-  };
+function shouldFetchDevotional(state, publish_date) {
+  return state.devotional_list.get(publish_date) === undefined ||
+    (!state.devotional_list.getIn([publish_date, 'valid']) &&
+    state.devotional_list.getIn([publish_date, 'status']) === LOADED_STATUS);
 }
 
 export function fetchDevotionalListAction() {
@@ -215,26 +191,6 @@ export function requestDevotionalSuccessAction(devotional) {
 export function requestDevotionalFailAction(error) {
   return {
     type: REQUEST_DEVOTIONAL_FAIL,
-    error
-  };
-}
-
-export function requestPrevDevotionalAction() {
-  return {
-    type: REQUEST_PREV_DEVOTIONAL
-  };
-}
-
-export function requestPrevDevotionalSuccessAction(devotional) {
-  return {
-    type: REQUEST_PREV_DEVOTIONAL_SUCCESS,
-    devotional
-  };
-}
-
-export function requestPrevDevotionalFailAction(error) {
-  return {
-    type: REQUEST_PREV_DEVOTIONAL_FAIL,
     error
   };
 }
