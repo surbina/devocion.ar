@@ -9,11 +9,11 @@ import { DevotionalCommentContainer } from './DevotionalComment.jsx';
 import {
   loadCurrentOrPreviousDevotionalAction,
   loadCurrentOrNextDevotionalAction
-} from '../../../reducers/home_section/actions.js';
+} from '../../../reducers/devotional_view_section/actions.js';
 
 import {
   LOADING_DEVOTIONAL_STATUS
-} from '../../../reducers/home_section/reducer.js';
+} from '../../../reducers/devotional_view_section/reducer.js';
 
 export const Devotional = React.createClass({
   mixins: [PureRenderMixin],
@@ -56,10 +56,10 @@ export const Devotional = React.createClass({
 });
 
 function mapStateToProps(state) {
-  const currentDevotionalPublishDate = state.home_section.get('current_devotional_publish_date');
+  const currentDevotionalPublishDate = state.devotional_view_section.get('current_devotional_publish_date');
   return {
     devotional: state.devotional_list.get(currentDevotionalPublishDate),
-    loadingDevotional: state.home_section.get('status') === LOADING_DEVOTIONAL_STATUS
+    loadingDevotional: state.devotional_view_section.get('status') === LOADING_DEVOTIONAL_STATUS
   };
 }
 

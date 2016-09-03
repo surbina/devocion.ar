@@ -37,7 +37,7 @@ export const CommentList = React.createClass({
 });
 
 function mapStateToProps(state) {
-  const devotionalId = state.home_section.get('current_devotional_id');
+  const devotionalId = state.devotional_view_section.get('current_devotional_id');
   return {
     devotionalId: devotionalId,
     comments: state.comments.get(devotionalId)

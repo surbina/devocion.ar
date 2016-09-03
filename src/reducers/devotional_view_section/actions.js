@@ -25,7 +25,7 @@ export function updateCurrentDevotional(devotional) {
   return function(dispatch, getState) {
     const state = getState();
     dispatch(setCurrentDevotionalAction(devotional));
-    if(state.home_section.get('target_date') !== devotional.publish_date) {
+    if(state.devotional_view_section.get('target_date') !== devotional.publish_date) {
       dispatch(push('/devotional/' + devotional.publish_date));
     }
   };
