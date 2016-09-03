@@ -9,15 +9,16 @@ export const INIT_STATUS = 'INIT';
 export const LOADING_DEVOTIONAL_STATUS = 'LOADING_DEVOTIONAL';
 export const LOADED_STATUS = 'LOADED';
 
-const target_date_default = null;
-const current_devotional_id_default = '-1';
-const current_devotional_publish_date_default = null;
+const STATUS_DEFAULT = INIT_STATUS;
+const TARGET_DATE_DEFAULT = null;
+const CURRENT_DEVOTIONAL_ID_DEFAULT = '-1';
+const CURRENT_DEVOTIONAL_PUBLISH_DATE_DEFAULT = null;
 
 export default function(state = Map({
-  status: INIT_STATUS,
-  target_date: target_date_default,
-  current_devotional_id: current_devotional_id_default,
-  current_devotional_publish_date: current_devotional_publish_date_default
+  status: STATUS_DEFAULT,
+  target_date: TARGET_DATE_DEFAULT,
+  current_devotional_id: CURRENT_DEVOTIONAL_ID_DEFAULT,
+  current_devotional_publish_date: CURRENT_DEVOTIONAL_PUBLISH_DATE_DEFAULT
 }), action) {
   switch (action.type) {
     case LOAD_DEVOTIONAL_VIEW:

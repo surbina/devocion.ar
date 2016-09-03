@@ -10,14 +10,14 @@ import {
 } from './../../../reducers/devotional_list/reducer.js';
 import { editDevotional } from './../../../reducers/admin/actions.js';
 import {
-  fetchDevotionalAction,
+  fetchPrevDevotionalAction,
   putDevotionalAction
 } from './../../../reducers/devotional_list/actions.js';
 
 export const DevotionalEdit = React.createClass({
   mixins: [PureRenderMixin],
   componentWillMount: function() {
-    this.props.dispatch(fetchDevotionalAction(this.props.params.devotionalPublishDate));
+    this.props.dispatch(fetchPrevDevotionalAction(this.props.params.devotionalPublishDate));
     this.props.dispatch(editDevotional(this.props.params.devotionalPublishDate));
   },
   handleDevotionalSubmit: function (devotional) {

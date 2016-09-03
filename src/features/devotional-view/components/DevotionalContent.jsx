@@ -16,7 +16,7 @@ export default React.createClass({
     }
 
     return(
-      this.props.devotional === undefined || this.props.devotional.get('fetching') ?
+      this.props.devotional === undefined ?
         <section className="devotional-view">
           <div className="row">
             <div className="col-md-12 text-center">

@@ -7,12 +7,13 @@ import { Link } from 'react-router';
 import { Map } from 'immutable';
 import { ThreeBounce } from 'better-react-spinkit';
 
-import DevotionalItem from './../components/DevotionalItem.jsx';
-
 import {
   fetchDevotionalListAction,
   deleteDevotionalAction
-} from './../../../reducers/devotional_list/actions.js';
+} from '../../../reducers/devotional_list/actions.js';
+import { REDUCER_FETCHING_LIST_STATUS } from '../../../reducers/devotional_list/reducer.js';
+
+import DevotionalItem from '../components/DevotionalItem.jsx';
 
 export const AdminPanel = React.createClass({
   mixins: [PureRenderMixin],
@@ -59,8 +60,8 @@ export const AdminPanel = React.createClass({
 
 function mapStateToProps(state) {
   return {
-    isLoadingDevotional: state.devotional_list.get('fetching_list'),
-    devotionals: state.devotional_list.delete('fetching_list').delete('status').toList()
+    isLoadingDevotional: state.devotional_list.get('status') === REDUCER_FETCHING_LIST_STATUS,
+    devotionals: state.devotional_list.delete('status').delete('currently_devotional_working_date').toList()
   };
 }
 

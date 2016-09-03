@@ -10,7 +10,6 @@ import {
   loadCurrentOrPreviousDevotionalAction,
   loadCurrentOrNextDevotionalAction
 } from '../../../reducers/home_section/actions.js';
-import { fetchDevotionalAction } from '../../../reducers/devotional_list/actions.js';
 
 import {
   LOADING_DEVOTIONAL_STATUS
