@@ -3,7 +3,10 @@ import activeComponent from 'react-router-active-component';
 import { Link } from 'react-router';
 import { ThreeBounce } from 'better-react-spinkit';
 
-import { ANONYMOUS_USER_STATUS, SIGNED_USER_STATUS } from '../../../reducers/user/reducer.js';
+import {
+  ANONYMOUS_USER_STATUS,
+  SIGNED_USER_STATUS
+} from '../../../reducers/user/reducer.js';
 
 const NavItem = activeComponent('li');
 
@@ -28,7 +31,8 @@ export default React.createClass({
 
           <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul className="nav navbar-nav">
-              <NavItem to="/devotional" onlyActiveOnIndex>Inicio</NavItem>
+              <NavItem to="/devotional">Inicio</NavItem>
+              <NavItem to="/calendar">Calendario</NavItem>
               {this.props.user.get('is_admin') ?
                 <NavItem to="/admin">Administrador</NavItem> :
                 false}

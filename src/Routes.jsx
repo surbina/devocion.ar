@@ -13,14 +13,15 @@ import { UserAuthWrapper } from 'redux-auth-wrapper'
 import { baseHistory } from './history.js';
 import store from './store.js';
 
-import { AppContainer } from './features/app/containers/App';
-import { DevotionalContainer } from './features/devotional-view/containers/Devotional';
+import { AppContainer } from './features/app/containers/App.jsx';
+import { DevotionalContainer } from './features/devotional-view/containers/Devotional.jsx';
+import { CalendarContainer } from './features/calendar-view/containers/Calendar.jsx';
 import { AdminPanelContainer } from './features/admin/containers/AdminPanel.jsx';
-import { DevotionalAddContainer } from './features/admin/containers/DevotionalAdd';
-import { DevotionalEditContainer } from './features/admin/containers/DevotionalEdit';
-import { SignUpContainer } from './features/auth/containers/SignUp';
-import { SignInContainer } from './features/auth/containers/SignIn';
-import { ResetPasswordContainer } from './features/auth/containers/ResetPassword';
+import { DevotionalAddContainer } from './features/admin/containers/DevotionalAdd.jsx';
+import { DevotionalEditContainer } from './features/admin/containers/DevotionalEdit.jsx';
+import { SignUpContainer } from './features/auth/containers/SignUp.jsx';
+import { SignInContainer } from './features/auth/containers/SignIn.jsx';
+import { ResetPasswordContainer } from './features/auth/containers/ResetPassword.jsx';
 
 import {
   SIGNING_IN_STATUS,
@@ -55,6 +56,7 @@ const UserIsNotAuthenticated = UserAuthWrapper({
 const routes = <Route path="/" component={AppContainer}>
   <IndexRedirect to="/devotional" />
   <Route path="devotional(/:devotionalPublishDate)" component={DevotionalContainer} />
+  <Route path="calendar" component={CalendarContainer} />
   <Route path="admin">
     <IndexRoute component={UserIsAdmin(AdminPanelContainer)}/>
     <Route path="devotional">
