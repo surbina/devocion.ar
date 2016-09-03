@@ -1,5 +1,6 @@
 import React from 'react';
 import activeComponent from 'react-router-active-component';
+import { Link } from 'react-router';
 import { ThreeBounce } from 'better-react-spinkit';
 
 import { ANONYMOUS_USER_STATUS, SIGNED_USER_STATUS } from '../../../reducers/user/reducer.js';
@@ -22,12 +23,12 @@ export default React.createClass({
               <span className="icon-bar"></span>
               <span className="icon-bar"></span>
             </button>
-            <a className="navbar-brand" href="#">Devocion.AR</a>
+            <Link to="/devotional" className="navbar-brand">Devocion.AR</Link>
           </div>
 
           <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul className="nav navbar-nav">
-              <NavItem to="/" onlyActiveOnIndex>Inicio</NavItem>
+              <NavItem to="/devotional" onlyActiveOnIndex>Inicio</NavItem>
               {this.props.user.get('is_admin') ?
                 <NavItem to="/admin">Administrador</NavItem> :
                 false}

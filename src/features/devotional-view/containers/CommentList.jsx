@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Map } from 'immutable';
 import { ThreeBounce } from 'better-react-spinkit';
 
-import { fetchCommentListAction } from '../../../reducers/comments/actions.js';
+import { fetchCommentListAction } from '../../../reducers/comment_list/actions.js';
 
 import Comment from '../components/Comment.jsx';
 
@@ -40,7 +40,7 @@ function mapStateToProps(state) {
   const devotionalId = state.devotional_view_section.get('current_devotional_id');
   return {
     devotionalId: devotionalId,
-    comments: state.comments.get(devotionalId)
+    comments: state.comment_list.get(devotionalId)
   };
 }
 

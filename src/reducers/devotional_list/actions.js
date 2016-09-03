@@ -4,7 +4,7 @@ import {
   toastrSuccess,
   toastrError
 } from '../toastr/actions.js';
-import { deleteDevotionalCommentAction } from '../comments/actions.js';
+import { deleteDevotionalCommentAction } from '../comment_list/actions.js';
 import { LOADED_STATUS } from './actions.js';
 
 export const REQUEST_PREV_DEVOTIONAL = 'REQUEST_PREV_DEVOTIONAL';

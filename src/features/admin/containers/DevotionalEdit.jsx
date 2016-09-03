@@ -8,7 +8,7 @@ import {
   SUBMITTING_STATUS,
   FETCHING_STATUS
 } from './../../../reducers/devotional_list/reducer.js';
-import { editDevotional } from './../../../reducers/admin/actions.js';
+import { editDevotional } from './../../../reducers/admin_section/actions.js';
 import {
   fetchPrevDevotionalAction,
   putDevotionalAction

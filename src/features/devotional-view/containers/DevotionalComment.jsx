@@ -3,8 +3,8 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
-import { postCommentAction } from '../../../reducers/comments/actions.js';
-import { SUBMITTING_STATUS } from '../../../reducers/comments/reducer.js';
+import { postCommentAction } from '../../../reducers/comment_list/actions.js';
+import { SUBMITTING_STATUS } from '../../../reducers/comment_list/reducer.js';
 import { SIGNED_USER_STATUS } from '../../../reducers/user/reducer.js';
 
 import CommentForm from '../components/CommentForm.jsx';
@@ -39,7 +39,7 @@ export const DevotionalComment = React.createClass({
 function mapStateToProps(state) {
   return {
     user: state.user,
-    isSubmitting: state.comments.get('status') === SUBMITTING_STATUS
+    isSubmitting: state.comment_list.get('status') === SUBMITTING_STATUS
   };
 }
 
