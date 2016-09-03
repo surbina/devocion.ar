@@ -25,7 +25,8 @@ export const Devotional = React.createClass({
     this.props.dispatch(loadCurrentOrPreviousDevotionalAction(devotionalDate));
   },
   componentWillReceiveProps: function(nextProps) {
-    if(nextProps.params.devotionalPublishDate !== this.props.params.devotionalPublishDate) {
+    if(nextProps.params.devotionalPublishDate !== this.props.params.devotionalPublishDate &&
+      nextProps.params.devotionalPublishDate !== this.props.devotional.get('publish_date')) {
       const oldDate = moment(this.props.devotional.get('publish_date'));
       const newDate = nextProps.params.devotionalPublishDate ?
         moment(nextProps.params.devotionalPublishDate) :
@@ -56,9 +57,9 @@ export const Devotional = React.createClass({
 });
 
 function mapStateToProps(state) {
-  const currentPublicationPublishDate = state.home_section.get('current_devotional_publish_date');
+  const currentDevotionalPublishDate = state.home_section.get('current_devotional_publish_date');
   return {
-    devotional: state.devotional_list.get(currentPublicationPublishDate),
+    devotional: state.devotional_list.get(currentDevotionalPublishDate),
     loadingDevotional: state.home_section.get('status') === LOADING_DEVOTIONAL_STATUS
   };
 }
