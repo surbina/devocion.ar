@@ -16,6 +16,7 @@ module.exports = {
       },
       { test: /\.css$/, loaders: [ 'style', 'css' ] },
       { test: /\.scss$/, loaders: [ 'style', 'css', 'sass' ] },
+      { test: /\.less$/, loaders: [ 'style', 'css', 'less' ] },
       {
         test: /\.woff2?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
         loader: "url?limit=10000"

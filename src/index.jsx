@@ -1,4 +1,5 @@
 require('./components/react-datetime/ReactDatetime.scss');
+import 'react-redux-toastr/src/less/index.less'
 
 import React from 'react';
 import ReactDOM from 'react-dom';
