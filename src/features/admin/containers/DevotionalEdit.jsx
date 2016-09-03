@@ -48,7 +48,7 @@ export const DevotionalEdit = React.createClass({
 });
 
 function mapStateToProps(state) {
-  const devotional = state.devotional_list.get(state.admin.get('editingDevotional')) ? state.devotional_list.get(state.admin.get('editingDevotional')).toJS() : undefined;
+  const devotional = state.devotional_list.get(state.admin_section.get('editingDevotional')) ? state.devotional_list.get(state.admin_section.get('editingDevotional')).toJS() : undefined;
   return {
     user: state.user,
     devotional: devotional
