@@ -14,7 +14,7 @@ import {
 export const SignUp = React.createClass({
   mixins: [PureRenderMixin],
   propTypes: {
-    isSigningIn: React.PropTypes.bool.isRequired
+    isSigningUp: React.PropTypes.bool.isRequired
   },
   handleSignUpSubmit: function(user) {
     this.props.dispatch(createNewUserAction(user));
@@ -37,7 +37,7 @@ export const SignUp = React.createClass({
 
 function mapStateToProps(state) {
   return {
-    isSigningIn: state.user.get('status') === CREATING_USER_STATUS || state.user.get('status') === VALID_USER_STATUS || state.user.get('status') === UPDATING_USER_DATA_STATUS
+    isSigningUp: state.user.get('status') === CREATING_USER_STATUS || state.user.get('status') === VALID_USER_STATUS || state.user.get('status') === UPDATING_USER_DATA_STATUS
   };
 }
 
