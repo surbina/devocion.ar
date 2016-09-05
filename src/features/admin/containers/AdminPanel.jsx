@@ -4,7 +4,7 @@ import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import {connect} from 'react-redux';
 import { Link } from 'react-router';
-import { Map } from 'immutable';
+import { List } from 'immutable';
 import { ThreeBounce } from 'better-react-spinkit';
 
 import {
@@ -17,11 +17,15 @@ import DevotionalItem from '../components/DevotionalItem.jsx';
 
 export const AdminPanel = React.createClass({
   mixins: [PureRenderMixin],
+  propTypes: {
+    isLoadingDevotional: React.PropTypes.bool.isRequired,
+    devotionals: React.PropTypes.instanceOf(List).isRequired
+  },
   componentDidMount: function() {
     this.props.dispatch(fetchDevotionalListAction());
   },
   getDevotionals: function() {
-    return this.props.devotionals || Map();
+    return this.props.devotionals || List();
   },
   handleDevotionalDelete: function(devotional) {
     this.props.dispatch(deleteDevotionalAction(devotional));

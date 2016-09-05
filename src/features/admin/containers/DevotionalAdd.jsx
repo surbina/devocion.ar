@@ -1,6 +1,7 @@
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
+import { Map } from 'immutable';
 import DevotionalForm from './../components/DevotionalForm.jsx';
 
 import { postDevotionalAction } from './../../../reducers/devotional_list/actions.js';
@@ -8,6 +9,10 @@ import { SUBMITTING_STATUS } from './../../../reducers/devotional_list/reducer.j
 
 export const DevotionalAdd = React.createClass({
   mixins: [PureRenderMixin],
+  propTypes: {
+    user: React.PropTypes.instanceOf(Map).isRequired,
+    isSavingDevotional: React.PropTypes.bool.isRequired
+  },
   handleDevotionalSubmit: function (devotional) {
     this.props.dispatch(postDevotionalAction(devotional, '/admin'));
   },

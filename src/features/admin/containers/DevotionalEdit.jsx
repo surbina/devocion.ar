@@ -1,6 +1,7 @@
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
+import { Map } from 'immutable';
 import { ThreeBounce } from 'better-react-spinkit';
 
 import DevotionalForm from './../components/DevotionalForm.jsx';
@@ -16,6 +17,10 @@ import {
 
 export const DevotionalEdit = React.createClass({
   mixins: [PureRenderMixin],
+  propTypes: {
+    user: React.PropTypes.instanceOf(Map).isRequired,
+    devotional: React.PropTypes.object
+  },
   componentWillMount: function() {
     this.props.dispatch(fetchPrevDevotionalAction(this.props.params.devotionalPublishDate));
     this.props.dispatch(editDevotional(this.props.params.devotionalPublishDate));

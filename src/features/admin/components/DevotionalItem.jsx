@@ -4,10 +4,15 @@ import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import moment from 'moment';
 import { Link } from 'react-router';
-import { toastr } from 'react-redux-toastr'
+import { toastr } from 'react-redux-toastr';
+import { Map } from 'immutable';
 
 export default React.createClass({
   mixins: [PureRenderMixin],
+  propTypes: {
+    devotional: React.PropTypes.instanceOf(Map),
+    onDevotionalDelete: React.PropTypes.func.isRequired
+  },
   handleDelete: function() {
     const devotional = this.props.devotional.toJS();
     this.props.onDevotionalDelete(devotional);

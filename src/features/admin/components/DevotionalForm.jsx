@@ -4,10 +4,17 @@ import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import Datetime  from 'react-datetime';
 import moment from 'moment';
+import { Map } from 'immutable';
 import { ThreeBounce } from 'better-react-spinkit';
 
 export default React.createClass({
   mixins: [PureRenderMixin],
+  propTypes: {
+    model: React.PropTypes.object.isRequired,
+    user: React.PropTypes.instanceOf(Map).isRequired,
+    onDevotionalSubmit: React.PropTypes.func.isRequired,
+    isSaving: React.PropTypes.bool.isRequired
+  },
   getInitialState: function() {
     return {
       title: this.props.model.title,
