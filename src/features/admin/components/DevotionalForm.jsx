@@ -2,7 +2,6 @@ require('./DevotionalForm.scss');
 
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-import DatePicker from 'react-bootstrap-date-picker';
 import Datetime  from 'react-datetime';
 import moment from 'moment';
 import { ThreeBounce } from 'better-react-spinkit';
