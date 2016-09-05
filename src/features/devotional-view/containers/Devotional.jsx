@@ -3,6 +3,7 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { ThreeBounce } from 'better-react-spinkit';
+import { Map } from 'immutable';
 
 import DevotionalContent from '../components/DevotionalContent.jsx';
 import { DevotionalCommentContainer } from './DevotionalComment.jsx';
@@ -17,6 +18,10 @@ import {
 
 export const Devotional = React.createClass({
   mixins: [PureRenderMixin],
+  propTypes: {
+    devotional: React.PropTypes.instanceOf(Map),
+    loadingDevotional: React.PropTypes.bool.isRequired
+  },
   componentDidMount: function () {
     const devotionalDate = this.props.params.devotionalPublishDate ?
       this.props.params.devotionalPublishDate :
@@ -49,7 +54,7 @@ export const Devotional = React.createClass({
         </div> :
         <div>
             <DevotionalContent devotional={this.props.devotional} />
-            <DevotionalCommentContainer devotional={this.props.devotional}/>
+            <DevotionalCommentContainer devotional={this.props.devotional} />
         </div>
     );
   }

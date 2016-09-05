@@ -10,6 +10,10 @@ import Comment from '../components/Comment.jsx';
 
 export const CommentList = React.createClass({
   mixins: [PureRenderMixin],
+  propTypes: {
+    devotionalId: React.PropTypes.string.isRequired,
+    comments: React.PropTypes.instanceOf(Map)
+  },
   componentDidMount: function() {
     this.props.dispatch(fetchCommentListAction(this.props.devotionalId));
   },
@@ -28,7 +32,9 @@ export const CommentList = React.createClass({
         <div>
           {this.getComments().size > 0 ?
             this.getComments().valueSeq().map(comment => 
-              <Comment key={comment.get('id')} comment={comment} />
+              <Comment
+                key={comment.get('id')}
+                comment={comment} />
             ):
             <p className="text-center">Todavía no han comentado este devocional.</p>}
         </div>

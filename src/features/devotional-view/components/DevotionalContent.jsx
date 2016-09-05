@@ -5,9 +5,13 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import { Link } from 'react-router';
 import moment from 'moment';
 import { ThreeBounce } from 'better-react-spinkit';
+import { Map } from 'immutable';
 
 export default React.createClass({
   mixins: [PureRenderMixin],
+  propTypes: {
+    devotional: React.PropTypes.instanceOf(Map)
+  },
   render: function() {
     let prevDate, nextDate;
     if(!!this.props.devotional) {

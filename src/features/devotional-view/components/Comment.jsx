@@ -1,9 +1,13 @@
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
+import { Map } from 'immutable';
 import moment from 'moment';
 
 export default React.createClass({
   mixins: [PureRenderMixin],
+  propTypes: {
+    comment: React.PropTypes.instanceOf(Map).isRequired
+  },
   render: function() {
     return(
       <div className="panel panel-default">

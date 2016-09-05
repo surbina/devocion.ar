@@ -5,6 +5,9 @@ import moment from 'moment';
 
 export default React.createClass({
   mixins: [PureRenderMixin],
+  propTypes: {
+    onSelect: React.PropTypes.func.isRequired
+  },
   locale: {
     name: 'es',
     headerFormat: 'dddd, Do MMM',

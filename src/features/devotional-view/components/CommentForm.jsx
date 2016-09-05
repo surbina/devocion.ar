@@ -3,10 +3,17 @@ require('./CommentForm.scss');
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import moment from 'moment';
+import { Map } from 'immutable';
 import { ThreeBounce } from 'better-react-spinkit';
 
 export default React.createClass({
   mixins: [PureRenderMixin],
+  propTypes: {
+    devotionalId: React.PropTypes.string.isRequired,
+    user: React.PropTypes.instanceOf(Map).isRequired,
+    onCommentSubmit: React.PropTypes.func.isRequired,
+    isSubmitting: React.PropTypes.bool.isRequired
+  },
   getInitialState: function() {
     return {comment_body: ''};
   },

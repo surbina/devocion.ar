@@ -2,6 +2,7 @@ import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import { Map } from 'immutable';
 
 import { postCommentAction } from '../../../reducers/comment_list/actions.js';
 import { SUBMITTING_STATUS } from '../../../reducers/comment_list/reducer.js';
@@ -12,6 +13,11 @@ import { CommentListContainer } from './CommentList.jsx';
 
 export const DevotionalComment = React.createClass({
   mixins: [PureRenderMixin],
+  propTypes: {
+    devotional: React.PropTypes.instanceOf(Map),
+    user: React.PropTypes.instanceOf(Map).isRequired,
+    isSubmitting: React.PropTypes.bool.isRequired
+  },
   handleCommentSubmit: function (comment) {
     this.props.dispatch(postCommentAction(this.props.devotional.get('id'), comment));    
   },
