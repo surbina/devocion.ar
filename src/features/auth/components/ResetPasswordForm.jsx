@@ -5,6 +5,10 @@ import { ThreeBounce } from 'better-react-spinkit';
 
 export default React.createClass({
   mixins: [PureRenderMixin],
+  propTypes: {
+    onResetPasswordSubmit: React.PropTypes.func.isRequired,
+    isSendingResetPasswordMail: React.PropTypes.bool.isRequired
+  },
   getInitialState: function() {
     return {email: ''};
   },

@@ -9,6 +9,9 @@ import { SENDING_RESET_PASSWORD_MAIL_STATUS } from '../../../reducers/user/reduc
 
 export const ResetPassword = React.createClass({
   mixins: [PureRenderMixin],
+  propTypes: {
+    isSendingResetPasswordMail: React.PropTypes.bool.isRequired
+  },
   handleResetPasswordSubmit: function(email) {
     this.props.dispatch(sendResetPasswordMailAction(email));
   },

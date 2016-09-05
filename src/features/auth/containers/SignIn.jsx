@@ -12,6 +12,9 @@ import {
 
 export const SignIn = React.createClass({
   mixins: [PureRenderMixin],
+  propTypes: {
+    isSigningIn: React.PropTypes.bool.isRequired
+  },
   handleSignInSubmit: function(user) {
     this.props.dispatch(signInAction(user));
   },
@@ -23,7 +26,9 @@ export const SignIn = React.createClass({
             <h3>Ingresar</h3>
           </div>
         </div>
-        <SignInForm onSignInSubmit={this.handleSignInSubmit} isSigningIn={this.props.isSigningIn}/>
+        <SignInForm
+          onSignInSubmit={this.handleSignInSubmit}
+          isSigningIn={this.props.isSigningIn} />
       </section>
     );
   }

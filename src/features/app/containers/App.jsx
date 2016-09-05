@@ -2,8 +2,9 @@ require('./App.scss');
 
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import ReduxToastr from 'react-redux-toastr';
+import { Map } from 'immutable';
 
 import NavBar from '../components/NavBar.jsx';
 
@@ -11,6 +12,9 @@ import { retrieveCurrentUserAction, signOutAction } from './../../../reducers/us
 
 export const App = React.createClass({
   mixins: [PureRenderMixin],
+  propTypes: {
+    user: React.PropTypes.instanceOf(Map).isRequired
+  },
   componentWillMount: function() {
     this.props.dispatch(retrieveCurrentUserAction());
   },

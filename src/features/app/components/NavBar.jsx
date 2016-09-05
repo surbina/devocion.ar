@@ -1,6 +1,7 @@
 import React from 'react';
 import activeComponent from 'react-router-active-component';
 import { Link } from 'react-router';
+import { Map } from 'immutable';
 import { ThreeBounce } from 'better-react-spinkit';
 
 import {
@@ -11,6 +12,10 @@ import {
 const NavItem = activeComponent('li');
 
 export default React.createClass({
+  propTypes: {
+    user: React.PropTypes.instanceOf(Map).isRequired,
+    onSignOut: React.PropTypes.func.isRequired
+  },
   handleSignOut: function(e) {
     e.preventDefault();
     this.props.onSignOut();

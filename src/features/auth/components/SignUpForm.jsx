@@ -8,6 +8,10 @@ import { ThreeBounce } from 'better-react-spinkit';
 
 export default React.createClass({
   mixins: [PureRenderMixin],
+  propTypes: {
+    onSignUpSubmit: React.PropTypes.func.isRequired,
+    isSigningUp: React.PropTypes.bool.isRequired
+  },
   getInitialState: function() {
     return {firstName: '', lastName: '', email: '', password: '', confirmPassword: ''};
   },

@@ -13,6 +13,9 @@ import {
 
 export const SignUp = React.createClass({
   mixins: [PureRenderMixin],
+  propTypes: {
+    isSigningIn: React.PropTypes.bool.isRequired
+  },
   handleSignUpSubmit: function(user) {
     this.props.dispatch(createNewUserAction(user));
   },
@@ -24,7 +27,9 @@ export const SignUp = React.createClass({
             <h3>Registrarse</h3>
           </div>
         </div>
-        <SignUpForm onSignUpSubmit={this.handleSignUpSubmit} isSigningUp={this.props.isSigningUp} />
+        <SignUpForm
+          onSignUpSubmit={this.handleSignUpSubmit}
+          isSigningUp={this.props.isSigningUp} />
       </section>
     );
   }
