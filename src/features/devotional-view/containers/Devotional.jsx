@@ -36,7 +36,7 @@ export const Devotional = React.createClass({
         moment(nextProps.params.devotionalPublishDate) :
         moment();
 
-      if(newDate.isSameOrBefore(oldDate, 'day')) {
+      if(newDate.isSameOrBefore(oldDate, 'day') || nextProps.params.devotionalPublishDate === undefined) {
         this.props.dispatch(loadCurrentOrPreviousDevotionalAction(newDate.format('YYYY-MM-DD')));
       }
       else {
