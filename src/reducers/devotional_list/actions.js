@@ -1,9 +1,6 @@
 import moment from 'moment';
 import { hashHistory  } from 'react-router';
-import {
-  toastrSuccess,
-  toastrError
-} from '../toastr/actions.js';
+import { toastr } from 'react-redux-toastr';
 import { deleteDevotionalCommentAction } from '../comment_list/actions.js';
 import { LOADED_STATUS } from './actions.js';
 
@@ -176,7 +173,7 @@ export function postDevotionalAction(devotional, redirectRoute) {
       if(!!redirectRoute) {
         hashHistory.push(redirectRoute);
       }
-      dispatch(toastrSuccess('Devocional creado', 'Se creo el devocional'));
+      toastr.success('Devocional creado', 'Se creo el devocional');
     }
 
     function error(error) {
@@ -184,7 +181,7 @@ export function postDevotionalAction(devotional, redirectRoute) {
         code: error.code,
         message: error.message
       }, oldId));
-      dispatch(toastrError('Error al crear devocional', 'Ocurrió un error al crear el devocional, inténtalo de nuevo más tarde'));
+      toastr.error('Error al crear devocional', 'Ocurrió un error al crear el devocional, inténtalo de nuevo más tarde');
     }
   };
 }
@@ -204,7 +201,7 @@ export function putDevotionalAction(devotional, redirectRoute) {
       if(!!redirectRoute) {
         hashHistory.push(redirectRoute);
       }
-      dispatch(toastrSuccess('Cambios guardados', 'Se guardaron los cambios del devocional'));
+      toastr.success('Cambios guardados', 'Se guardaron los cambios del devocional');
     }
 
     function error(error) {
@@ -212,7 +209,7 @@ export function putDevotionalAction(devotional, redirectRoute) {
         code: error.code,
         message: error.message
       }));
-      dispatch(toastrError('Error al guardar los cambios', 'Ocurrió un error al guardar los cambios del devocional, inténtalo de nuevo más tarde'));
+      toastr.error('Error al guardar los cambios', 'Ocurrió un error al guardar los cambios del devocional, inténtalo de nuevo más tarde');
     }
   };
 }
@@ -230,7 +227,7 @@ export function deleteDevotionalAction(devotional) {
     function success() {
       dispatch(submitDevotionalDeleteSuccessAction(devotional.publish_date));
       dispatch(deleteDevotionalCommentAction(devotional.id));
-      dispatch(toastrSuccess('Devocional eliminado', 'Se eliminó el devocional existosamente'));
+      toastr.success('Devocional eliminado', 'Se eliminó el devocional existosamente');
     }
 
     function error(error) {
@@ -238,7 +235,7 @@ export function deleteDevotionalAction(devotional) {
         code: error.code,
         message: error.message
       }, devotional.publish_date));
-      dispatch(toastrError('Error al eliminar el devocional', 'Ocurrió un error al eliminar el devocional, inténtalo de nuevo más tarde'));
+      toastr.error('Error al eliminar el devocional', 'Ocurrió un error al eliminar el devocional, inténtalo de nuevo más tarde');
     }
   };
 }

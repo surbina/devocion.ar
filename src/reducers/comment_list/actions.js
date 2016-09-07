@@ -1,7 +1,4 @@
-import {
-  toastrSuccess,
-  toastrError
-} from '../toastr/actions.js';
+import { toastr } from 'react-redux-toastr';
 
 export const REQUEST_COMMENT_LIST = 'REQUEST_COMMENT_LIST';
 export const REQUEST_COMMENT_LIST_SUCCESS = 'REQUEST_COMMENT_LIST_SUCCESS';
@@ -51,7 +48,7 @@ export function postCommentAction(devotionalId, comment) {
 
     function success() {
       dispatch(submitCommentSuccessAction(devotionalId, comment));
-      dispatch(toastrSuccess('Comentario creado', 'Se agregó el comentario al devocional'));
+      toastr.success('Comentario creado', 'Se agregó el comentario al devocional');
     }
 
     function error(error) {
@@ -59,7 +56,7 @@ export function postCommentAction(devotionalId, comment) {
         code: error.code,
         message: error.message
       }));
-      dispatch(toastrSuccess('Error al crear comentario', 'Se produjo un error creando el comentario, inténtalo de nuevo más tarde'));
+      toastr.success('Error al crear comentario', 'Se produjo un error creando el comentario, inténtalo de nuevo más tarde');
     }
   };
 }
