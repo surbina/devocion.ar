@@ -31,7 +31,7 @@ export const SUBMIT_DEVOTIONAL_DELETE = 'SUBMIT_DEVOTIONAL_DELETE';
 export const SUBMIT_DEVOTIONAL_DELETE_SUCCESS = 'SUBMIT_DEVOTIONAL_DELETE_SUCCESS';
 export const SUBMIT_DEVOTIONAL_DELETE_FAIL = 'SUBMIT_DEVOTIONAL_DELETE_FAIL';
 
-export function fetchPrevDevotionalAction(publish_date, callbackAction) {
+export function fetchPrevDevotionalAction(publish_date, successCallbackAction, emptyCallbackAction) {
   return function (dispatch, getState) {
     const state = getState();
     if(shouldFetchDevotional(state, publish_date)) {
@@ -51,15 +51,27 @@ export function fetchPrevDevotionalAction(publish_date, callbackAction) {
     }
 
     function success(snapshot) {
-      const key = Object.keys(snapshot.val())[0];
-      const devotional = snapshot.val()[key];
-      dispatch(requestPrevDevotionalSuccessAction(devotional));
-      executeCallback(devotional);
+      if(snapshot.hasChildren()) {
+        const key = Object.keys(snapshot.val())[0];
+        const devotional = snapshot.val()[key];
+        dispatch(requestPrevDevotionalSuccessAction(devotional));
+        executeCallback(devotional);
+      }
+      else {
+        dispatch(requestPrevDevotionalFailAction({
+          code: 'MISSING_DEVOTIONAL',
+          message: 'Devotional not found'
+        }));
+
+        if(!!emptyCallbackAction) {
+          dispatch(emptyCallbackAction.call());
+        }
+      }
     }
 
     function executeCallback(devotional) {
-      if(!!callbackAction) {
-        dispatch(callbackAction.call(null, devotional));
+      if(!!successCallbackAction) {
+        dispatch(successCallbackAction.call(null, devotional));
       }
     }
 
@@ -72,7 +84,7 @@ export function fetchPrevDevotionalAction(publish_date, callbackAction) {
   };
 }
 
-export function fetchNextDevotionalAction(publish_date, callbackAction) {
+export function fetchNextDevotionalAction(publish_date, successCallbackAction, emptyCallbackAction) {
   return function (dispatch, getState) {
     const state = getState();
     if(shouldFetchDevotional(state, publish_date)) {
@@ -92,20 +104,32 @@ export function fetchNextDevotionalAction(publish_date, callbackAction) {
     }
 
     function success(snapshot) {
-      const key = Object.keys(snapshot.val())[0];
-      const devotional = snapshot.val()[key];
-      dispatch(requestPrevDevotionalSuccessAction(devotional));
-      executeCallback(devotional);
+      if(snapshot.hasChildren()) {
+        const key = Object.keys(snapshot.val())[0];
+        const devotional = snapshot.val()[key];
+        dispatch(requestNextDevotionalSuccessAction(devotional));
+        executeCallback(devotional);
+      }
+      else {
+        dispatch(requestNextDevotionalFailAction({
+          code: 'MISSING_DEVOTIONAL',
+          message: 'Devotional not found'
+        }));
+
+        if(!!emptyCallbackAction) {
+          dispatch(emptyCallbackAction.call());
+        }
+      }
     }
 
     function executeCallback(devotional) {
-      if(!!callbackAction) {
-        dispatch(callbackAction.call(null, devotional));
+      if(!!successCallbackAction) {
+        dispatch(successCallbackAction.call(null, devotional));
       }
     }
 
     function error(error) {
-      dispatch(requestPrevDevotionalFailAction({
+      dispatch(requestNextDevotionalFailAction({
         code: error.code,
         message: error.message
       }));

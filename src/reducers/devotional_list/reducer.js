@@ -35,13 +35,13 @@ export default function(state = Map({
     case REQUEST_PREV_DEVOTIONAL_SUCCESS:
       return requestPrevDevotionalSuccess(state, action.devotional);
     case REQUEST_PREV_DEVOTIONAL_FAIL:
-      return requestPrevDevotionalFail(state, action.publish_date);
+      return requestPrevDevotionalFail(state);
     case REQUEST_NEXT_DEVOTIONAL:
       return requestNextDevotional(state, action.publish_date);
     case REQUEST_NEXT_DEVOTIONAL_SUCCESS:
       return requestNextDevotionalSuccess(state, action.devotional);
     case REQUEST_NEXT_DEVOTIONAL_FAIL:
-      return requestNextDevotionalFail(state, action.publish_date);
+      return requestNextDevotionalFail(state);
     case REQUEST_DEVOTIONAL_LIST:
       return requestDevotionalList(state);
     case REQUEST_DEVOTIONAL_LIST_SUCCESS:
@@ -93,7 +93,7 @@ function requestPrevDevotionalSuccess(state, devotional) {
   });
 }
 
-function requestPrevDevotionalFail(state, publish_date) {
+function requestPrevDevotionalFail(state) {
   return state.merge({
     status: REDUCER_LOADED_STATUS,
     currently_devotional_working_date: CURRENTLY_DEVOTIONAL_WORKING_DATE_DEFAULT
@@ -124,7 +124,7 @@ function requestNextDevotionalSuccess(state, devotional) {
   });
 }
 
-function requestNextDevotionalFail(state, publish_date) {
+function requestNextDevotionalFail(state) {
   return state.merge({
     status: REDUCER_LOADED_STATUS,
     currently_devotional_working_date: CURRENTLY_DEVOTIONAL_WORKING_DATE_DEFAULT

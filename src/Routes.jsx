@@ -14,6 +14,7 @@ import { baseHistory } from './history.js';
 import store from './store.js';
 
 import { AppContainer } from './features/app/containers/App.jsx';
+import DevotionalNotFound from './features/app/containers/DevotionalNotFound.jsx';
 import { DevotionalContainer } from './features/devotional-view/containers/Devotional.jsx';
 import { CalendarContainer } from './features/calendar-view/containers/Calendar.jsx';
 import { AdminPanelContainer } from './features/admin/containers/AdminPanel.jsx';
@@ -56,6 +57,7 @@ const UserIsNotAuthenticated = UserAuthWrapper({
 const routes = <Route path="/" component={AppContainer}>
   <IndexRedirect to="/devotional" />
   <Route path="devotional(/:devotionalPublishDate)" component={DevotionalContainer} />
+  <Route path="devotional-not-found" component={DevotionalNotFound} />
   <Route path="calendar" component={CalendarContainer} />
   <Route path="admin">
     <IndexRoute component={UserIsAdmin(AdminPanelContainer)}/>
