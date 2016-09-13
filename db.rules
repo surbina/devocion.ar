@@ -1,0 +1,19 @@
+{
+  "rules": {
+    "devotional_list": {
+      ".indexOn": ["publish_date"],
+      ".read": "true",
+      ".write": "root.child('users').child(auth.uid).child('admin').val() === true"
+    },
+    "comment_list": {
+      ".read": "true",
+      ".write": "auth !== null"
+    },
+    "users": {
+      "$user": {
+        ".read": "auth.uid === $user",
+        ".write": "auth.uid === $user"
+      }
+    }
+  }
+}
