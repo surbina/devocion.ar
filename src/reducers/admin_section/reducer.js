@@ -3,7 +3,7 @@ import { Map } from 'immutable';
 import { EDIT_DEVOTIONAL } from './actions.js';
 
 export default function (state = Map({
-  editingDevotional: ''
+  editing_devotional: ''
 }), action) {
   switch (action.type) {
     case EDIT_DEVOTIONAL:
@@ -15,6 +15,6 @@ export default function (state = Map({
 
 function editDevotional(state, publish_date) {
   return state.merge({
-    editingDevotional: publish_date
+    editing_devotional: publish_date
   });
 }

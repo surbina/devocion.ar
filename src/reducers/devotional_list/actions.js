@@ -12,9 +12,9 @@ export const REQUEST_NEXT_DEVOTIONAL = 'REQUEST_NEXT_DEVOTIONAL';
 export const REQUEST_NEXT_DEVOTIONAL_SUCCESS = 'REQUEST_NEXT_DEVOTIONAL_SUCCESS';
 export const REQUEST_NEXT_DEVOTIONAL_FAIL = 'REQUEST_NEXT_DEVOTIONAL_FAIL';
 
-export const REQUEST_DEVOTIONAL_LIST = 'REQUEST_DEVOTIONAL_LIST';
-export const REQUEST_DEVOTIONAL_LIST_SUCCESS = 'REQUEST_DEVOTIONAL_LIST_SUCCESS';
-export const REQUEST_DEVOTIONAL_LIST_FAIL = 'REQUEST_DEVOTIONAL_LIST_FAIL';
+export const REQUEST_DEVOTIONAL_PAGE = 'REQUEST_DEVOTIONAL_PAGE';
+export const REQUEST_DEVOTIONAL_PAGE_SUCCESS = 'REQUEST_DEVOTIONAL_PAGE_SUCCESS';
+export const REQUEST_DEVOTIONAL_PAGE_FAIL = 'REQUEST_DEVOTIONAL_PAGE_FAIL';
 
 export const SUBMIT_DEVOTIONAL_ADD = 'SUBMIT_DEVOTIONAL_ADD';
 export const SUBMIT_DEVOTIONAL_ADD_SUCCESS = 'SUBMIT_DEVOTIONAL_ADD_SUCCESS';
@@ -140,17 +140,41 @@ function shouldFetchDevotional(state, publish_date) {
     state.devotional_list.getIn([publish_date, 'status']) === LOADED_STATUS);
 }
 
-export function fetchDevotionalListAction() {
+export function fetchDevotionalPageAction(lastDevotionalFetchedDate) {
   return function (dispatch) {
-    dispatch(requestDevotionalListAction());
+    dispatch(requestDevotionalPageAction());
+    const pageSize = 10;
 
-    firebase.database().ref('devotional_list/')
-      .orderByKey()
-      .once('value')
-      .then(success);
+    if(lastDevotionalFetchedDate) {
+      firebase.database()
+        .ref('devotional_list/')
+        .orderByChild('publish_date')
+        .endAt(lastDevotionalFetchedDate)
+        .limitToLast(pageSize + 1)
+        .once('value')
+        .then(success)
+        .catch(error);
+    }
+    else {
+      firebase.database()
+        .ref('devotional_list/')
+        .orderByChild('publish_date')
+        .limitToLast(pageSize)
+        .once('value')
+        .then(success)
+        .catch(error);
+    }
 
     function success(snapshot) {
-      dispatch(requestDevotionalListSuccessAction(snapshot.val()));
+      dispatch(requestDevotionalPageSuccessAction(snapshot.val()));
+    }
+
+    function error(error) {
+      dispatch(requestDevotionalPageFailAction({
+        code: error.code,
+        message: error.message
+      }));
+      toastr.error('Error al recuperar devocionales', 'Ocurrió un error al recuperar la lista de devocionales, inténtalo de nuevo más tarde');
     }
   }
 }
@@ -282,22 +306,23 @@ export function requestNextDevotionalFailAction(error) {
   };
 }
 
-export function requestDevotionalListAction() {
+export function requestDevotionalPageAction() {
   return {
-    type: REQUEST_DEVOTIONAL_LIST
+    type: REQUEST_DEVOTIONAL_PAGE
   };
 }
 
-export function requestDevotionalListSuccessAction(devotionalList) {
+export function requestDevotionalPageSuccessAction(devotionalPage) {
   return {
-    type: REQUEST_DEVOTIONAL_LIST_SUCCESS,
-    devotionalList
+    type: REQUEST_DEVOTIONAL_PAGE_SUCCESS,
+    devotionalPage
   };
 }
 
-export function requestDevotionalListFailAction() {
+export function requestDevotionalPageFailAction(error) {
   return {
-    type: REQUEST_DEVOTIONAL_LIST_FAIL
+    type: REQUEST_DEVOTIONAL_PAGE_FAIL,
+    error
   };
 }
 

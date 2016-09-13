@@ -2,14 +2,14 @@ import { Map, fromJS } from 'immutable';
 import {
   REQUEST_PREV_DEVOTIONAL, REQUEST_PREV_DEVOTIONAL_SUCCESS, REQUEST_PREV_DEVOTIONAL_FAIL,
   REQUEST_NEXT_DEVOTIONAL, REQUEST_NEXT_DEVOTIONAL_SUCCESS, REQUEST_NEXT_DEVOTIONAL_FAIL,
+  REQUEST_DEVOTIONAL_PAGE, REQUEST_DEVOTIONAL_PAGE_SUCCESS, REQUEST_DEVOTIONAL_PAGE_FAIL,
   SUBMIT_DEVOTIONAL_ADD, SUBMIT_DEVOTIONAL_ADD_SUCCESS, SUBMIT_DEVOTIONAL_ADD_FAIL,
-  REQUEST_DEVOTIONAL_LIST, REQUEST_DEVOTIONAL_LIST_SUCCESS, REQUEST_DEVOTIONAL_LIST_FAIL,
   SUBMIT_DEVOTIONAL_EDIT, SUBMIT_DEVOTIONAL_EDIT_SUCCESS, SUBMIT_DEVOTIONAL_EDIT_FAIL,
   SUBMIT_DEVOTIONAL_DELETE, SUBMIT_DEVOTIONAL_DELETE_SUCCESS, SUBMIT_DEVOTIONAL_DELETE_FAIL
 } from './actions.js';
 
 export const REDUCER_LOADED_STATUS = 'REDUCER_LOADED';
-export const REDUCER_FETCHING_LIST_STATUS = 'REDUCER_FETCHING_LIST';
+export const REDUCER_FETCHING_PAGE_STATUS = 'REDUCER_FETCHING_PAGE';
 export const REDUCER_FETCHING_PREV_DEVOTIONAL_STATUS = 'REDUCER_FETCHING_PREV_DEVOTIONAL';
 export const REDUCER_FETCHING_DEVOTIONAL_STATUS = 'REDUCER_FETCHING_DEVOTIONAL';
 export const REDUCER_FETCHING_NEXT_DEVOTIONAL_STATUS = 'REDUCER_FETCHING_NEXT_DEVOTIONAL';
@@ -24,10 +24,12 @@ export const DELETING_STATUS = 'DELETING';
 
 const STATUS_DEFAULT = REDUCER_LOADED_STATUS;
 const CURRENTLY_DEVOTIONAL_WORKING_DATE_DEFAULT = '';
+const LAST_DEVOTIONAL_PAGE_DATE_DEFAULT = null;
 
 export default function(state = Map({
   status: STATUS_DEFAULT,
-  currently_devotional_working_date: CURRENTLY_DEVOTIONAL_WORKING_DATE_DEFAULT
+  currently_devotional_working_date: CURRENTLY_DEVOTIONAL_WORKING_DATE_DEFAULT,
+  last_devotional_page_date: LAST_DEVOTIONAL_PAGE_DATE_DEFAULT
 }), action) {
   switch (action.type) {
     case REQUEST_PREV_DEVOTIONAL:
@@ -42,10 +44,12 @@ export default function(state = Map({
       return requestNextDevotionalSuccess(state, action.devotional);
     case REQUEST_NEXT_DEVOTIONAL_FAIL:
       return requestNextDevotionalFail(state);
-    case REQUEST_DEVOTIONAL_LIST:
-      return requestDevotionalList(state);
-    case REQUEST_DEVOTIONAL_LIST_SUCCESS:
-      return requestDevotionalListSuccess(state, action.devotionalList);
+    case REQUEST_DEVOTIONAL_PAGE:
+      return requestDevotionalPage(state);
+    case REQUEST_DEVOTIONAL_PAGE_SUCCESS:
+      return requestDevotionalPageSuccess(state, action.devotionalPage);
+    case REQUEST_DEVOTIONAL_PAGE_FAIL:
+      return requestDevotionalPageFail(state);
     case SUBMIT_DEVOTIONAL_ADD:
       return submitDevotionalAdd(state, action.devotional);
     case SUBMIT_DEVOTIONAL_ADD_SUCCESS:
@@ -131,25 +135,37 @@ function requestNextDevotionalFail(state) {
   });
 }
 
-function requestDevotionalList(state) {
+function requestDevotionalPage(state) {
   return state.merge({
-    status: REDUCER_FETCHING_LIST_STATUS
+    status: REDUCER_FETCHING_PAGE_STATUS
   });
 }
 
-function requestDevotionalListSuccess(state, devotionalList) {
+function requestDevotionalPageSuccess(state, devotionalPage) {
   let devsList = {};
-  for (let prop in devotionalList) {
-    devotionalList[prop].status = LOADED_STATUS;
-    devotionalList[prop].valid = true;
-    devsList[devotionalList[prop].publish_date] = devotionalList[prop];
+  let lastDevDate = null;
+  for (let prop in devotionalPage) {
+    devotionalPage[prop].status = LOADED_STATUS;
+    devotionalPage[prop].valid = true;
+    devsList[devotionalPage[prop].publish_date] = devotionalPage[prop];
+
+    if(!lastDevDate || devotionalPage[prop].publish_date.localeCompare(lastDevDate) < 0) {
+      lastDevDate = devotionalPage[prop].publish_date;
+    }
   }
 
   return state
     .merge({
-      status: REDUCER_LOADED_STATUS
+      status: REDUCER_LOADED_STATUS,
+      last_devotional_page_date: lastDevDate
     })
     .merge(devsList);
+}
+
+function requestDevotionalPageFail(state) {
+  return state.merge({
+    status: REDUCER_LOADED_STATUS
+  });
 }
 
 function submitDevotionalAdd(state, devotional) {
