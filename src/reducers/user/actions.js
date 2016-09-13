@@ -137,7 +137,22 @@ export function signInAction(user) {
         code: error.code,
         message: error.message
       }));
-      toastr.error('Error al ingresar', 'Hubo un error al ingresar, inténtalo de nuevo más tarde');
+
+      switch(error.code) {
+        case 'auth/invalid-email':
+          toastr.error('Dirección de correo incorrecta', 'Hubo un error al ingresar, por favor verifica la dirección de correo ingresada');
+          break;
+        case 'auth/user-disabled':
+          toastr.error('Usuario deshabilitado', 'El usuario está deshabilitado, por favor comunicate con un administrador');
+          break;
+        case 'auth/user-not-found':
+          toastr.error('Usuario no encontrado', 'No se encontró un usuario con esa dirección de correo eletrónico, intenta crear una cuenta con la misma');
+          break;
+        case 'auth/wrong-password':
+          toastr.warning('Contraseña incorrecta', 'Hubo un error al ingresar, por favor verifica la contraseña ingresada');
+          break;
+      }
+
     }
   };
 }
