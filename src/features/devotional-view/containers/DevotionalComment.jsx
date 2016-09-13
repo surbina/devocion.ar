@@ -25,7 +25,7 @@ export const DevotionalComment = React.createClass({
     return(
       this.props.devotional === undefined ?
         false :
-        <section>
+        <aside>
           {this.props.user.get('status') === SIGNED_USER_STATUS ?
             <CommentForm
               devotionalId={this.props.devotional.get('id')}
@@ -37,7 +37,7 @@ export const DevotionalComment = React.createClass({
               <Link to="/sign/up">Registrate</Link> o <Link to="/sign/in">ingresá</Link> para poder comentar.
             </p>}
           <CommentListContainer />
-        </section>
+        </aside>
     );
   }
 });

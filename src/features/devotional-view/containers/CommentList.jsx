@@ -29,7 +29,7 @@ export const CommentList = React.createClass({
     return(
       this.props.comments === undefined ?
         <h5 className="text-center">Cargando comentarios <ThreeBounce /></h5> :
-        <div>
+        <section>
           {this.getComments().size > 0 ?
             this.getComments().valueSeq().map(comment => 
               <Comment
@@ -37,7 +37,7 @@ export const CommentList = React.createClass({
                 comment={comment} />
             ):
             <p className="text-center">Todavía no han comentado este devocional.</p>}
-        </div>
+        </section>
     );
   }
 });

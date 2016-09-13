@@ -29,7 +29,7 @@ export default React.createClass({
           </div>
         </section> :
         <section className="devotional-view">
-          <div className="row">
+          <nav className="row">
             <div className="col-md-2 col-xs-6 nav-button">
               <Link to={"/devotional/" + prevDate} >
                 <span className="glyphicon glyphicon-menu-left" aria-hidden="true"></span>
@@ -45,7 +45,7 @@ export default React.createClass({
             <div className="col-md-8 col-md-pull-2 col-xs-12 text-center">
               <h3>{this.props.devotional.get('title')}</h3>
             </div>
-          </div>
+          </nav>
           <div className="row">
             <div className="col-xs-12 text-center">
               <h5>{this.props.devotional.get('author_name')}</h5>

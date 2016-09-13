@@ -52,10 +52,10 @@ export const Devotional = React.createClass({
             <h4>Cargando devocional <ThreeBounce /></h4>
           </div>
         </div> :
-        <div>
+        <article>
             <DevotionalContent devotional={this.props.devotional} />
             <DevotionalCommentContainer devotional={this.props.devotional} />
-        </div>
+        </article>
     );
   }
 });

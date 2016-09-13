@@ -10,14 +10,14 @@ export default React.createClass({
   },
   render: function() {
     return(
-      <div className="panel panel-default">
+      <article className="panel panel-default">
         <div className="panel-heading">
           {this.props.comment.get('user_first_name')} dijo el {moment(this.props.comment.get('creation_date')).format('LL')}:
         </div>
         <div className="panel-body">
           {this.props.comment.get('comment_body')}
         </div>
-      </div>
+      </article>
     );
   }
 });
