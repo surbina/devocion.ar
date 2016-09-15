@@ -1,4 +1,3 @@
-require('./components/react-datetime/ReactDatetime.scss');
 import 'react-redux-toastr/src/less/index.less';
 import 'react-infinite-calendar/styles.css';
 

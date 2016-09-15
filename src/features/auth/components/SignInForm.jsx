@@ -1,5 +1,3 @@
-require('./SignInForm.scss');
-
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import { Map } from 'immutable';

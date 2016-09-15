@@ -1,5 +1,3 @@
-require('./DevotionalForm.scss');
-
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import Datetime  from 'react-datetime';
@@ -67,7 +65,7 @@ export default React.createClass({
   },
   validateBody: function() {
     const bodyValue = this.state.body.trim();
-    const isValid = !!bodyValue && bodyValue.length < 1500;
+    const isValid = !!bodyValue && bodyValue.length < 4000;
     const validationMessage = !isValid ? 'Por favor completa el contenido del devocional, la longitud del mismo debe ser menor a 1500 caracteres' : '';
 
     this.setState({
