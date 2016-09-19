@@ -10,6 +10,11 @@ export default React.createClass({
   propTypes: {
     devotional: React.PropTypes.instanceOf(Map)
   },
+  createBodyMarkup: function() {
+    return {
+      __html: this.props.devotional.get('body')
+    };
+  },
   render: function() {
     let prevDate, nextDate;
     if(!!this.props.devotional) {
@@ -51,8 +56,7 @@ export default React.createClass({
             <div className="col-xs-12 text-center">
               <h4>{this.props.devotional.get('passage')} - {moment(this.props.devotional.get('publish_date')).format('LL')}</h4>
             </div>
-            <div className="col-xs-12">
-              <pre>{this.props.devotional.get('body')}</pre>
+            <div className="col-xs-12" dangerouslySetInnerHTML={this.createBodyMarkup()}>
             </div>
           </div>
         </section>

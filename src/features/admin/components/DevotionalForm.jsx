@@ -5,6 +5,9 @@ import moment from 'moment';
 import { Map } from 'immutable';
 import { ThreeBounce } from 'better-react-spinkit';
 import classNames from 'classnames';
+import { stateToHTML } from 'draft-js-export-html';
+
+import TextEditor from '../../../components/text-editor/TextEditor.jsx';
 
 export default React.createClass({
   mixins: [PureRenderMixin],
@@ -23,6 +26,7 @@ export default React.createClass({
       passageValid: false,
       passageValidationMessage: '',
       body: this.props.model.body,
+      bodyLength: this.props.model.body.length,
       bodyValid: false,
       bodyValidationMessage: '',
       publish_date: this.props.model.publish_date ? moment(this.props.model.publish_date) : '',
@@ -60,13 +64,18 @@ export default React.createClass({
 
     return isValid;
   },
-  handleBodyChange: function(e) {
-    this.setState({body: e.target.value});
+  handleBodyChange: function(editorState) {
+    const contenState = editorState.getCurrentContent();
+    this.setState({
+      body: stateToHTML(contenState),
+      bodyLength: contenState.getPlainText().length
+    });
   },
   validateBody: function() {
     const bodyValue = this.state.body.trim();
-    const isValid = !!bodyValue && bodyValue.length < 4000;
-    const validationMessage = !isValid ? 'Por favor completa el contenido del devocional, la longitud del mismo debe ser menor a 1500 caracteres' : '';
+    const bodyLength = this.state.bodyLength;
+    const isValid = 0 < bodyLength && bodyLength < 5000;
+    const validationMessage = !isValid ? 'Por favor completa el contenido del devocional, la longitud del mismo debe ser menor a 4000 caracteres' : '';
 
     this.setState({
       bodyValid: isValid,
@@ -199,16 +208,13 @@ export default React.createClass({
 
         <div className="form-group">
           <div className={ bodyClass }>
-            <textarea
-              id="textBody"
+            <TextEditor
               placeholder="Contenido ..."
-              className="form-control"
-              rows="10"
               value={this.state.body}
               onChange={this.handleBodyChange}
               onBlur={this.validateBody}
-            >
-            </textarea>
+              showError={!!this.state.bodyValidationMessage}
+            />
             {!!this.state.bodyValidationMessage ?
               <span id="bodyDateHelpBlock" className="help-block">{this.state.bodyValidationMessage}</span> :
               false}
