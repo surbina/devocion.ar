@@ -1,7 +1,15 @@
 /**
+ * Vendor stylesheets
+ */
+@import '../node_modules/font-awesome/scss/font-awesome.scss';
+@import '../../node_modules/draft-js/dist/Draft.css';
+@import '../../node_modules/react-infinite-calendar/styles.css';
+@import '../../node_modules/react-redux-toastr/lib/css/react-redux-toastr.css';
+@import '../../node_modules/react-datetime/css/react-datetime.css';
+
+/**
  * Components
  */
-@import 'components/react-datetime/ReactDatetime';
 @import 'components/text-editor/TextEditor';
 
 /**

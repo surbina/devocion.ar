@@ -1,7 +1,3 @@
-import 'react-redux-toastr/src/less/index.less';
-import 'react-infinite-calendar/styles.css';
-import 'draft-js/dist/Draft.css';
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';

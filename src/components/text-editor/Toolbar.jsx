@@ -1,18 +1,19 @@
 import React from 'react';
 import { RichUtils } from 'draft-js';
 import classNames from 'classnames';
-import StyleButton from './StyleButton.jsx'
+import FontAwesome from 'react-fontawesome';
+import StyleButton from './StyleButton.jsx';
 
 const INLINE_STYLES = [
-  {label: 'Bold', style: 'BOLD'},
-  {label: 'Italic', style: 'ITALIC'},
-  {label: 'Underline', style: 'UNDERLINE'},
+  {label: 'Bold', style: 'BOLD', icon: 'bold'},
+  {label: 'Italic', style: 'ITALIC', icon: 'italic'},
+  {label: 'Underline', style: 'UNDERLINE', icon: 'underline'}
 ];
 
 const BLOCK_TYPES = [
-  {label: 'OL', style: 'ordered-list-item'},
-  {label: 'UL', style: 'unordered-list-item'},
-  {label: 'Blockquote', style: 'blockquote'}
+  {label: 'OL', style: 'ordered-list-item', icon: 'list-ol'},
+  {label: 'UL', style: 'unordered-list-item', icon: 'list-ul'},
+  {label: 'Citar', style: 'blockquote', icon: 'quote-right'}
 ];
 
 class Toolbar extends React.Component {
@@ -52,7 +53,7 @@ class Toolbar extends React.Component {
               isActive={currentInlineStyle.has(type.style)}
               onToggle={this.onInlineStyleToggle.bind(that, type.style)}
             >
-              {type.label}
+              <FontAwesome name={type.icon} />
             </StyleButton>
           )}
 
@@ -62,7 +63,7 @@ class Toolbar extends React.Component {
               isActive={type.style === blockType}
               onToggle={this.onBlockTypeToggle.bind(that, type.style)}
             >
-              {type.label}
+              <FontAwesome name={type.icon} />
             </StyleButton>
           )}
         </div>
