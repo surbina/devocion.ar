@@ -39,8 +39,8 @@ export default React.createClass({
     this.setState({password: e.target.value});
   },
   validatePassword: function() {
-    const isValid = this.state.password.length >= 6;
-    const validationMessage = !isValid ? 'Por favor introduce un password más fuerte (al menos 6 caracteres)' : '';
+    const isValid = this.state.password.length > 0;
+    const validationMessage = !isValid ? 'Por favor introduce un password' : '';
 
     this.setState({
       passwordValid: isValid,

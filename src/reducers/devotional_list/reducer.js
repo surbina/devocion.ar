@@ -11,7 +11,6 @@ import {
 export const REDUCER_LOADED_STATUS = 'REDUCER_LOADED';
 export const REDUCER_FETCHING_PAGE_STATUS = 'REDUCER_FETCHING_PAGE';
 export const REDUCER_FETCHING_PREV_DEVOTIONAL_STATUS = 'REDUCER_FETCHING_PREV_DEVOTIONAL';
-export const REDUCER_FETCHING_DEVOTIONAL_STATUS = 'REDUCER_FETCHING_DEVOTIONAL';
 export const REDUCER_FETCHING_NEXT_DEVOTIONAL_STATUS = 'REDUCER_FETCHING_NEXT_DEVOTIONAL';
 export const REDUCER_SUBMITTING_DEVOTIONAL_STATUS = 'REDUCER_SUBMITTING_DEVOTIONAL';
 export const REDUCER_DELETING_DEVOTIONAL_STATUS = 'REDUCER_DELETING_DEVOTIONAL';
@@ -75,7 +74,7 @@ export default function(state = Map({
 
 function requestPrevDevotional(state, publish_date) {
   return state.merge({
-    status: REDUCER_FETCHING_DEVOTIONAL_STATUS,
+    status: REDUCER_FETCHING_PREV_DEVOTIONAL_STATUS,
     currently_devotional_working_date: publish_date
   });
 }
@@ -106,7 +105,7 @@ function requestPrevDevotionalFail(state) {
 
 function requestNextDevotional(state, publish_date) {
   return state.merge({
-    status: REDUCER_FETCHING_DEVOTIONAL_STATUS,
+    status: REDUCER_FETCHING_NEXT_DEVOTIONAL_STATUS,
     currently_devotional_working_date: publish_date
   });
 }

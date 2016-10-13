@@ -150,7 +150,6 @@ function submitAdditionalUserDataFail() {
   });
 }
 
-
 function submitSignIn(state) {
   return state.merge({
     status: SIGNING_IN_STATUS
