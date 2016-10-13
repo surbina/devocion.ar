@@ -2,8 +2,6 @@
 
 ## Synopsis
 
-At the top of the file there should be a short introduction and/ or overview that explains **what** the project is. This description should match descriptions added for package managers (Gemspec, package.json, etc.)
-
 devocion.ar is a simple application designed to share daily devotional within your church or community. You can register, create devotionals, read them and create comments.
 
 ## Technologies
