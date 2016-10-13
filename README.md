@@ -6,11 +6,11 @@ devocion.ar is a simple application designed to share daily devotional within yo
 
 ## Technologies
 
-devocion.ar is mainly built on top of three main technologies:
+devocion.ar is mainly built on top of three technologies:
 
-1. ReactJS
-2. Redux
-3. Firebase
+1. [ReactJS](https://facebook.github.io/react/)
+2. [Redux](http://redux.js.org/)
+3. [Firebase](https://firebase.google.com/)
 
 ## Installation
 
