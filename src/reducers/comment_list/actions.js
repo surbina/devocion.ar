@@ -1,3 +1,4 @@
+import * as firebase from 'firebase';
 import { toastr } from 'react-redux-toastr';
 
 export const REQUEST_COMMENT_LIST = 'REQUEST_COMMENT_LIST';

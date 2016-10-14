@@ -1,3 +1,4 @@
+import * as firebase from 'firebase';
 import moment from 'moment';
 import { hashHistory  } from 'react-router';
 import { toastr } from 'react-redux-toastr';
