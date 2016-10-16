@@ -43,7 +43,8 @@ export default React.createClass({
                   <li className="dropdown">
                     <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administrador <span className="caret"></span></a>
                     <ul className="dropdown-menu">
-                      <NavItem to="/admin">Devocionales</NavItem>
+                      <li><Link to="/admin">Devocionales</Link></li>
+                      <li><Link to="/admin/user">Usuarios</Link></li>
                     </ul>
                   </li>
                 </ul> :

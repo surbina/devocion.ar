@@ -10,6 +10,8 @@
       ".write": "auth !== null"
     },
     "users": {
+      ".read": "root.child('users').child(auth.uid).child('admin').val() === true",
+      ".write": "root.child('users').child(auth.uid).child('admin').val() === true",
       "$user": {
         ".read": "auth.uid === $user",
         ".write": "auth.uid === $user"
