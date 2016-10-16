@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 
 import { DevotionalListContainer } from './DevotionalList.jsx';
 
-export const AdminPanel = React.createClass({
+export const DevotionalPanel = React.createClass({
   mixins: [PureRenderMixin],
   render: function() {
     return(
@@ -34,4 +34,4 @@ function mapStateToProps(state) {
   return {};
 }
 
-export const AdminPanelContainer = connect(mapStateToProps)(AdminPanel);
+export const DevotionalPanelContainer = connect(mapStateToProps)(DevotionalPanel);

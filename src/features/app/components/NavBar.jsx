@@ -39,7 +39,14 @@ export default React.createClass({
               <NavItem to="/devotional">Inicio</NavItem>
               <NavItem to="/calendar">Calendario</NavItem>
               {this.props.user.get('is_admin') ?
-                <NavItem to="/admin">Administrador</NavItem> :
+                <ul className="nav navbar-nav">
+                  <li className="dropdown">
+                    <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administrador <span className="caret"></span></a>
+                    <ul className="dropdown-menu">
+                      <NavItem to="/admin">Devocionales</NavItem>
+                    </ul>
+                  </li>
+                </ul> :
                 false}
             </ul>
             {this.props.user.get('status') === ANONYMOUS_USER_STATUS ?
