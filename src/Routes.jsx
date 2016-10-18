@@ -55,7 +55,7 @@ const UserIsNotAuthenticated = UserAuthWrapper({
   allowRedirectBack: false
 })
 
-const routes = <Route path="/" component={AppContainer}>
+/*const routes = <Route path="/" component={AppContainer}>
   <IndexRedirect to="/devotional" />
   <Route path="devotional(/:devotionalPublishDate)" component={DevotionalContainer} />
   <Route path="devotional-not-found" component={DevotionalNotFound} />
@@ -73,10 +73,34 @@ const routes = <Route path="/" component={AppContainer}>
     <Route path="in" component={UserIsNotAuthenticated(SignInContainer)}/>
   </Route>
   <Route path="reset-password"  component={UserIsNotAuthenticated(ResetPasswordContainer)}/>
-</Route>;
+</Route>;*/
+
+function makeRoutes() {
+  return(
+    <Route path="/" component={AppContainer}>
+      <IndexRedirect to="/devotional" />
+      <Route path="devotional(/:devotionalPublishDate)" component={DevotionalContainer} />
+      <Route path="devotional-not-found" component={DevotionalNotFound} />
+      <Route path="calendar" component={CalendarContainer} />
+      <Route path="admin">
+        <IndexRoute component={UserIsAdmin(DevotionalPanelContainer)}/>
+        <Route path="devotional">
+          <Route path="add" component={UserIsAdmin(DevotionalAddContainer)}></Route>
+          <Route path="edit/:devotionalPublishDate" component={UserIsAdmin(DevotionalEditContainer)}></Route>
+        </Route>
+        <Route path="user" component={UserIsAdmin(UserPanelContainer)} />
+      </Route>
+      <Route path="sign">
+        <Route path="up" component={UserIsNotAuthenticated(SignUpContainer)}/>
+        <Route path="in" component={UserIsNotAuthenticated(SignInContainer)}/>
+      </Route>
+      <Route path="reset-password"  component={UserIsNotAuthenticated(ResetPasswordContainer)}/>
+    </Route>
+  );
+}
 
 export default React.createClass({
   render: function() {
-    return <Router history={history} routes={routes} />;
+    return <Router history={history} routes={makeRoutes()} />;
   }
 });

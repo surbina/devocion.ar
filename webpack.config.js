@@ -4,6 +4,7 @@ module.exports = {
   entry: [
     'webpack-dev-server/client?http://localhost:8080',
     'webpack/hot/only-dev-server',
+    'react-hot-loader/patch',
     'bootstrap-loader',
     './src/index.jsx'
   ],
