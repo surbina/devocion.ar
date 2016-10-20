@@ -11,6 +11,7 @@ devocion.ar is mainly built on top of three technologies:
 1. [ReactJS](https://facebook.github.io/react/)
 2. [Redux](http://redux.js.org/)
 3. [Firebase](https://firebase.google.com/)
+4. [Bootstrap 3](http://getbootstrap.com/)
 
 ## Installation
 
@@ -21,6 +22,7 @@ First of all, login to your Google account and create a Firebase project. To ach
 1. Create a Firebase project in the [Firebase console](https://firebase.google.com/console/), if you don't already have one.
 2. Click **Add Firebase to your web app**
 3. Note the initialization code snippet, which you will use in a minute.
+4. Then go to the **Database** section and click on the **RULES** tab. Copy the content from ``db.rules``, paste it there and click the **PUBLISH** button.
  
 Then you'll need to install NodeJS and NPM. For that you'll need to downloaded the latest installer from [NodeJS website](https://nodejs.org/en/) and run it. Then you can install webpack and webpack-dev-server thought npm.
 
@@ -50,10 +52,6 @@ Once you have bundled it you can deploy it following the [instructions from this
 Once everything is ready you should be able to access your app!
 
 If you happen to run into any troubles while following any of this instruction feel free to reach me at sebita.urbina [at] gmail.com
-
-## Setting a user as Admin
-
-The application doesn't have means to set a user as Admin. In order to do that you'll need to log in to your Firebase account and go to your project's console. Then go to the **Database** section where you will the application data. Under the *users* node, search for the user you want to set as admin and add the field *admin* with value *true* to it.
 
 ## DevocionApp
 
