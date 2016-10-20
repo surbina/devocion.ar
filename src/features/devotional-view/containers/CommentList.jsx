@@ -25,13 +25,16 @@ export const CommentList = React.createClass({
   getComments: function() {
     return this.props.comments || Map();
   },
+  commentComparator: function(commentA, commentB) {
+    return -1 * commentA.get('creation_date').localeCompare(commentB.get('creation_date'));
+  },
   render: function() {
     return(
       this.props.comments === undefined ?
         <h5 className="text-center">Cargando comentarios <ThreeBounce /></h5> :
         <section>
           {this.getComments().size > 0 ?
-            this.getComments().valueSeq().map(comment => 
+            this.getComments().toArray().sort(this.commentComparator).map(comment => 
               <Comment
                 key={comment.get('id')}
                 comment={comment} />
