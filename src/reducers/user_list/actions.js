@@ -9,7 +9,7 @@ export const UPDATE_ADMIN_PRIVILEGE = 'UPDATE_ADMIN_PRIVILEGE';
 export const UPDATE_ADMIN_PRIVILEGE_SUCCESS = 'UPDATE_ADMIN_PRIVILEGE_SUCCESS';
 export const UPDATE_ADMIN_PRIVILEGE_FAIL = 'UPDATE_ADMIN_PRIVILEGE_FAIL';
 
-export function fetchUserListAction(filter) {
+export function fetchUserListAction() {
   return function(dispatch) {
     dispatch(requestUserListAction());
 
