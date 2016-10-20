@@ -10,12 +10,15 @@ export const UPDATE_ADMIN_PRIVILEGE_SUCCESS = 'UPDATE_ADMIN_PRIVILEGE_SUCCESS';
 export const UPDATE_ADMIN_PRIVILEGE_FAIL = 'UPDATE_ADMIN_PRIVILEGE_FAIL';
 
 export function fetchUserListAction() {
-  return function(dispatch) {
-    dispatch(requestUserListAction());
+  return function(dispatch, getState) {
+    const state = getState();
+    if(shouldFecthUserList(state)) {
+      dispatch(requestUserListAction());
 
-    firebase.database().ref('users')
-      .once('value')
-      .then(success);
+      firebase.database().ref('users')
+        .once('value')
+        .then(success);
+    }
 
     function success(snapshot) {
       dispatch(requestUserListSuccessAction(snapshot.val()));
@@ -28,6 +31,10 @@ export function fetchUserListAction() {
       }));
     }
   };
+}
+
+function shouldFecthUserList(state) {
+  return state.user_list.get('list').size === 0;
 }
 
 export function submitUpdateAdminPrivilegeAction(userId, value) {

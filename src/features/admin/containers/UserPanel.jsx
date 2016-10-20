@@ -20,7 +20,10 @@ import UserFilter from '../components/UserFilter.jsx';
 export const UserPanel = React.createClass({
   mixins: [PureRenderMixin],
   getInitialState: function() {
+    const pageSize = 30;
     return {
+      pageSize: pageSize,
+      itemsToTake: pageSize,
       filter: {
         firstName: '',
         lastName: '',
@@ -38,7 +41,10 @@ export const UserPanel = React.createClass({
     this.props.dispatch(submitUpdateAdminPrivilegeAction(userId, false));
   },
   onFilter: function(filter) {
-    this.setState({filter});
+    this.setState({
+      filter,
+      itemsToTake: this.state.pageSize
+    });
   },
   userListFilter: function(user) {
     let output = true;
@@ -57,8 +63,16 @@ export const UserPanel = React.createClass({
 
     return output;
   },
+  handleLoadMoreUsers: function() {
+    this.setState({
+      itemsToTake: this.state.itemsToTake + this.state.pageSize
+    });
+  },
   render: function() {
-    const userList = this.props.userList.toList().filter(this.userListFilter);
+    const filteredUserList = this.props.userList.toList().filter(this.userListFilter);
+    const slicedUserList = filteredUserList.slice(0, this.state.itemsToTake);
+    const showLoadMore = filteredUserList.size > this.state.itemsToTake;
+
     return(
       <section className="admin-panel">
         <div className="row">
@@ -75,14 +89,23 @@ export const UserPanel = React.createClass({
           <div className="col-md-12 text-center">
             {this.props.isFetching ?
               <ThreeBounce /> :
-              userList.size > 0 ?
+              filteredUserList.size > 0 ?
                 <UserList
-                  users={userList}
+                  users={slicedUserList}
                   isSaving={this.props.isSaving}
                   onGrantAdminPrivilege={this.onGrantAdminPrivilege}
                   onDenyAdminPrivilege={this.onDenyAdminPrivilege} /> :
                 <p>No hemos encontrado usuarios de acuerdo a esa búsqueda, intentalo refinando los parámetros.</p>}
           </div>
+          {!this.props.isFetching && showLoadMore ?
+            <div className="col-xs-12 col-md-offset-4 col-md-4 text-center">
+              <button
+                className="btn btn-default btn-block"
+                onClick={this.handleLoadMoreUsers}>
+                Cargar más
+              </button>
+            </div> :
+            false}
         </div>
       </section>
     );
