@@ -24,14 +24,17 @@
     "babel-preset-react": "^6.16.0",
     "react-hot-loader": "^3.0.0-beta.6",
     "webpack": "^1.13.2",
-    "webpack-dev-server": "^1.16.2"
+    "webpack-dev-server": "^1.16.2",
+    "webpack-merge": "^0.15.0"
   },
   "babel": {
     "presets": [
       "es2015",
       "react"
     ],
-    "plugins": ["react-hot-loader/babel"]
+    "plugins": [
+      "react-hot-loader/babel"
+    ]
   },
   "dependencies": {
     "better-react-spinkit": "^2.0.0-4",
