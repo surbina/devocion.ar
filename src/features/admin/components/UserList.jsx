@@ -19,9 +19,9 @@ export default React.createClass({
   getUsers: function() {
     return this.props.users || [];
   },
-  /*devotionalComparator: function(devA, devB) {
-    return -1 * devA.get('publish_date').localeCompare(devB.get('publish_date'));
-  },*/
+  userComparator: function(userA, userB) {
+    return -1 * userA.get('id').localeCompare(userB.get('id'));
+  },
   handleGrantAdminPrivilege: function(userId) {
     this.props.onGrantAdminPrivilege(userId);
   },
@@ -35,20 +35,19 @@ export default React.createClass({
            <thead>
               <tr>
                 <th>Id</th>
-                <th>Email</th>
                 <th>Nombre</th>
                 <th>Appellido</th>
+                <th>Email</th>
                 <th>Privilegios de administrador</th>
               </tr>
            </thead>
-           
            <tbody>
-              {this.getUsers().toArray().map(user => 
+              {this.getUsers().toArray().sort(this.userComparator).map(user => 
                 <tr key={user.get('id')}>
                   <td>{user.get('id')}</td>
-                  <td>{user.get('email')}</td>
                   <td>{user.get('first_name')}</td>
                   <td>{user.get('last_name')}</td>
+                  <td>{user.get('email')}</td>
                   <td>
                     {user.get('admin') ?
                       <button
@@ -65,7 +64,6 @@ export default React.createClass({
                 </tr>
               )}
            </tbody>
-          
         </table>
       </div>
     );
