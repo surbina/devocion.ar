@@ -44,7 +44,7 @@ At this point you are ready to either modify the application or deploy it.
 To deploy the application you need to bundle it first:
 
 ```
-webpack -p
+NODE_ENV='production' webpack -p
 ```
 
 Once you have bundled it you can deploy it following the [instructions from this site](https://firebase.google.com/docs/hosting/deploying)
@@ -52,6 +52,18 @@ Once you have bundled it you can deploy it following the [instructions from this
 Once everything is ready you should be able to access your app!
 
 If you happen to run into any troubles while following any of this instruction feel free to reach me at sebita.urbina [at] gmail.com
+
+## Admin users
+
+The first admin user must have its admin rights asigned through Firebase's database editor.
+
+1. Go to your firebase console and select your project
+2. Go to the **Database** section
+3. Under the **DATA** tab, expand the ``users`` node
+4. Search for the admin user id node and expand it
+5. Add an entry under that node with the key ``admin`` and ``value``
+
+Once you are finished your first admin user should be ready. From now on, you can give admin rights to other users from the **Admin Panel**.
 
 ## DevocionApp
 
