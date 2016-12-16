@@ -1,26 +1,25 @@
-import React from 'react';
-
-import {
-  Editor,
-  EditorState,
-  RichUtils
-} from 'draft-js';
-import { stateFromHTML } from 'draft-js-import-html';
+import React, {Component, PropTypes} from 'react';
+import RichTextEditor from 'react-rte';
 import classNames from 'classnames';
-import Toolbar from './Toolbar.jsx';
 
-class TextEditor extends React.Component {
+class TextEditor extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      editorState: props.value ? EditorState.createWithContent(stateFromHTML(props.value)) : EditorState.createEmpty()
+      value: props.value ? RichTextEditor.createValueFromString(props.value, 'html') : RichTextEditor.createEmptyValue()
     };
 
-    this.focus = () => this.refs.editor.focus();
-    this.onChange = this._handleEditorStateChange.bind(this);
+    this.focus = this._focus.bind(this);
+    this.onChange = this._onChange.bind(this);
     this.onBlur = this._onBlur.bind(this);
-    this.handleKeyCommand = (command) => this._handleKeyCommand(command);
-    this.logState = () => console.log(this.state.editorState.toJS());
+  }
+
+  _onChange(value) {
+    this.setState({value});
+
+    if (this.props.onChange) {
+      this.props.onChange(value);
+    }
   }
 
   _onBlur(e) {
@@ -29,43 +28,32 @@ class TextEditor extends React.Component {
     }
   }
 
-  _handleEditorStateChange(editorState) {
-    this.setState({editorState});
-    this.props.onChange(editorState);
+  _focus() {
+    this.refs.editor._focus();
   }
 
-  _handleKeyCommand(command) {
-    const {editorState} = this.state;
-    const newState = RichUtils.handleKeyCommand(editorState, command);
-    if (newState) {
-      this.onChange(newState);
-      return true;
-    }
-    return false;
-  }
-
-  render() {
-    const {editorState} = this.state;
+  render () {
+    const {value} = this.state;
+    const rteClassName = classNames({
+      'text-editor': true,
+      'text-editor--has-focus': value.getEditorState().getSelection().getHasFocus(),
+      'text-editor--has-error': this.props.showError
+    });
     const editorClasses = classNames({
       'text-editor__editor': true,
-      'text-editor__editor--has-focus': editorState.getSelection().getHasFocus(),
-      'text-editor__editor--has-error': this.props.showError
     });
 
-    return(
-      <div className="text-editor">
-        <Toolbar
-          editorState={editorState}
+    return (
+      <div onClick={this.focus}>
+        <RichTextEditor
+          ref="editor"
+          placeholder={this.props.placeholder}
+          value={this.state.value}
           onChange={this.onChange}
-          setFocus={this.focus} />
-        <div className={editorClasses} onClick={this.focus}>
-          <Editor
-            editorState={editorState}
-            onChange={this.onChange}
-            onBlur={this.onBlur}
-            placeholder={this.props.placeholder}
-            ref="editor" />
-        </div>
+          onBlur={this.onBlur}
+          className={rteClassName}
+          editorClassName={editorClasses}
+        />
       </div>
     );
   }

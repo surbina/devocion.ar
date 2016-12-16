@@ -5,7 +5,7 @@ import moment from 'moment';
 import { Map } from 'immutable';
 import { ThreeBounce } from 'better-react-spinkit';
 import classNames from 'classnames';
-import { stateToHTML } from 'draft-js-export-html';
+//import { stateToHTML } from 'draft-js-export-html';
 
 import TextEditor from '../../../components/text-editor/TextEditor.jsx';
 
@@ -27,6 +27,7 @@ export default React.createClass({
       passageValidationMessage: '',
       body: this.props.model.body,
       bodyLength: this.props.model.body.length,
+      bodyWordCount: this.props.model.body,
       bodyValid: false,
       bodyValidationMessage: '',
       publish_date: this.props.model.publish_date ? moment(this.props.model.publish_date) : '',
@@ -64,18 +65,21 @@ export default React.createClass({
 
     return isValid;
   },
-  handleBodyChange: function(editorState) {
+  handleBodyChange: function(editorValue) {
+    const editorState = editorValue.getEditorState();
     const contenState = editorState.getCurrentContent();
     this.setState({
-      body: stateToHTML(contenState),
-      bodyLength: contenState.getPlainText().length
+      body: editorValue.toString('html'),
+      bodyLength: contenState.getPlainText().length,
+      bodyWordCount: this._countWords(contenState.getPlainText())
     });
   },
   validateBody: function() {
     const bodyValue = this.state.body.trim();
     const bodyLength = this.state.bodyLength;
-    const isValid = 0 < bodyLength && bodyLength < 5000;
-    const validationMessage = !isValid ? 'Por favor completa el contenido del devocional, la longitud del mismo debe ser menor a 4000 caracteres' : '';
+    const wordCount = this.state.bodyWordCount;
+    const isValid = 0 < bodyLength && bodyLength <= 4000 && wordCount <= 250;
+    const validationMessage = !isValid ? 'Por favor completa el contenido del devocional, el mismo debe tener un largo de 250 palabras y 4000 caracteres como máximo.' : '';
 
     this.setState({
       bodyValid: isValid,
@@ -83,6 +87,16 @@ export default React.createClass({
     });
 
     return isValid;
+  },
+  _countWords: function(s){
+    s = s.replace(/(^\s*)|(\s*$)/gi, '');
+    s = s.replace(/[ ]{2,}/gi, ' ');
+    s = s.replace(/\n /, '\n');
+    s = s.replace(/\n/, ' ');
+    s = s.replace(/\t /, ' ');
+    s = s.replace(/\t/, ' ');
+
+    return s.split(' ').length;
   },
   handlePublishDateChange: function(e) {
     this.setState({publish_date: e}, this.validatePublishDate);
@@ -213,8 +227,7 @@ export default React.createClass({
               value={this.state.body}
               onChange={this.handleBodyChange}
               onBlur={this.validateBody}
-              showError={!!this.state.bodyValidationMessage}
-            />
+              showError={!!this.state.bodyValidationMessage} />
             {!!this.state.bodyValidationMessage ?
               <span id="bodyDateHelpBlock" className="help-block">{this.state.bodyValidationMessage}</span> :
               false}
