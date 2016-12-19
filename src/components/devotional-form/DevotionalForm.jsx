@@ -115,10 +115,6 @@ export default React.createClass({
   },
   handleSubmit: function(e) {
     e.preventDefault();
-    const title = this.state.title.trim();
-    const passage = this.state.passage.trim();
-    const publish_date = this.state.publish_date;
-    const body = this.state.body.trim();
     if (!this.validateTitle() |
         !this.validatePassage() |
         !this.validatePublishDate() |
@@ -126,11 +122,16 @@ export default React.createClass({
       return;
     }
 
+    const title = this.state.title.trim();
+    const passage = this.state.passage.trim();
+    const publish_date = this.props.showPublishDate ? this.state.publish_date.format('YYYY-MM-DD') : this.state.publish_date;
+    const body = this.state.body.trim();
+
     this.props.onDevotionalSubmit({
       id: this.props.model.id,
       title: title,
       passage: passage,
-      publish_date: publish_date.format('YYYY-MM-DD'),
+      publish_date: publish_date,
       body: body,
       author_name: this.props.model.author_name ?
         this.props.model.author_name :
