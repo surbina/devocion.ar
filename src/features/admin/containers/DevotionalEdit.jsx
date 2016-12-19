@@ -46,7 +46,8 @@ export const DevotionalEdit = React.createClass({
             model={this.props.devotional}
             user={this.props.user}
             onDevotionalSubmit={this.handleDevotionalSubmit}
-            isSaving={this.props.devotional.status === SUBMITTING_STATUS} />}
+            isSaving={this.props.devotional.status === SUBMITTING_STATUS}
+            showPublishDate={true} />}
       </section>
     );
   }

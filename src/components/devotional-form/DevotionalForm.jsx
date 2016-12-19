@@ -14,7 +14,8 @@ export default React.createClass({
     model: React.PropTypes.object.isRequired,
     user: React.PropTypes.instanceOf(Map).isRequired,
     onDevotionalSubmit: React.PropTypes.func.isRequired,
-    isSaving: React.PropTypes.bool.isRequired
+    isSaving: React.PropTypes.bool.isRequired,
+    showPublishDate: React.PropTypes.bool,
   },
   getInitialState: function() {
     return {
@@ -102,7 +103,7 @@ export default React.createClass({
   },
   validatePublishDate: function() {
     const publishDateValue = this.state.publish_date;
-    const isValid = !!publishDateValue;
+    const isValid = !this.props.showPublishDate || !!publishDateValue;
     const validationMessage = !isValid ? 'Por favor completa la fecha del devocional' : '';
 
     this.setState({
@@ -144,14 +145,16 @@ export default React.createClass({
   },
   render: function() {
     const titleClass = classNames({
-      'col-md-5': true,
+      'col-md-5': this.props.showPublishDate,
+      'col-md-6': !this.props.showPublishDate,
       'col-xs-12': true,
       'multiple-row': true,
       'has-error': !!this.state.titleValidationMessage
     });
 
     const passageClass = classNames({
-      'col-md-5': true,
+      'col-md-5': this.props.showPublishDate,
+      'col-md-6': !this.props.showPublishDate,
       'col-xs-12': true,
       'multiple-row': true,
       'has-error': !!this.state.passageValidationMessage
@@ -203,20 +206,22 @@ export default React.createClass({
               false}
           </div>
 
-          <div className={ publishDateClass }>
-            <Datetime
-              value={this.state.publish_date}
-              onChange={this.handlePublishDateChange}
-              dateFormat="DD/MM/YYYY"
-              timeFormat={false}
-              closeOnSelect={true}
-              inputProps={{placeholder: 'Fecha de publicación'}}
-              onBlur={this.validatePublishDate}
-            />
-            {!!this.state.publish_dateValidationMessage ?
-              <span id="publishDateHelpBlock" className="help-block">{this.state.publish_dateValidationMessage}</span> :
-              false}
-          </div>
+          {this.props.showPublishDate ?
+            <div className={ publishDateClass }>
+              <Datetime
+                value={this.state.publish_date}
+                onChange={this.handlePublishDateChange}
+                dateFormat="DD/MM/YYYY"
+                timeFormat={false}
+                closeOnSelect={true}
+                inputProps={{placeholder: 'Fecha de publicación'}}
+                onBlur={this.validatePublishDate}
+              />
+              {!!this.state.publish_dateValidationMessage ?
+                <span id="publishDateHelpBlock" className="help-block">{this.state.publish_dateValidationMessage}</span> :
+                false}
+            </div> :
+            false}
         </div>
 
         <div className="form-group">

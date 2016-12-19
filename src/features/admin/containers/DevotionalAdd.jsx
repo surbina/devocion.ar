@@ -39,7 +39,8 @@ export const DevotionalAdd = React.createClass({
           model={devotionalModel}
           user={this.props.user}
           onDevotionalSubmit={this.handleDevotionalSubmit}
-          isSaving={this.props.isSavingDevotional} />
+          isSaving={this.props.isSavingDevotional}
+          showPublishDate={true} />
       </section>
     );
   }
