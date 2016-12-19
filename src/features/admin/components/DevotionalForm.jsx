@@ -5,7 +5,6 @@ import moment from 'moment';
 import { Map } from 'immutable';
 import { ThreeBounce } from 'better-react-spinkit';
 import classNames from 'classnames';
-//import { stateToHTML } from 'draft-js-export-html';
 
 import TextEditor from '../../../components/text-editor/TextEditor.jsx';
 
