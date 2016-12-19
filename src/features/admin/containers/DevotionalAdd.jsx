@@ -2,7 +2,7 @@ import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import { connect } from 'react-redux';
 import { Map } from 'immutable';
-import DevotionalForm from './../components/DevotionalForm.jsx';
+import DevotionalForm from '../../../components/devotional-form/DevotionalForm.jsx';
 
 import { postDevotionalAction } from './../../../reducers/devotional_list/actions.js';
 import { SUBMITTING_STATUS } from './../../../reducers/devotional_list/reducer.js';

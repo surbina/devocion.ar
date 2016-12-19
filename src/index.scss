@@ -11,17 +11,17 @@
  * Components
  */
 @import 'components/text-editor/TextEditor';
+@import 'components/devotional-form/DevotionalForm';
 
 /**
  * Features
  */
 
 // Admin - Components
-@import 'features/admin/components/DevotionalForm';
 @import 'features/admin/components/DevotionalItem';
 @import 'features/admin/components/UserFilter';
 
-//Admin - Containers
+// Admin - Containers
 @import 'features/admin/containers/DevotionalPanel';
 
 // App - Containers

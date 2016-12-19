@@ -6,7 +6,7 @@ import { Map } from 'immutable';
 import { ThreeBounce } from 'better-react-spinkit';
 import classNames from 'classnames';
 
-import TextEditor from '../../../components/text-editor/TextEditor.jsx';
+import TextEditor from '../text-editor/TextEditor.jsx';
 
 export default React.createClass({
   mixins: [PureRenderMixin],

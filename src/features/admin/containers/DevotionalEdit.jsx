@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Map } from 'immutable';
 import { ThreeBounce } from 'better-react-spinkit';
 
-import DevotionalForm from './../components/DevotionalForm.jsx';
+import DevotionalForm from '../../../components/devotional-form/DevotionalForm.jsx';
 import {
   SUBMITTING_STATUS,
   FETCHING_STATUS
