@@ -38,6 +38,9 @@ export default React.createClass({
             <ul className="nav navbar-nav">
               <NavItem to="/devotional">Inicio</NavItem>
               <NavItem to="/calendar">Calendario</NavItem>
+              {this.props.user.get('is_author') ?
+                <NavItem to="/author">Autor</NavItem> :
+                false}
               {this.props.user.get('is_admin') ?
                 <ul className="nav navbar-nav">
                   <li className="dropdown">

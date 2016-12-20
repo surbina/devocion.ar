@@ -29,6 +29,7 @@ const ANONYMOUS_USER_FIRST_NAME = '';
 const ANONYMOUS_USER_LAST_NAME = '';
 const ANONYMOUS_USER_EMAIL = '';
 const ANONYMOUS_USER_ADMIN = false;
+const ANONYMOUS_USER_AUTHOR = false;
 
 export default function user (state = Map({
   user_id: ANONYMOUS_USER_ID,
@@ -37,7 +38,8 @@ export default function user (state = Map({
   user_last_name: ANONYMOUS_USER_LAST_NAME,
   user_email: ANONYMOUS_USER_EMAIL,
   status: ANONYMOUS_USER_STATUS,
-  is_admin: ANONYMOUS_USER_ADMIN
+  is_admin: ANONYMOUS_USER_ADMIN,
+  is_author: ANONYMOUS_USER_AUTHOR
 }), action) {
   switch(action.type) {
     case SET_CURRENT_USER:
@@ -94,7 +96,8 @@ function unsetCurrentUser(state) {
     user_last_name: ANONYMOUS_USER_LAST_NAME,
     user_email: ANONYMOUS_USER_EMAIL,
     status: ANONYMOUS_USER_STATUS,
-    is_admin: ANONYMOUS_USER_ADMIN
+    is_admin: ANONYMOUS_USER_ADMIN,
+    is_author: ANONYMOUS_USER_AUTHOR
   });
 }
 
@@ -102,6 +105,7 @@ function setAdditionalUserData(state, userData) {
   return state.merge({
     status: SIGNED_USER_STATUS,
     is_admin: userData.admin ? userData.admin : false,
+    is_author: userData.author ? userData.author : false,
     user_first_name: userData.first_name,
     user_last_name: userData.last_name
   });

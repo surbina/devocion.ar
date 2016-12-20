@@ -13,7 +13,8 @@ export const REQUEST_NEXT_DEVOTIONAL = 'REQUEST_NEXT_DEVOTIONAL';
 export const REQUEST_NEXT_DEVOTIONAL_SUCCESS = 'REQUEST_NEXT_DEVOTIONAL_SUCCESS';
 export const REQUEST_NEXT_DEVOTIONAL_FAIL = 'REQUEST_NEXT_DEVOTIONAL_FAIL';
 
-export const REQUEST_DEVOTIONAL_PAGE = 'REQUEST_DEVOTIONAL_PAGE';
+export const REQUEST_ADMIN_DEVOTIONAL_PAGE = 'REQUEST_ADMIN_DEVOTIONAL_PAGE';
+export const REQUEST_AUTHOR_DEVOTIONAL_PAGE = 'REQUEST_AUTHOR_DEVOTIONAL_PAGE';
 export const REQUEST_DEVOTIONAL_PAGE_SUCCESS = 'REQUEST_DEVOTIONAL_PAGE_SUCCESS';
 export const REQUEST_DEVOTIONAL_PAGE_FAIL = 'REQUEST_DEVOTIONAL_PAGE_FAIL';
 
@@ -141,9 +142,9 @@ function shouldFetchDevotional(state, publish_date) {
     state.devotional_list.getIn([publish_date, 'status']) === LOADED_STATUS);
 }
 
-export function fetchDevotionalPageAction(lastDevotionalFetchedDate) {
+export function fetchAdminDevotionalPageAction(lastDevotionalFetchedDate) {
   return function (dispatch) {
-    dispatch(requestDevotionalPageAction());
+    dispatch(requestAdminDevotionalPageAction());
     const pageSize = 10;
 
     if(lastDevotionalFetchedDate) {
@@ -165,6 +166,33 @@ export function fetchDevotionalPageAction(lastDevotionalFetchedDate) {
         .then(success)
         .catch(error);
     }
+
+    function success(snapshot) {
+      dispatch(requestDevotionalPageSuccessAction(snapshot.val()));
+    }
+
+    function error(error) {
+      dispatch(requestDevotionalPageFailAction({
+        code: error.code,
+        message: error.message
+      }));
+      toastr.error('Error al recuperar devocionales', 'Ocurrió un error al recuperar la lista de devocionales, inténtalo de nuevo más tarde');
+    }
+  }
+}
+
+export function fetchAuthorDevotionalPageAction(authorId) {
+  return function (dispatch) {
+    dispatch(requestAuthorDevotionalPageAction());
+
+    firebase.database()
+      .ref('devotional_list/')
+      .orderByChild('author_id')
+      .startAt(authorId)
+      .endAt(authorId)
+      .once('value')
+      .then(success)
+      .catch(error);
 
     function success(snapshot) {
       dispatch(requestDevotionalPageSuccessAction(snapshot.val()));
@@ -241,7 +269,8 @@ export function putDevotionalAction(devotional, redirectRoute) {
 
 export function deleteDevotionalAction(devotional) {
   return function (dispatch) {
-    dispatch(submitDevotionalDeleteAction(devotional.publish_date));
+    const devotionalIdentifier = devotional.publish_date ? devotional.publish_date : devotional.id;
+    dispatch(submitDevotionalDeleteAction(devotionalIdentifier));
 
     firebase.database()
       .ref('devotional_list/' + devotional.id)
@@ -250,7 +279,7 @@ export function deleteDevotionalAction(devotional) {
       .catch(error);
 
     function success() {
-      dispatch(submitDevotionalDeleteSuccessAction(devotional.publish_date));
+      dispatch(submitDevotionalDeleteSuccessAction(devotionalIdentifier));
       dispatch(deleteDevotionalCommentAction(devotional.id));
       toastr.success('Devocional eliminado', 'Se eliminó el devocional existosamente');
     }
@@ -259,7 +288,7 @@ export function deleteDevotionalAction(devotional) {
       dispatch(submitDevotionalDeleteFailAction({
         code: error.code,
         message: error.message
-      }, devotional.publish_date));
+      }, devotionalIdentifier));
       toastr.error('Error al eliminar el devocional', 'Ocurrió un error al eliminar el devocional, inténtalo de nuevo más tarde');
     }
   };
@@ -307,9 +336,15 @@ export function requestNextDevotionalFailAction(error) {
   };
 }
 
-export function requestDevotionalPageAction() {
+export function requestAdminDevotionalPageAction() {
   return {
-    type: REQUEST_DEVOTIONAL_PAGE
+    type: REQUEST_ADMIN_DEVOTIONAL_PAGE
+  };
+}
+
+export function requestAuthorDevotionalPageAction() {
+  return {
+    type: REQUEST_AUTHOR_DEVOTIONAL_PAGE
   };
 }
 

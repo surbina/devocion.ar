@@ -24,6 +24,12 @@
 // Admin - Containers
 @import 'features/admin/containers/DevotionalPanel';
 
+// Author - Components
+@import 'features/author/components/AuthorDevotionalItem';
+
+// Author - Containers
+@import 'features/author/containers/AuthorPanel';
+
 // App - Containers
 @import 'features/app/containers/App';
 

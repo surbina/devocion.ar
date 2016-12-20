@@ -1,35 +1,36 @@
 import React from 'react';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import { connect } from 'react-redux';
-import { Map } from 'immutable';
+
 import DevotionalForm from '../../../components/devotional-form/DevotionalForm.jsx';
 
 import { postDevotionalAction } from './../../../reducers/devotional_list/actions.js';
 import {
   SUBMITTING_STATUS,
-  PUBLISHED_DEVOTIONAL_STATUS
+  DRAFT_DEVOTIONAL_STATUS
 } from './../../../reducers/devotional_list/reducer.js';
 
-export const DevotionalAdd = React.createClass({
-  mixins: [PureRenderMixin],
-  propTypes: {
-    user: React.PropTypes.instanceOf(Map).isRequired,
-    isSavingDevotional: React.PropTypes.bool.isRequired
-  },
-  handleDevotionalSubmit: function (devotional) {
-    this.props.dispatch(postDevotionalAction(devotional, '/admin'));
-  },
-  render: function() {
+class AuthorDevotionalAdd extends React.PureComponent {
+  constructor(props) {
+    super(props);
+
+    this.handleDevotionalSubmit = this._handleDevotionalSubmit.bind(this);
+  }
+
+  _handleDevotionalSubmit(devotional) {
+    this.props.dispatch(postDevotionalAction(devotional, '/author'));
+  }
+
+  render() {
     const devotionalModel = {
       id: '-1',
       title: '',
       passage: '',
       publish_date: '',
-      publish_status: PUBLISHED_DEVOTIONAL_STATUS,
+      publish_status: DRAFT_DEVOTIONAL_STATUS,
       body: '',
       author_name: '',
       author_id: '',
-      creation_date: ''
+      creation_date: '',
     };
 
     return(
@@ -43,12 +44,11 @@ export const DevotionalAdd = React.createClass({
           model={devotionalModel}
           user={this.props.user}
           onDevotionalSubmit={this.handleDevotionalSubmit}
-          isSaving={this.props.isSavingDevotional}
-          showPublishDate={true} />
+          isSaving={this.props.isSavingDevotional} />
       </section>
     );
   }
-});
+}
 
 function mapStateToProps(state) {
   return {
@@ -57,4 +57,5 @@ function mapStateToProps(state) {
   };
 }
 
-export const DevotionalAddContainer = connect(mapStateToProps)(DevotionalAdd);
+export default AuthorDevotionalAdd;
+export const AuthorDevotionalAddContainer = connect(mapStateToProps)(AuthorDevotionalAdd);

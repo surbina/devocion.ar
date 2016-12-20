@@ -1,39 +1,44 @@
 import React from 'react';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import { connect } from 'react-redux';
-import { List } from 'immutable';
+import {
+  Map,
+  List
+} from 'immutable';
 import { ThreeBounce } from 'better-react-spinkit';
 
 import {
-  fetchAdminDevotionalPageAction,
+  fetchAuthorDevotionalPageAction,
   deleteDevotionalAction
 } from '../../../reducers/devotional_list/actions.js';
 import { REDUCER_FETCHING_PAGE_STATUS } from '../../../reducers/devotional_list/reducer.js';
 
-import DevotionalItem from '../components/DevotionalItem.jsx';
+import AuthorDevotionalItem from '../components/AuthorDevotionalItem.jsx';
 
-export const DevotionalList = React.createClass({
-  mixins: [PureRenderMixin],
-  propTypes: {
-    isLoadingDevotional: React.PropTypes.bool.isRequired,
-    devotionals: React.PropTypes.instanceOf(List).isRequired
-  },
-  componentDidMount: function() {
-    this.props.dispatch(fetchAdminDevotionalPageAction(this.props.lastDevotionalPageDate));
-  },
-  getDevotionals: function() {
-    return this.props.devotionals || [];
-  },
-  handleDevotionalDelete: function(devotional) {
-    this.props.dispatch(deleteDevotionalAction(devotional));
-  },
-  handleLoadMoreDevotional: function() {
-    this.props.dispatch(fetchAdminDevotionalPageAction(this.props.lastDevotionalPageDate));
-  },
-  devotionalComparator: function(devA, devB) {
+class AuthorDevotionalList extends React.PureComponent {
+  constructor(props) {
+    super(props);
+
+    this.getDevotionals = this._getDevotionals.bind(this);
+    this.handleDevotionalDelete = this._handleDevotionalDelete.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.dispatch(fetchAuthorDevotionalPageAction(this.props.authorId));
+  }
+
+  _getDevotionals() {
+    return this.props.devotionals || Map();
+  }
+
+  devotionalComparator(devA, devB) {
     return -1 * devA.get('publish_date').localeCompare(devB.get('publish_date'));
-  },
-  render: function() {
+  }
+
+  _handleDevotionalDelete(devotional) {
+    console.log(devotional);
+  }
+
+  render() {
     return(
       this.props.isLoadingDevotional && !this.props.lastDevotionalPageDate ?
         <div className="row">
@@ -44,7 +49,7 @@ export const DevotionalList = React.createClass({
         <div className="row">
           <div className="col-xs-12">
             {this.getDevotionals().toArray().sort(this.devotionalComparator).map(devotional =>
-              <DevotionalItem
+              <AuthorDevotionalItem
                 key={devotional.get('id')}
                 devotional={devotional}
                 onDevotionalDelete={this.handleDevotionalDelete} />
@@ -58,18 +63,22 @@ export const DevotionalList = React.createClass({
         </div>
     );
   }
-});
+}
 
 function mapStateToProps(state) {
+  const authorId = state.user.get('user_id');
+
   return {
     isLoadingDevotional: state.devotional_list.get('status') === REDUCER_FETCHING_PAGE_STATUS,
     devotionals: state.devotional_list
       .delete('status')
       .delete('currently_devotional_working_date')
       .delete('last_devotional_page_date')
+      .filter(devotional => devotional.get('author_id') === authorId)
       .toList(),
-    lastDevotionalPageDate: state.devotional_list.get('last_devotional_page_date')
+    authorId: authorId
   };
 }
 
-export const DevotionalListContainer = connect(mapStateToProps)(DevotionalList);
+export default AuthorDevotionalList;
+export const AuthorDevotionalListContainer = connect(mapStateToProps)(AuthorDevotionalList);

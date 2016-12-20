@@ -1,7 +1,7 @@
 {
   "rules": {
     "devotional_list": {
-      ".indexOn": ["publish_date"],
+      ".indexOn": ["publish_date", "author_id"],
       ".read": "true",
       ".write": "root.child('users').child(auth.uid).child('admin').val() === true"
     },

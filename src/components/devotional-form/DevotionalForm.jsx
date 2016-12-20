@@ -141,7 +141,8 @@ export default React.createClass({
         this.props.user.get('user_id'),
       creation_date: this.props.creation_date ?
         this.props.creation_date :
-        moment().toISOString()
+        moment().toISOString(),
+      publish_status: this.props.model.publish_status
     });
   },
   render: function() {
