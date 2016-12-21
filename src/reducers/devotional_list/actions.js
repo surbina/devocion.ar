@@ -6,12 +6,12 @@ import { deleteDevotionalCommentAction } from '../comment_list/actions.js';
 import { LOADED_STATUS } from './actions.js';
 
 export const REQUEST_PREV_DEVOTIONAL = 'REQUEST_PREV_DEVOTIONAL';
-export const REQUEST_PREV_DEVOTIONAL_SUCCESS = 'REQUEST_PREV_DEVOTIONAL_SUCCESS';
 export const REQUEST_PREV_DEVOTIONAL_FAIL = 'REQUEST_PREV_DEVOTIONAL_FAIL';
 
 export const REQUEST_NEXT_DEVOTIONAL = 'REQUEST_NEXT_DEVOTIONAL';
-export const REQUEST_NEXT_DEVOTIONAL_SUCCESS = 'REQUEST_NEXT_DEVOTIONAL_SUCCESS';
 export const REQUEST_NEXT_DEVOTIONAL_FAIL = 'REQUEST_NEXT_DEVOTIONAL_FAIL';
+
+export const REQUEST_DEVOTIONAL_SUCCESS = 'REQUEST_DEVOTIONAL_SUCCESS';
 
 export const REQUEST_ADMIN_DEVOTIONAL_PAGE = 'REQUEST_ADMIN_DEVOTIONAL_PAGE';
 export const REQUEST_AUTHOR_DEVOTIONAL_PAGE = 'REQUEST_AUTHOR_DEVOTIONAL_PAGE';
@@ -53,7 +53,7 @@ export function fetchPrevDevotionalAction(publish_date, successCallbackAction, e
       if(snapshot.hasChildren()) {
         const key = Object.keys(snapshot.val())[0];
         const devotional = snapshot.val()[key];
-        dispatch(requestPrevDevotionalSuccessAction(devotional));
+        dispatch(requestDevotionalSuccessAction(devotional));
         executeCallback(devotional);
       }
       else {
@@ -106,7 +106,7 @@ export function fetchNextDevotionalAction(publish_date, successCallbackAction, e
       if(snapshot.hasChildren()) {
         const key = Object.keys(snapshot.val())[0];
         const devotional = snapshot.val()[key];
-        dispatch(requestNextDevotionalSuccessAction(devotional));
+        dispatch(requestDevotionalSuccessAction(devotional));
         executeCallback(devotional);
       }
       else {
@@ -301,13 +301,6 @@ export function requestPrevDevotionalAction(publish_date) {
   };
 }
 
-export function requestPrevDevotionalSuccessAction(devotional) {
-  return {
-    type: REQUEST_PREV_DEVOTIONAL_SUCCESS,
-    devotional
-  };
-}
-
 export function requestPrevDevotionalFailAction(error) {
   return {
     type: REQUEST_PREV_DEVOTIONAL_FAIL,
@@ -322,17 +315,17 @@ export function requestNextDevotionalAction(publish_date) {
   };
 }
 
-export function requestNextDevotionalSuccessAction(devotional) {
-  return {
-    type: REQUEST_NEXT_DEVOTIONAL_SUCCESS,
-    devotional
-  };
-}
-
 export function requestNextDevotionalFailAction(error) {
   return {
     type: REQUEST_NEXT_DEVOTIONAL_FAIL,
     error
+  };
+}
+
+export function requestDevotionalSuccessAction(devotional) {
+  return {
+    type: REQUEST_DEVOTIONAL_SUCCESS,
+    devotional
   };
 }
 
