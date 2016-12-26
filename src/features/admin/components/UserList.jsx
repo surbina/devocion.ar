@@ -4,8 +4,6 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import { List } from 'immutable';
 import { ThreeBounce } from 'better-react-spinkit';
 
-import { REDUCER_FETCHING_PAGE_STATUS } from '../../../reducers/devotional_list/reducer.js';
-
 export default React.createClass({
   mixins: [PureRenderMixin],
   propTypes: {

@@ -71,9 +71,7 @@ function mapStateToProps(state) {
   return {
     isLoadingDevotional: state.devotional_list.get('status') === REDUCER_FETCHING_PAGE_STATUS,
     devotionals: state.devotional_list
-      .delete('status')
-      .delete('currently_devotional_working_date')
-      .delete('last_devotional_page_date')
+      .get('devotional')
       .filter(devotional => devotional.get('author_id') === authorId)
       .toList(),
     authorId: authorId

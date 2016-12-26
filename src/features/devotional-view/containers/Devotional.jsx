@@ -61,9 +61,10 @@ export const Devotional = React.createClass({
 });
 
 function mapStateToProps(state) {
-  const currentDevotionalPublishDate = state.devotional_view_section.get('current_devotional_publish_date');
+  const currentDevotionalId = state.devotional_view_section.get('current_devotional_id');
+
   return {
-    devotional: state.devotional_list.get(currentDevotionalPublishDate),
+    devotional: state.devotional_list.getIn(['devotional', currentDevotionalId]),
     loadingDevotional: state.devotional_view_section.get('status') === LOADING_DEVOTIONAL_STATUS
   };
 }

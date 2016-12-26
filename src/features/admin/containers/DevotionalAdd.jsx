@@ -53,7 +53,7 @@ export const DevotionalAdd = React.createClass({
 function mapStateToProps(state) {
   return {
     user: state.user,
-    isSavingDevotional: !!state.devotional_list.get('-1') && state.devotional_list.get('status') === SUBMITTING_STATUS
+    isSavingDevotional: !!state.devotional_list.getIn(['devotional', '-1']) && state.devotional_list.get('status') === SUBMITTING_STATUS
   };
 }
 

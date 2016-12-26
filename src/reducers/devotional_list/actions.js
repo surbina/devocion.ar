@@ -46,7 +46,8 @@ export function fetchPrevDevotionalAction(publish_date, successCallbackAction, e
         .catch(error);
     }
     else {
-      executeCallback(state.devotional_list.get(publish_date).toJS());
+      const devId = state.devotional_list.getIn(['dateIndex', publish_date]);
+      executeCallback(state.devotional_list.getIn(['devotional', devId]).toJS());
     }
 
     function success(snapshot) {
@@ -99,7 +100,8 @@ export function fetchNextDevotionalAction(publish_date, successCallbackAction, e
         .catch(error);
     }
     else {
-      executeCallback(state.devotional_list.get(publish_date).toJS());
+      const devId = state.devotional_list.getIn(['dateIndex', publish_date]);
+      executeCallback(state.devotional_list.getIn(['devotional', devId]).toJS());
     }
 
     function success(snapshot) {
@@ -137,9 +139,10 @@ export function fetchNextDevotionalAction(publish_date, successCallbackAction, e
 }
 
 function shouldFetchDevotional(state, publish_date) {
-  return state.devotional_list.get(publish_date) === undefined ||
-    (!state.devotional_list.getIn([publish_date, 'valid']) &&
-    state.devotional_list.getIn([publish_date, 'status']) === LOADED_STATUS);
+  const devId = state.devotional_list.getIn(['dateIndex', publish_date]);
+  return devId === undefined ||
+    (!state.devotional_list.getIn(['devotional', devId, 'valid']) &&
+    state.devotional_list.getIn(['devotional', devId, 'status']) === LOADED_STATUS);
 }
 
 export function fetchAdminDevotionalPageAction(lastDevotionalFetchedDate) {
@@ -233,7 +236,7 @@ export function postDevotionalAction(devotional, redirectRoute) {
       dispatch(submitDevotionalAddFailAction({
         code: error.code,
         message: error.message
-      }, oldId));
+      }, oldId, devotional.publish_date));
       toastr.error('Error al crear devocional', 'Ocurrió un error al crear el devocional, inténtalo de nuevo más tarde');
     }
   };
@@ -261,7 +264,7 @@ export function putDevotionalAction(devotional, redirectRoute) {
       dispatch(submitDevotionalEditFailAction({
         code: error.code,
         message: error.message
-      }));
+      }, devotional.id));
       toastr.error('Error al guardar los cambios', 'Ocurrió un error al guardar los cambios del devocional, inténtalo de nuevo más tarde');
     }
   };
@@ -269,8 +272,7 @@ export function putDevotionalAction(devotional, redirectRoute) {
 
 export function deleteDevotionalAction(devotional) {
   return function (dispatch) {
-    const devotionalIdentifier = devotional.publish_date ? devotional.publish_date : devotional.id;
-    dispatch(submitDevotionalDeleteAction(devotionalIdentifier));
+    dispatch(submitDevotionalDeleteAction(devotional.id));
 
     firebase.database()
       .ref('devotional_list/' + devotional.id)
@@ -279,7 +281,7 @@ export function deleteDevotionalAction(devotional) {
       .catch(error);
 
     function success() {
-      dispatch(submitDevotionalDeleteSuccessAction(devotionalIdentifier));
+      dispatch(submitDevotionalDeleteSuccessAction(devotional.id));
       dispatch(deleteDevotionalCommentAction(devotional.id));
       toastr.success('Devocional eliminado', 'Se eliminó el devocional existosamente');
     }
@@ -288,7 +290,7 @@ export function deleteDevotionalAction(devotional) {
       dispatch(submitDevotionalDeleteFailAction({
         code: error.code,
         message: error.message
-      }, devotionalIdentifier));
+      }, devotional.id));
       toastr.error('Error al eliminar el devocional', 'Ocurrió un error al eliminar el devocional, inténtalo de nuevo más tarde');
     }
   };
@@ -370,11 +372,12 @@ export function submitDevotionalAddSuccessAction(devotional, oldId) {
   };
 }
 
-export function submitDevotionalAddFailAction(error, oldId) {
+export function submitDevotionalAddFailAction(error, oldId, publishDate) {
   return {
     type: SUBMIT_DEVOTIONAL_ADD_FAIL,
     error,
-    oldId
+    oldId,
+    publishDate
   };
 }
 
@@ -392,31 +395,32 @@ export function submitDevotionalEditSuccessAction(devotional) {
   };
 }
 
-export function submitDevotionalEditFailAction(error) {
+export function submitDevotionalEditFailAction(error, devotionalId) {
   return {
     type: SUBMIT_DEVOTIONAL_EDIT_FAIL,
-    error
+    error,
+    devotionalId
   };
 }
 
-export function submitDevotionalDeleteAction(devotionalPublishDate) {
+export function submitDevotionalDeleteAction(devotionalId) {
   return {
     type: SUBMIT_DEVOTIONAL_DELETE,
-    devotionalPublishDate
+    devotionalId
   };
 }
 
-export function submitDevotionalDeleteSuccessAction(devotionalPublishDate) {
+export function submitDevotionalDeleteSuccessAction(devotionalId) {
   return {
     type: SUBMIT_DEVOTIONAL_DELETE_SUCCESS,
-    devotionalPublishDate
+    devotionalId
   };
 }
 
-export function submitDevotionalDeleteFailAction(error, devotionalPublishDate) {
+export function submitDevotionalDeleteFailAction(error, devotionalId) {
   return {
     type: SUBMIT_DEVOTIONAL_DELETE_FAIL,
-    devotionalPublishDate,
+    devotionalId,
     error
   };
 }
