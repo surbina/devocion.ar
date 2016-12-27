@@ -9,6 +9,7 @@ import comment_list from './comment_list/reducer.js';
 import user from './user/reducer.js';
 import user_list from './user_list/reducer.js';
 import admin_section from './admin_section/reducer.js';
+import author_section from './author_section/reducer.js';
 
 export default combineReducers({
   user: user,
@@ -16,6 +17,7 @@ export default combineReducers({
   devotional_list: devotional_list,
   comment_list: comment_list,
   admin_section: admin_section,
+  author_section: author_section,
   devotional_view_section: devotional_view_section,
   routing: routerReducer,
   toastr: toastrReducer

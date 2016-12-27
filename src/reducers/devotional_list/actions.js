@@ -11,6 +11,9 @@ export const REQUEST_PREV_DEVOTIONAL_FAIL = 'REQUEST_PREV_DEVOTIONAL_FAIL';
 export const REQUEST_NEXT_DEVOTIONAL = 'REQUEST_NEXT_DEVOTIONAL';
 export const REQUEST_NEXT_DEVOTIONAL_FAIL = 'REQUEST_NEXT_DEVOTIONAL_FAIL';
 
+export const REQUEST_DEVOTIONAL_BY_ID = 'REQUEST_DEVOTIONAL_BY_ID';
+export const REQUEST_DEVOTIONAL_BY_ID_FAIL = 'REQUEST_DEVOTIONAL_BY_ID_FAIL';
+
 export const REQUEST_DEVOTIONAL_SUCCESS = 'REQUEST_DEVOTIONAL_SUCCESS';
 
 export const REQUEST_ADMIN_DEVOTIONAL_PAGE = 'REQUEST_ADMIN_DEVOTIONAL_PAGE';
@@ -33,7 +36,7 @@ export const SUBMIT_DEVOTIONAL_DELETE_FAIL = 'SUBMIT_DEVOTIONAL_DELETE_FAIL';
 export function fetchPrevDevotionalAction(publish_date, successCallbackAction, emptyCallbackAction) {
   return function (dispatch, getState) {
     const state = getState();
-    if(shouldFetchDevotional(state, publish_date)) {
+    if(shouldFetchDevotionalByDate(state, publish_date)) {
       dispatch(requestPrevDevotionalAction(publish_date));
 
       firebase.database()
@@ -87,7 +90,7 @@ export function fetchPrevDevotionalAction(publish_date, successCallbackAction, e
 export function fetchNextDevotionalAction(publish_date, successCallbackAction, emptyCallbackAction) {
   return function (dispatch, getState) {
     const state = getState();
-    if(shouldFetchDevotional(state, publish_date)) {
+    if(shouldFetchDevotionalByDate(state, publish_date)) {
       dispatch(requestPrevDevotionalAction(publish_date));
 
       firebase.database()
@@ -138,11 +141,44 @@ export function fetchNextDevotionalAction(publish_date, successCallbackAction, e
   };
 }
 
-function shouldFetchDevotional(state, publish_date) {
+
+export function fetchDevotionalByIdAction(devotionalId) {
+  return function(dispatch, getState) {
+    const state = getState();
+
+    if(shouldFetchDevotionalById(state, devotionalId)) {
+      dispatch(requestDevotionalByIdAction(devotionalId));
+      firebase.database()
+        .ref('devotional_list/' + devotionalId)
+        .once('value')
+        .then(success)
+        .catch(error);
+    }
+
+    function success(snapshot) {
+      if(snapshot.hasChildren()) {
+        dispatch(requestDevotionalSuccessAction(snapshot.val()));
+      }
+    }
+
+    function error(error) {
+      dispatch(requestDevotionalByIdFailAction({
+        code: error.code,
+        message: error.message
+      }));
+      toastr.error('Error al recuperar devocionales', 'Ocurrió un error al recuperar la lista de devocionales, inténtalo de nuevo más tarde');
+    }
+  };
+}
+
+function shouldFetchDevotionalByDate(state, publish_date) {
   const devId = state.devotional_list.getIn(['dateIndex', publish_date]);
-  return devId === undefined ||
-    (!state.devotional_list.getIn(['devotional', devId, 'valid']) &&
-    state.devotional_list.getIn(['devotional', devId, 'status']) === LOADED_STATUS);
+  return shouldFetchDevotionalById(state, devId);
+}
+
+function shouldFetchDevotionalById(state, devotionalId) {
+  const devotional = state.devotional_list.getIn(['devotional', devotionalId]);
+  return devotionalId === undefined || (!devotional.get('valid') && devotional.get('status') === LOADED_STATUS);
 }
 
 export function fetchAdminDevotionalPageAction(lastDevotionalFetchedDate) {
@@ -320,6 +356,20 @@ export function requestNextDevotionalAction(publish_date) {
 export function requestNextDevotionalFailAction(error) {
   return {
     type: REQUEST_NEXT_DEVOTIONAL_FAIL,
+    error
+  };
+}
+
+export function requestDevotionalByIdAction(devotionalId) {
+  return {
+    type: REQUEST_DEVOTIONAL_BY_ID,
+    devotionalId
+  };
+}
+
+export function requestDevotionalByIdFailAction(error) {
+  return {
+    type: REQUEST_DEVOTIONAL_BY_ID_FAIL,
     error
   };
 }

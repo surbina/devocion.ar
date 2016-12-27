@@ -9,9 +9,12 @@ import {
   SUBMITTING_STATUS,
   FETCHING_STATUS
 } from './../../../reducers/devotional_list/reducer.js';
-import { editDevotional } from './../../../reducers/admin_section/actions.js';
 import {
-  fetchPrevDevotionalAction,
+  editDevotional,
+  resetEditDevotional
+} from './../../../reducers/admin_section/actions.js';
+import {
+  fetchDevotionalByIdAction,
   putDevotionalAction
 } from './../../../reducers/devotional_list/actions.js';
 
@@ -22,8 +25,11 @@ export const DevotionalEdit = React.createClass({
     devotional: React.PropTypes.object
   },
   componentWillMount: function() {
-    this.props.dispatch(fetchPrevDevotionalAction(this.props.params.devotionalPublishDate));
-    this.props.dispatch(editDevotional(this.props.params.devotionalPublishDate));
+    this.props.dispatch(fetchDevotionalByIdAction(this.props.params.devotionalId));
+    this.props.dispatch(editDevotional(this.props.params.devotionalId));
+  },
+  componentWillUnmount: function() {
+    this.props.dispatch(resetEditDevotional());
   },
   handleDevotionalSubmit: function (devotional) {
     this.props.dispatch(putDevotionalAction(devotional, '/admin'));

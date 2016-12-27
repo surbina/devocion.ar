@@ -1,8 +1,15 @@
 export const EDIT_DEVOTIONAL = 'EDIT_DEVOTIONAL';
+export const RESET_EDIT_DEVOTIONAL = 'RESET_EDIT_DEVOTIONAL';
 
-export function editDevotional(publish_date) {
+export function editDevotional(id) {
   return {
     type: EDIT_DEVOTIONAL,
-    publish_date
+    id
+  };
+}
+
+export function resetEditDevotional() {
+  return {
+    type: RESET_EDIT_DEVOTIONAL
   };
 }

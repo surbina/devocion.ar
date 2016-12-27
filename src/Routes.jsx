@@ -26,6 +26,7 @@ import { SignInContainer } from './features/auth/containers/SignIn.jsx';
 import { ResetPasswordContainer } from './features/auth/containers/ResetPassword.jsx';
 import AuthorPanel from './features/author/containers/AuthorPanel.jsx';
 import { AuthorDevotionalAddContainer } from './features/author/containers/AuthorDevotionalAdd.jsx';
+import { AuthorDevotionalEditContainer } from './features/author/containers/AuthorDevotionalEdit.jsx';
 
 import {
   SIGNING_IN_STATUS,
@@ -79,6 +80,7 @@ function makeRoutes() {
         <IndexRoute component={UserIsAuthor(AuthorPanel)} />
         <Route path="devotional">
           <Route path="add" component={UserIsAuthor(AuthorDevotionalAddContainer)} />
+          <Route path="edit/:devotionalId" component={UserIsAuthor(AuthorDevotionalEditContainer)} />
         </Route>
       </Route>
 
@@ -86,7 +88,7 @@ function makeRoutes() {
         <IndexRoute component={UserIsAdmin(DevotionalPanelContainer)}/>
         <Route path="devotional">
           <Route path="add" component={UserIsAdmin(DevotionalAddContainer)}></Route>
-          <Route path="edit/:devotionalPublishDate" component={UserIsAdmin(DevotionalEditContainer)}></Route>
+          <Route path="edit/:devotionalId" component={UserIsAdmin(DevotionalEditContainer)}></Route>
         </Route>
         <Route path="user" component={UserIsAdmin(UserPanelContainer)} />
       </Route>

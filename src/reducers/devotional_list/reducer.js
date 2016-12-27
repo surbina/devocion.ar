@@ -2,6 +2,7 @@ import { Map, fromJS } from 'immutable';
 import {
   REQUEST_PREV_DEVOTIONAL, REQUEST_PREV_DEVOTIONAL_FAIL,
   REQUEST_NEXT_DEVOTIONAL, REQUEST_NEXT_DEVOTIONAL_FAIL,
+  REQUEST_DEVOTIONAL_BY_ID, REQUEST_DEVOTIONAL_BY_ID_FAIL,
   REQUEST_DEVOTIONAL_SUCCESS,
   REQUEST_ADMIN_DEVOTIONAL_PAGE, REQUEST_AUTHOR_DEVOTIONAL_PAGE, REQUEST_DEVOTIONAL_PAGE_SUCCESS, REQUEST_DEVOTIONAL_PAGE_FAIL,
   SUBMIT_DEVOTIONAL_ADD, SUBMIT_DEVOTIONAL_ADD_SUCCESS, SUBMIT_DEVOTIONAL_ADD_FAIL,
@@ -13,6 +14,7 @@ export const REDUCER_LOADED_STATUS = 'REDUCER_LOADED';
 export const REDUCER_FETCHING_PAGE_STATUS = 'REDUCER_FETCHING_PAGE';
 export const REDUCER_FETCHING_PREV_DEVOTIONAL_STATUS = 'REDUCER_FETCHING_PREV_DEVOTIONAL';
 export const REDUCER_FETCHING_NEXT_DEVOTIONAL_STATUS = 'REDUCER_FETCHING_NEXT_DEVOTIONAL';
+export const REDUCER_FETCHING_DEVOTIONAL_BY_ID_STATUS = 'REDUCER_FETCHING_DEVOTIONAL_BY_ID_STATUS';
 export const REDUCER_SUBMITTING_DEVOTIONAL_STATUS = 'REDUCER_SUBMITTING_DEVOTIONAL';
 export const REDUCER_DELETING_DEVOTIONAL_STATUS = 'REDUCER_DELETING_DEVOTIONAL';
 
@@ -45,6 +47,10 @@ export default function(state = Map({
       return requestNextDevotional(state, action.publish_date);
     case REQUEST_NEXT_DEVOTIONAL_FAIL:
       return requestNextDevotionalFail(state);
+    case REQUEST_DEVOTIONAL_BY_ID:
+      return requestDevotionalById(state, action.devotionalId);
+    case REQUEST_DEVOTIONAL_BY_ID_FAIL:
+      return requestDevotionalByIdFail(state);
     case REQUEST_DEVOTIONAL_SUCCESS:
       return requestDevotionalSuccess(state, action.devotional);
     case REQUEST_ADMIN_DEVOTIONAL_PAGE:
@@ -100,6 +106,20 @@ function requestNextDevotional(state, publish_date) {
 }
 
 function requestNextDevotionalFail(state) {
+  return state.merge({
+    status: REDUCER_LOADED_STATUS,
+    currently_devotional_working_id: CURRENTLY_DEVOTIONAL_WORKING_ID_DEFAULT
+  });
+}
+
+function requestDevotionalById(state, devotionalId) {
+  return state.merge({
+    status: REDUCER_FETCHING_DEVOTIONAL_BY_ID_STATUS,
+    currently_devotional_working_id: devotionalId
+  });
+}
+
+function requestDevotionalByIdFail(state) {
   return state.merge({
     status: REDUCER_LOADED_STATUS,
     currently_devotional_working_id: CURRENTLY_DEVOTIONAL_WORKING_ID_DEFAULT
@@ -177,7 +197,8 @@ function submitDevotionalAdd(state, devotional) {
     author_id: devotional.author_id,
     author_name: devotional.author_name,
     publish_date: devotional.publish_date,
-    publish_status: devotional.publish_status
+    publish_status: devotional.publish_status,
+    creation_date: devotional.creation_date
   });
   const newState = state.merge({
     status: REDUCER_SUBMITTING_DEVOTIONAL_STATUS,

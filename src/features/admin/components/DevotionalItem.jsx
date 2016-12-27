@@ -46,7 +46,7 @@ export default React.createClass({
                   <span className="caret"></span>
                 </button>
                 <ul className="dropdown-menu dropdown-menu-right" aria-labelledby={'actionMenu' + this.props.devotional.get('id')}>
-                  <li><Link to={"/admin/devotional/edit/" + this.props.devotional.get('publish_date')}>Editar</Link></li>
+                  <li><Link to={"/admin/devotional/edit/" + this.props.devotional.get('id')}>Editar</Link></li>
                   <li><a href="javascript:void(0)" onClick={this.openDeleteModal}>Eliminar</a></li>
                 </ul>
               </div>
