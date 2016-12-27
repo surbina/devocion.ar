@@ -1,7 +1,6 @@
 import React from 'react';
 import moment from 'moment';
 import { Link } from 'react-router';
-import { toastr } from 'react-redux-toastr';
 import classNames from 'classnames';
 
 import {
@@ -12,24 +11,6 @@ import {
 class AuthorDevotionalItem extends React.PureComponent {
   constructor(props) {
     super(props);
-
-    this.handleDelete = this._handleDelete.bind(this);
-    this.openDeleteModal = this._openDeleteModal.bind(this);
-  }
-
-  _handleDelete() {
-    const devotional = this.props.devotional.toJS();
-    this.props.onDevotionalDelete(devotional);
-  }
-
-  _openDeleteModal() {
-    const toastrConfirmOptions = {
-      onOk: this.handleDelete,
-      okText: 'Eliminar',
-      cancelText: 'Cancelar'
-    };
-
-    toastr.confirm('¿Estás seguro que quieres eliminar el devocional "' + this.props.devotional.get('title') + '"?', toastrConfirmOptions)
   }
 
   render() {
@@ -77,7 +58,6 @@ class AuthorDevotionalItem extends React.PureComponent {
                 </button>
                 <ul className="dropdown-menu dropdown-menu-right" aria-labelledby={'actionMenu' + this.props.devotional.get('id')}>
                   <li><Link to={"/author/devotional/edit/" + this.props.devotional.get('id')}>Editar</Link></li>
-                  <li><a href="javascript:void(0)" onClick={this.openDeleteModal}>Eliminar</a></li>
                 </ul>
               </div>
             </div>

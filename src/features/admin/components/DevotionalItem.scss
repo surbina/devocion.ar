@@ -1,9 +1,23 @@
 .devotional-item {
-  h3 {
+  .title {
+    font-size: 24px;
     margin-top: 0;
+    margin-bottom: 10px;
+    font-family: inherit;
+    font-weight: 500;
+    line-height: 1.1;
+    color: inherit;
+    display: block;
   }
 
-  h4 {
+  .subtitle {
     margin-bottom: 0;
+    font-size: 18px;
+    font-size: 18px;
+    font-family: inherit;
+    font-weight: 500;
+    line-height: 1.1;
+    color: inherit;
+    display: block;
   }
 }
