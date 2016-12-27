@@ -7,7 +7,10 @@ import {
   SUBMITTING_STATUS,
   FETCHING_STATUS
 } from './../../../reducers/devotional_list/reducer.js';
-import { fetchDevotionalByIdAction } from './../../../reducers/devotional_list/actions.js';
+import {
+  fetchDevotionalByIdAction,
+  putDevotionalAction
+} from './../../../reducers/devotional_list/actions.js';
 
 import {
   authorEditDevotional,
@@ -30,8 +33,8 @@ class AuthorDevotionalEdit extends React.PureComponent {
     this.props.dispatch(authorResetEditDevotional());
   }
 
-  _handleDevotionalSubmit() {
-    console.log('submit');
+  _handleDevotionalSubmit(devotional) {
+    this.props.dispatch(putDevotionalAction(devotional, '/author'));
   }
 
   render() {

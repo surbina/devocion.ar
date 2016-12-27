@@ -27,7 +27,7 @@ export default React.createClass({
       passageValidationMessage: '',
       body: this.props.model.body,
       bodyLength: this.props.model.body.length,
-      bodyWordCount: this.props.model.body,
+      bodyWordCount: 0,
       bodyValid: false,
       bodyValidationMessage: '',
       publish_date: this.props.model.publish_date ? moment(this.props.model.publish_date) : '',
@@ -124,7 +124,7 @@ export default React.createClass({
 
     const title = this.state.title.trim();
     const passage = this.state.passage.trim();
-    const publish_date = this.props.showPublishDate ? this.state.publish_date.format('YYYY-MM-DD') : this.state.publish_date;
+    const publish_date = this.props.showPublishDate ? this.state.publish_date.format('YYYY-MM-DD') : this.state.publish_date.format('YYYY-MM-DD');
     const body = this.state.body.trim();
 
     this.props.onDevotionalSubmit({
