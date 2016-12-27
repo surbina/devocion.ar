@@ -31,6 +31,12 @@ class AuthorDevotionalList extends React.PureComponent {
   }
 
   devotionalComparator(devA, devB) {
+    if(!devA.get('publish_date')) {
+      return -1;
+    } else if(!devB.get('publish_date')) {
+      return 1;
+    }
+
     return -1 * devA.get('publish_date').localeCompare(devB.get('publish_date'));
   }
 
