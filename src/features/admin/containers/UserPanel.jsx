@@ -5,7 +5,8 @@ import { ThreeBounce } from 'better-react-spinkit';
 
 import {
   fetchUserListAction,
-  submitUpdateAdminPrivilegeAction
+  submitUpdateAdminPrivilegeAction,
+  submitUpdateAuthorPrivilegeAction
 } from '../../../reducers/user_list/actions.js';
 
 import {
@@ -39,6 +40,12 @@ export const UserPanel = React.createClass({
   },
   onDenyAdminPrivilege: function(userId) {
     this.props.dispatch(submitUpdateAdminPrivilegeAction(userId, false));
+  },
+  onGrantAuthorPrivilege: function(userId) {
+    this.props.dispatch(submitUpdateAuthorPrivilegeAction(userId, true));
+  },
+  onDenyAuthorPrivilege: function(userId) {
+    this.props.dispatch(submitUpdateAuthorPrivilegeAction(userId, false));
   },
   onFilter: function(filter) {
     this.setState({
@@ -93,6 +100,8 @@ export const UserPanel = React.createClass({
                 <UserList
                   users={slicedUserList}
                   isSaving={this.props.isSaving}
+                  onGrantAuthorPrivilege={this.onGrantAuthorPrivilege}
+                  onDenyAuthorPrivilege={this.onDenyAuthorPrivilege}
                   onGrantAdminPrivilege={this.onGrantAdminPrivilege}
                   onDenyAdminPrivilege={this.onDenyAdminPrivilege} /> :
                 <p>No hemos encontrado usuarios de acuerdo a esa búsqueda, intentalo refinando los parámetros.</p>}

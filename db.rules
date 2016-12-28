@@ -2,6 +2,11 @@
   "rules": {
     "devotional_list": {
       ".indexOn": ["publish_date", "author_id"],
+      ".read": "root.child('users').child(auth.uid).child('admin').val() === true || root.child('users').child(auth.uid).child('author').val() === true",
+      ".write": "root.child('users').child(auth.uid).child('admin').val() === true || root.child('users').child(auth.uid).child('author').val() === true"
+    },
+    "published_devotional_list": {
+      ".indexOn": ["publish_date", "author_id"],
       ".read": "true",
       ".write": "root.child('users').child(auth.uid).child('admin').val() === true"
     },

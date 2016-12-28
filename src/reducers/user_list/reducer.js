@@ -2,7 +2,8 @@ import { Map } from 'immutable';
 
 import {
   REQUEST_USER_LIST, REQUEST_USER_LIST_SUCCESS, REQUEST_USER_LIST_FAIL,
-  UPDATE_ADMIN_PRIVILEGE, UPDATE_ADMIN_PRIVILEGE_SUCCESS, UPDATE_ADMIN_PRIVILEGE_FAIL
+  UPDATE_ADMIN_PRIVILEGE, UPDATE_ADMIN_PRIVILEGE_SUCCESS, UPDATE_ADMIN_PRIVILEGE_FAIL,
+  UPDATE_AUTHOR_PRIVILEGE, UPDATE_AUTHOR_PRIVILEGE_SUCCESS, UPDATE_AUTHOR_PRIVILEGE_FAIL
 } from './actions.js'
 
 export const FETCHING_STATUS = 'FETCHING';
@@ -26,6 +27,12 @@ export default function(state = Map({
       return updateAdminPrivilegeSuccess(state, action.userId, action.value);
     case UPDATE_ADMIN_PRIVILEGE_FAIL:
       return updateAdminPrivilegeFail(state);
+    case UPDATE_AUTHOR_PRIVILEGE:
+      return updateAuthorPrivilege(state);
+    case UPDATE_AUTHOR_PRIVILEGE_SUCCESS:
+      return updateAuthorPrivilegeSuccess(state, action.userId, action.value);
+    case UPDATE_AUTHOR_PRIVILEGE_FAIL:
+      return updateAuthorPrivilegeFail(state);
     default:
       return state;
   }
@@ -65,6 +72,27 @@ function updateAdminPrivilegeSuccess(state, userId, value) {
 }
 
 function updateAdminPrivilegeFail(state) {
+  return state
+    .merge({
+      status: LOADED_STATUS
+    });
+}
+
+function updateAuthorPrivilege(state) {
+  return state.merge({
+    status: SUBMITTING_STATUS
+  });
+}
+
+function updateAuthorPrivilegeSuccess(state, userId, value) {
+  return state
+    .merge({
+      status: LOADED_STATUS
+    })
+    .setIn(['list', userId, 'author'], value);
+}
+
+function updateAuthorPrivilegeFail(state) {
   return state
     .merge({
       status: LOADED_STATUS

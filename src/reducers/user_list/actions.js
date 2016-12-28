@@ -9,6 +9,10 @@ export const UPDATE_ADMIN_PRIVILEGE = 'UPDATE_ADMIN_PRIVILEGE';
 export const UPDATE_ADMIN_PRIVILEGE_SUCCESS = 'UPDATE_ADMIN_PRIVILEGE_SUCCESS';
 export const UPDATE_ADMIN_PRIVILEGE_FAIL = 'UPDATE_ADMIN_PRIVILEGE_FAIL';
 
+export const UPDATE_AUTHOR_PRIVILEGE = 'UPDATE_AUTHOR_PRIVILEGE';
+export const UPDATE_AUTHOR_PRIVILEGE_SUCCESS = 'UPDATE_AUTHOR_PRIVILEGE_SUCCESS';
+export const UPDATE_AUTHOR_PRIVILEGE_FAIL = 'UPDATE_AUTHOR_PRIVILEGE_FAIL';
+
 export function fetchUserListAction() {
   return function(dispatch, getState) {
     const state = getState();
@@ -48,7 +52,7 @@ export function submitUpdateAdminPrivilegeAction(userId, value) {
 
     function success() {
       dispatch(updateAdminPrivilegeSuccessAction(userId, value));
-      toastr.success('Exito', 'Se actualizaron los privilegios exitosamente');
+      toastr.success('Exito', 'Se actualizaron los privilegios de administrador exitosamente');
     }
 
     function error(error) {
@@ -56,7 +60,31 @@ export function submitUpdateAdminPrivilegeAction(userId, value) {
         code: error.code,
         message: error.message
       }));
-      toastr.success('Error', 'Hubo un error al actualizar los privilegios');
+      toastr.success('Error', 'Hubo un error al actualizar los privilegios de administrador');
+    }
+  };
+}
+
+export function submitUpdateAuthorPrivilegeAction(userId, value) {
+  return function(dispatch) {
+    dispatch(updateAuthorPrivilegeAction());
+
+    firebase.database().ref('users/' + userId + '/author')
+      .set(value)
+      .then(success)
+      .catch(error);
+
+    function success() {
+      dispatch(updateAuthorPrivilegeSuccessAction(userId, value));
+      toastr.success('Exito', 'Se actualizaron los privilegios de autor exitosamente');
+    }
+
+    function error(error) {
+      dispatch(updateAuthorPrivilegeFailAction({
+        code: error.code,
+        message: error.message
+      }));
+      toastr.success('Error', 'Hubo un error al actualizar los privilegios de autor');
     }
   };
 }
@@ -98,6 +126,27 @@ export function updateAdminPrivilegeSuccessAction(userId, value) {
 export function updateAdminPrivilegeFailAction(error) {
   return {
     type: UPDATE_ADMIN_PRIVILEGE_FAIL,
+    error
+  };
+}
+
+export function updateAuthorPrivilegeAction() {
+  return {
+    type: UPDATE_AUTHOR_PRIVILEGE
+  };
+}
+
+export function updateAuthorPrivilegeSuccessAction(userId, value) {
+  return {
+    type: UPDATE_AUTHOR_PRIVILEGE_SUCCESS,
+    userId,
+    value
+  };
+}
+
+export function updateAuthorPrivilegeFailAction(error) {
+  return {
+    type: UPDATE_AUTHOR_PRIVILEGE_FAIL,
     error
   };
 }

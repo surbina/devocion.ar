@@ -22,26 +22,44 @@ export default React.createClass({
   handleDenyAdminPrivilege: function(userId) {
     this.props.onDenyAdminPrivilege(userId);
   },
+  handleGrantAuthorPrivilege: function(userId) {
+    this.props.onGrantAuthorPrivilege(userId);
+  },
+  handleDenyAuthorPrivilege: function(userId) {
+    this.props.onDenyAuthorPrivilege(userId);
+  },
   render: function() {
     return(
       <div className="table-responsive">
         <table className="table table-bordered table-condensed">
            <thead>
               <tr>
-                <th>Id</th>
                 <th>Nombre</th>
                 <th>Appellido</th>
                 <th>Email</th>
+                <th>Privilegios de autor</th>
                 <th>Privilegios de administrador</th>
               </tr>
            </thead>
            <tbody>
               {this.getUsers().toArray().sort(this.userComparator).map(user => 
                 <tr key={user.get('id')}>
-                  <td>{user.get('id')}</td>
                   <td>{user.get('first_name')}</td>
                   <td>{user.get('last_name')}</td>
                   <td>{user.get('email')}</td>
+                  <td>
+                    {user.get('author') ?
+                      <button
+                        className="btn btn-danger"
+                        onClick={this.handleDenyAuthorPrivilege.bind(this, user.get('id'))}>
+                        Quitar
+                      </button> :
+                      <button
+                        className="btn btn-success"
+                        onClick={this.handleGrantAuthorPrivilege.bind(this, user.get('id'))}>
+                        Otorgar
+                      </button>}
+                  </td>
                   <td>
                     {user.get('admin') ?
                       <button
