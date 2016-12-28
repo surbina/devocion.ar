@@ -19,7 +19,6 @@ import { DevotionalContainer } from './features/devotional-view/containers/Devot
 import { CalendarContainer } from './features/calendar-view/containers/Calendar.jsx';
 import { DevotionalPanelContainer } from './features/admin/containers/DevotionalPanel.jsx';
 import { UserPanelContainer } from './features/admin/containers/UserPanel.jsx';
-import { DevotionalAddContainer } from './features/admin/containers/DevotionalAdd.jsx';
 import { DevotionalEditContainer } from './features/admin/containers/DevotionalEdit.jsx';
 import { SignUpContainer } from './features/auth/containers/SignUp.jsx';
 import { SignInContainer } from './features/auth/containers/SignIn.jsx';
@@ -87,7 +86,6 @@ function makeRoutes() {
       <Route path="admin">
         <IndexRoute component={UserIsAdmin(DevotionalPanelContainer)}/>
         <Route path="devotional">
-          <Route path="add" component={UserIsAdmin(DevotionalAddContainer)}></Route>
           <Route path="edit/:devotionalId" component={UserIsAdmin(DevotionalEditContainer)}></Route>
         </Route>
         <Route path="user" component={UserIsAdmin(UserPanelContainer)} />
