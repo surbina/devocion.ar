@@ -15,11 +15,21 @@ export default React.createClass({
   mixins: [PureRenderMixin],
   propTypes: {
     devotional: React.PropTypes.instanceOf(Map),
-    onDevotionalDelete: React.PropTypes.func.isRequired
+    onDevotionalDelete: React.PropTypes.func.isRequired,
+    onDevotionalPublish: React.PropTypes.func.isRequired,
+    onDevotionalUnpublish: React.PropTypes.func.isRequired
   },
   handleDelete: function() {
     const devotional = this.props.devotional.toJS();
     this.props.onDevotionalDelete(devotional);
+  },
+  handlePublish: function() {
+    const devotional = this.props.devotional.toJS();
+    this.props.onDevotionalPublish(devotional);
+  },
+  handleUnpublish: function() {
+    const devotional = this.props.devotional.toJS();
+    this.props.onDevotionalUnpublish(devotional);
   },
   openDeleteModal: function() {
     const toastrConfirmOptions = {
@@ -29,6 +39,24 @@ export default React.createClass({
     };
 
     toastr.confirm('¿Estás seguro que quieres eliminar el devocional "' + this.props.devotional.get('title') + '"?', toastrConfirmOptions)
+  },
+  openPublishModal: function() {
+    const toastrConfirmOptions = {
+      onOk: this.handlePublish,
+      okText: 'Publicar',
+      cancelText: 'Cancelar'
+    };
+
+    toastr.confirm('¿Estás seguro que quieres publicar el devocional "' + this.props.devotional.get('title') + '"?', toastrConfirmOptions)
+  },
+  openUnpublishModal: function() {
+    const toastrConfirmOptions = {
+      onOk: this.handleUnpublish,
+      okText: 'Pasar a borrador',
+      cancelText: 'Cancelar'
+    };
+
+    toastr.confirm('¿Estás seguro que quieres pasar el devocional "' + this.props.devotional.get('title') + '" a borrador?', toastrConfirmOptions)
   },
   render: function() {
     let statusLabel,
@@ -57,6 +85,7 @@ export default React.createClass({
               <span className="subtitle">
                 {this.props.devotional.get('author_name')} - {this.props.devotional.get('publish_date') ? <span>{moment(this.props.devotional.get('publish_date')).format('LL')} - </span> : false}
                 <span>Status: <span className={ statusClass }>{statusLabel}</span></span>
+                {!this.props.devotional.get('publish_date') ? <span> - <span className="text-danger">FECHA DE PUBLICACIÓN SIN DEFINIR</span></span> : false}
               </span>
             </div>
             <div className="col-md-2 col-xs-4 text-right">
@@ -72,8 +101,13 @@ export default React.createClass({
                   <span className="caret"></span>
                 </button>
                 <ul className="dropdown-menu dropdown-menu-right" aria-labelledby={'actionMenu' + this.props.devotional.get('id')}>
+                  {this.props.devotional.get('publish_status') === DRAFT_DEVOTIONAL_STATUS && !!this.props.devotional.get('publish_date') ?
+                    <li><a href="javascript:void(0)" onClick={this.openPublishModal}>Publicar</a></li> : false}
+                  {this.props.devotional.get('publish_status') === PUBLISHED_DEVOTIONAL_STATUS ?
+                    <li><a href="javascript:void(0)" onClick={this.openUnpublishModal}>Pasar a borrador</a></li> : false}
                   <li><Link to={"/admin/devotional/edit/" + this.props.devotional.get('id')}>Editar</Link></li>
-                  <li><a href="javascript:void(0)" onClick={this.openDeleteModal}>Eliminar</a></li>
+                  {this.props.devotional.get('publish_status') === DRAFT_DEVOTIONAL_STATUS ?
+                    <li><a href="javascript:void(0)" onClick={this.openDeleteModal}>Eliminar</a></li> : false}
                 </ul>
               </div>
             </div>

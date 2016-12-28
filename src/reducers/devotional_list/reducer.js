@@ -7,6 +7,8 @@ import {
   REQUEST_ADMIN_DEVOTIONAL_PAGE, REQUEST_AUTHOR_DEVOTIONAL_PAGE, REQUEST_DEVOTIONAL_PAGE_SUCCESS, REQUEST_DEVOTIONAL_PAGE_FAIL,
   SUBMIT_DEVOTIONAL_ADD, SUBMIT_DEVOTIONAL_ADD_SUCCESS, SUBMIT_DEVOTIONAL_ADD_FAIL,
   SUBMIT_DEVOTIONAL_EDIT, SUBMIT_DEVOTIONAL_EDIT_SUCCESS, SUBMIT_DEVOTIONAL_EDIT_FAIL,
+  SUBMIT_PUBLISH_DEVOTIONAL, SUBMIT_PUBLISH_DEVOTIONAL_SUCCESS, SUBMIT_PUBLISH_DEVOTIONAL_FAIL,
+  SUBMIT_UNPUBLISH_DEVOTIONAL, SUBMIT_UNPUBLISH_DEVOTIONAL_SUCCESS, SUBMIT_UNPUBLISH_DEVOTIONAL_FAIL,
   SUBMIT_DEVOTIONAL_DELETE, SUBMIT_DEVOTIONAL_DELETE_SUCCESS, SUBMIT_DEVOTIONAL_DELETE_FAIL
 } from './actions.js';
 
@@ -16,10 +18,14 @@ export const REDUCER_FETCHING_PREV_DEVOTIONAL_STATUS = 'REDUCER_FETCHING_PREV_DE
 export const REDUCER_FETCHING_NEXT_DEVOTIONAL_STATUS = 'REDUCER_FETCHING_NEXT_DEVOTIONAL';
 export const REDUCER_FETCHING_DEVOTIONAL_BY_ID_STATUS = 'REDUCER_FETCHING_DEVOTIONAL_BY_ID_STATUS';
 export const REDUCER_SUBMITTING_DEVOTIONAL_STATUS = 'REDUCER_SUBMITTING_DEVOTIONAL';
+export const REDUCER_PUBLISHING_DEVOTIONAL_STATUS = 'REDUCER_PUBLISHING_DEVOTIONAL';
+export const REDUCER_UNPUBLISHING_DEVOTIONAL_STATUS = 'REDUCER_UNPUBLISHING_DEVOTIONAL';
 export const REDUCER_DELETING_DEVOTIONAL_STATUS = 'REDUCER_DELETING_DEVOTIONAL';
 
 export const FETCHING_STATUS = 'FETCHING';
 export const SUBMITTING_STATUS = 'SUBMITTING';
+export const PUBLISHING_STATUS = 'PUBLISHING';
+export const UNPUBLISHING_STATUS = 'UNPUBLISHING';
 export const LOADED_STATUS = 'LOADED';
 export const UNLOADED_STATUS = 'UNLOADED';
 export const DELETING_STATUS = 'DELETING';
@@ -73,6 +79,18 @@ export default function(state = Map({
       return submitDevotionalEditSuccess(state, action.devotional);
     case SUBMIT_DEVOTIONAL_EDIT_FAIL:
       return submitDevotionalEditFail(state, action.error, action.devotionalId);
+    case SUBMIT_PUBLISH_DEVOTIONAL:
+      return submitPublishDevotional(state, action.devotionalId);
+    case SUBMIT_PUBLISH_DEVOTIONAL_SUCCESS:
+      return submitPublishDevotionalSuccess(state, action.devotional);
+    case SUBMIT_PUBLISH_DEVOTIONAL_FAIL:
+      return submitPublishDevotionalFail(state);
+    case SUBMIT_UNPUBLISH_DEVOTIONAL:
+      return submitUnpublishDevotional(state, action.devotionalId);
+    case SUBMIT_UNPUBLISH_DEVOTIONAL_SUCCESS:
+      return submitUnpublishDevotionalSuccess(state, action.devotional);
+    case SUBMIT_UNPUBLISH_DEVOTIONAL_FAIL:
+      return submitUnpublishDevotionalFail(state);
     case SUBMIT_DEVOTIONAL_DELETE:
       return submitDevotionalDelete(state, action.devotionalId);
     case SUBMIT_DEVOTIONAL_DELETE_SUCCESS:
@@ -289,6 +307,87 @@ function submitDevotionalEditFail(state, error, devotionalId) {
       LOADED_STATUS
     );
 }
+
+function submitPublishDevotional(state, devotionalId) {
+  return state
+    .merge({
+      status: REDUCER_PUBLISHING_DEVOTIONAL_STATUS,
+      currently_devotional_working_id: devotionalId
+    })
+    .setIn(
+      ['devotional', devotionalId, 'status'],
+      PUBLISHING_STATUS
+    );
+}
+
+function submitPublishDevotionalSuccess(state, devotional) {
+  return state
+    .merge({
+      status: REDUCER_LOADED_STATUS,
+      currently_devotional_working_id: CURRENTLY_DEVOTIONAL_WORKING_ID_DEFAULT
+    })
+    .setIn(
+      ['devotional', devotional.id, 'status'],
+      LOADED_STATUS
+    )
+    .setIn(
+      ['devotional', devotional.id, 'publish_status'],
+      PUBLISHED_DEVOTIONAL_STATUS
+    );
+}
+
+function submitPublishDevotionalFail(state) {
+  return state
+    .merge({
+      status: REDUCER_LOADED_STATUS,
+      currently_devotional_working_id: CURRENTLY_DEVOTIONAL_WORKING_ID_DEFAULT
+    })
+    .setIn(
+      ['devotional', devotional.id, 'status'],
+      LOADED_STATUS
+    );
+}
+
+function submitUnpublishDevotional(state, devotionalId) {
+  return state
+    .merge({
+      status: REDUCER_UNPUBLISHING_DEVOTIONAL_STATUS,
+      currently_devotional_working_id: devotionalId
+    })
+    .setIn(
+      ['devotional', devotionalId, 'status'],
+      UNPUBLISHING_STATUS
+    );
+}
+
+function submitUnpublishDevotionalSuccess(state, devotional) {
+  return state
+    .merge({
+      status: REDUCER_LOADED_STATUS,
+      currently_devotional_working_id: CURRENTLY_DEVOTIONAL_WORKING_ID_DEFAULT
+    })
+    .setIn(
+      ['devotional', devotional.id, 'status'],
+      LOADED_STATUS
+    )
+    .setIn(
+      ['devotional', devotional.id, 'publish_status'],
+      DRAFT_DEVOTIONAL_STATUS
+    );
+}
+
+function submitPublishDevotionalFail(state) {
+  return state
+    .merge({
+      status: REDUCER_LOADED_STATUS,
+      currently_devotional_working_id: CURRENTLY_DEVOTIONAL_WORKING_ID_DEFAULT
+    })
+    .setIn(
+      ['devotional', devotional.id, 'status'],
+      LOADED_STATUS
+    );
+}
+
 
 function submitDevotionalDelete (state, devotionalId) {
   return state

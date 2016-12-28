@@ -3,7 +3,10 @@ import moment from 'moment';
 import { hashHistory  } from 'react-router';
 import { toastr } from 'react-redux-toastr';
 import { deleteDevotionalCommentAction } from '../comment_list/actions.js';
-import { LOADED_STATUS } from './actions.js';
+import {
+  LOADED_STATUS,
+  DRAFT_DEVOTIONAL_STATUS, PUBLISHED_DEVOTIONAL_STATUS
+} from './reducer.js';
 
 export const REQUEST_PREV_DEVOTIONAL = 'REQUEST_PREV_DEVOTIONAL';
 export const REQUEST_PREV_DEVOTIONAL_FAIL = 'REQUEST_PREV_DEVOTIONAL_FAIL';
@@ -29,6 +32,14 @@ export const SUBMIT_DEVOTIONAL_EDIT = 'SUBMIT_DEVOTIONAL_EDIT';
 export const SUBMIT_DEVOTIONAL_EDIT_SUCCESS = 'SUBMIT_DEVOTIONAL_EDIT_SUCCESS';
 export const SUBMIT_DEVOTIONAL_EDIT_FAIL = 'SUBMIT_DEVOTIONAL_EDIT_FAIL';
 
+export const SUBMIT_PUBLISH_DEVOTIONAL = 'SUBMIT_PUBLISH_DEVOTIONAL';
+export const SUBMIT_PUBLISH_DEVOTIONAL_SUCCESS = 'SUBMIT_PUBLISH_DEVOTIONAL_SUCCESS';
+export const SUBMIT_PUBLISH_DEVOTIONAL_FAIL = 'SUBMIT_PUBLISH_DEVOTIONAL_FAIL';
+
+export const SUBMIT_UNPUBLISH_DEVOTIONAL = 'SUBMIT_UNPUBLISH_DEVOTIONAL';
+export const SUBMIT_UNPUBLISH_DEVOTIONAL_SUCCESS = 'SUBMIT_UNPUBLISH_DEVOTIONAL_SUCCESS';
+export const SUBMIT_UNPUBLISH_DEVOTIONAL_FAIL = 'SUBMIT_UNPUBLISH_DEVOTIONAL_FAIL';
+
 export const SUBMIT_DEVOTIONAL_DELETE = 'SUBMIT_DEVOTIONAL_DELETE';
 export const SUBMIT_DEVOTIONAL_DELETE_SUCCESS = 'SUBMIT_DEVOTIONAL_DELETE_SUCCESS';
 export const SUBMIT_DEVOTIONAL_DELETE_FAIL = 'SUBMIT_DEVOTIONAL_DELETE_FAIL';
@@ -40,7 +51,7 @@ export function fetchPrevDevotionalAction(publish_date, successCallbackAction, e
       dispatch(requestPrevDevotionalAction(publish_date));
 
       firebase.database()
-        .ref('devotional_list/')
+        .ref('published_devotional_list/')
         .orderByChild('publish_date')
         .endAt(publish_date)
         .limitToLast(1)
@@ -94,7 +105,7 @@ export function fetchNextDevotionalAction(publish_date, successCallbackAction, e
       dispatch(requestPrevDevotionalAction(publish_date));
 
       firebase.database()
-        .ref('devotional_list/')
+        .ref('published_devotional_list/')
         .orderByChild('publish_date')
         .startAt(publish_date)
         .limitToFirst(1)
@@ -285,8 +296,20 @@ export function putDevotionalAction(devotional, redirectRoute) {
     firebase.database()
       .ref('devotional_list/' + devotional.id)
       .set(devotional)
-      .then(success)
+      .then(onDevotionalUpdate)
       .catch(error);
+
+    function onDevotionalUpdate() {
+      if(devotional.publish_status === PUBLISHED_DEVOTIONAL_STATUS) {
+        firebase.database()
+          .ref('published_devotional_list/' + devotional.id)
+          .set(devotional)
+          .then(success)
+          .catch(error);
+      } else {
+        success();
+      }
+    }
 
     function success() {
       dispatch(submitDevotionalEditSuccessAction(devotional));
@@ -302,6 +325,76 @@ export function putDevotionalAction(devotional, redirectRoute) {
         message: error.message
       }, devotional.id));
       toastr.error('Error al guardar los cambios', 'Ocurrió un error al guardar los cambios del devocional, inténtalo de nuevo más tarde');
+    }
+  };
+}
+
+export function publishDevotionalAction(devotional) {
+  return function(dispatch) {
+    dispatch(submitPublishDevotionalAction(devotional.id));
+
+    devotional.publish_status = PUBLISHED_DEVOTIONAL_STATUS;
+
+    firebase.database()
+      .ref('devotional_list/' + devotional.id + '/publish_status')
+      .set(PUBLISHED_DEVOTIONAL_STATUS)
+      .then(onUpdatedStatus)
+      .catch(error);
+
+    function onUpdatedStatus() {      
+      firebase.database()
+        .ref('published_devotional_list/' + devotional.id)
+        .set(devotional)
+        .then(success)
+        .catch(error);
+    }
+
+    function success() {
+      dispatch(submitPublishDevotionalSuccessAction(devotional));
+
+      toastr.success('Devocional publicado', 'Se ha publicado el devocional de forma correcta');
+    }
+
+    function error(error) {
+      dispatch(submitPublishDevotionalFailAction({
+        code: error.code,
+        message: error.message
+      }, devotional.id));
+      toastr.error('Error al publicar el devocional', 'Ocurrió un error al publicar el devocional, inténtalo de nuevo más tarde');
+    }
+  };
+}
+
+export function unpublishDevotionalAction(devotional) {
+  return function(dispatch) {
+    dispatch(submitUnpublishDevotionalAction(devotional.id));
+
+    firebase.database()
+      .ref('devotional_list/' + devotional.id + '/publish_status')
+      .set(DRAFT_DEVOTIONAL_STATUS)
+      .then(onUpdatedStatus)
+      .catch(error);
+
+    function onUpdatedStatus() {
+      firebase.database()
+        .ref('published_devotional_list/' + devotional.id)
+        .remove()
+        .then(success)
+        .catch(error);
+    }
+
+    function success() {
+      dispatch(submitUnpublishDevotionalSuccessAction(devotional));
+
+      toastr.success('Devocional pasado a borrador', 'Se ha pasado el devocional a borrador de forma correcta');
+    }
+
+    function error(error) {
+      dispatch(submitUnpublishDevotionalFailAction({
+        code: error.code,
+        message: error.message
+      }, devotional.id));
+      toastr.error('Error al pasar a borrador el devocional', 'Ocurrió un error al pasar a borrador el devocional, inténtalo de nuevo más tarde');
     }
   };
 }
@@ -450,6 +543,48 @@ export function submitDevotionalEditFailAction(error, devotionalId) {
     type: SUBMIT_DEVOTIONAL_EDIT_FAIL,
     error,
     devotionalId
+  };
+}
+
+export function submitPublishDevotionalAction(devotionalId) {
+  return {
+    type: SUBMIT_PUBLISH_DEVOTIONAL,
+    devotionalId
+  };
+}
+
+export function submitPublishDevotionalSuccessAction(devotional) {
+  return {
+    type: SUBMIT_PUBLISH_DEVOTIONAL_SUCCESS,
+    devotional
+  };
+}
+
+export function submitPublishDevotionalFailAction(error) {
+  return {
+    type: SUBMIT_PUBLISH_DEVOTIONAL_FAIL,
+    error
+  };
+}
+
+export function submitUnpublishDevotionalAction(devotionalId) {
+  return {
+    type: SUBMIT_UNPUBLISH_DEVOTIONAL,
+    devotionalId
+  };
+}
+
+export function submitUnpublishDevotionalSuccessAction(devotional) {
+  return {
+    type: SUBMIT_UNPUBLISH_DEVOTIONAL_SUCCESS,
+    devotional
+  };
+}
+
+export function submitUnpublishDevotionalFailAction(error) {
+  return {
+    type: SUBMIT_UNPUBLISH_DEVOTIONAL_FAIL,
+    error
   };
 }
 

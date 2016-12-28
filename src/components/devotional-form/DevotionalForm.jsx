@@ -124,7 +124,9 @@ export default React.createClass({
 
     const title = this.state.title.trim();
     const passage = this.state.passage.trim();
-    const publish_date = this.props.showPublishDate ? this.state.publish_date.format('YYYY-MM-DD') : this.state.publish_date.format('YYYY-MM-DD');
+    const publish_date = !!this.state.publish_date.format ?
+      this.state.publish_date.format('YYYY-MM-DD') :
+      this.state.publish_date;
     const body = this.state.body.trim();
 
     this.props.onDevotionalSubmit({

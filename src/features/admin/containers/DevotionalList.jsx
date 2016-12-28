@@ -6,6 +6,8 @@ import { ThreeBounce } from 'better-react-spinkit';
 
 import {
   fetchAdminDevotionalPageAction,
+  publishDevotionalAction,
+  unpublishDevotionalAction,
   deleteDevotionalAction
 } from '../../../reducers/devotional_list/actions.js';
 import { REDUCER_FETCHING_PAGE_STATUS } from '../../../reducers/devotional_list/reducer.js';
@@ -26,6 +28,12 @@ export const DevotionalList = React.createClass({
   },
   handleDevotionalDelete: function(devotional) {
     this.props.dispatch(deleteDevotionalAction(devotional));
+  },
+  handleDevotionalPublish: function(devotional) {
+    this.props.dispatch(publishDevotionalAction(devotional));
+  },
+  handleDevotionalUnpublish: function(devotional) {
+    this.props.dispatch(unpublishDevotionalAction(devotional));
   },
   handleLoadMoreDevotional: function() {
     this.props.dispatch(fetchAdminDevotionalPageAction(this.props.lastDevotionalPageDate));
@@ -53,6 +61,8 @@ export const DevotionalList = React.createClass({
               <DevotionalItem
                 key={devotional.get('id')}
                 devotional={devotional}
+                onDevotionalPublish={this.handleDevotionalPublish}
+                onDevotionalUnpublish={this.handleDevotionalUnpublish}
                 onDevotionalDelete={this.handleDevotionalDelete} />
             )}
           </div>
