@@ -195,7 +195,7 @@ function shouldFetchDevotionalById(state, devotionalId) {
 export function fetchAdminDevotionalPageAction(lastDevotionalFetchedDate) {
   return function (dispatch) {
     dispatch(requestAdminDevotionalPageAction());
-    const pageSize = 10;
+    const pageSize = 50;
 
     if(lastDevotionalFetchedDate) {
       firebase.database()
