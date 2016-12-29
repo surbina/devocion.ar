@@ -55,8 +55,8 @@ export default React.createClass({
   },
   validatePassage: function() {
     const passageValue = this.state.passage.trim();
-    const isValid = !!passageValue && passageValue.length < 20;
-    const validationMessage = !isValid ? 'Por favor completa el pasaje, la longitud del mismo debe ser menor a 20 caracteres' : '';
+    const isValid = !!passageValue && passageValue.length < 40;
+    const validationMessage = !isValid ? 'Por favor completa el pasaje, la longitud del mismo debe ser menor a 40 caracteres' : '';
 
     this.setState({
       passageValid: isValid,
@@ -78,8 +78,8 @@ export default React.createClass({
     const bodyValue = this.state.body.trim();
     const bodyLength = this.state.bodyLength;
     const wordCount = this.state.bodyWordCount;
-    const isValid = 0 < bodyLength && bodyLength <= 4000 && wordCount <= 250;
-    const validationMessage = !isValid ? 'Por favor completa el contenido del devocional, el mismo debe tener un largo de 250 palabras y 4000 caracteres como máximo.' : '';
+    const isValid = 0 < bodyLength && bodyLength <= 4000 && wordCount <= 400;
+    const validationMessage = !isValid ? 'Por favor completa el contenido del devocional, el mismo debe tener un largo de 400 palabras y 4000 caracteres como máximo.' : '';
 
     this.setState({
       bodyValid: isValid,
